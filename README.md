@@ -4,7 +4,12 @@
 Event Attendance Management System (EAMS) Android app, built with Android Studio. The app will have various user types, with different access levels.
 
 
+---
+## Change Log
 
+For a detailed list of changes, see the [Change Log](CHANGELOG.md).
+
+---
 
 
 ## Authors
