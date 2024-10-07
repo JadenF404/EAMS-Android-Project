@@ -11,11 +11,45 @@
         android:id="@+id/Status_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Main_Status_bar "
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="cursive"
+        android:text="Who Are you?"
+        android:textSize="60sp"
+        app:layout_constraintBottom_toTopOf="@+id/Attendee_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.133" />
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/Attendee_button"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Attendee"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Status_bar"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Organizer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Attendee_button"
+        app:layout_constraintBottom_toTopOf="@+id/button4"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:layout_constraintVertical_bias="0.4" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
