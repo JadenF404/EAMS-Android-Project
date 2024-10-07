@@ -5,12 +5,12 @@ Event Attendance Management System (EAMS) Android app, built with Android Studio
 
 
 ---
+
 ## Change Log
 
 For a detailed list of changes, see the [Change Log](CHANGELOG.md).
 
 ---
-
 
 ## Authors
 
