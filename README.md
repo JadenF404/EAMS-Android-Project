@@ -3,6 +3,12 @@
 
 Event Attendance Management System (EAMS) Android app, built with Android Studio. The app will have various user types, with different access levels.
 
+---
+# Important Links 
+
+
+[Project's Description](https://uottawa.brightspace.com/d2l/le/content/454762/viewContent/6306214/View). 
+
 
 ---
 
