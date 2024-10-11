@@ -10,6 +10,6 @@ public interface AttendeeMapper {
 
     void insertUser(Attendee attendee);
 
-    Attendee selectUserByUsername(@Param("username") String username);
+    Attendee selectUserByEmail(@Param("userId") String userId);
 }
 
