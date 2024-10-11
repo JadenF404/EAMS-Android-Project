@@ -7,7 +7,7 @@ import com.group25.db.model.Attendee;
 
 @Service
 public class DatabaseService {
-    @Autowired
+
     private AttendeeMapper attendeeMapper;
 
     public boolean signUpUser(Attendee attendee) {

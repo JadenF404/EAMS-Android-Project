@@ -7,7 +7,7 @@
         VALUES (#{firstName}, #{lastName}, #{userId}, #{password}, #{phone}, #{address})
     </insert>
 
-    <select id="selectUserByEmail" parameterType="Long" resultType="com.group25.db.model.Attendee">
+    <select id="selectUserByEmail" parameterType="String" resultType="com.group25.db.model.Attendee">
         SELECT first_name AS firstName, last_name AS lastName, user_id AS userId, password, phone, address
         FROM attendees
         WHERE user_id = #{userId}
