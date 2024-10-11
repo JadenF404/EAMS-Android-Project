@@ -11,6 +11,7 @@
 
 ### To do
 - (@miller)
+- important: generate tokens first by verifying passwords matches email before returning attendee data. handle this on the backend
 - add user read/write permissions for each admin/organizer for more security
 - cors only allow connections from our frontend
 - need to add manageable event data types
