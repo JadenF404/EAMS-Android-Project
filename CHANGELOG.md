@@ -1,4 +1,4 @@
-## [1.00] - 2024-10-11 (11th October 2024) 
+## [1.01] - 2024-10-11 (11th October 2024) 
 
 ### Added
 - spring db mapper (@miller)
