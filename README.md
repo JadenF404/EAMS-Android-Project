@@ -14,9 +14,11 @@ Event Attendance Management System (EAMS) Android app, built with Android Studio
 
 ## Database
 
-Database url can be set up in Spring's `application.properties` file. The current url is set to a localhosted mySQL server using:
+Will use firebase
+
+<s>Database url can be set up in Spring's `application.properties` file. The current url is set to a localhosted mySQL server using:
 `spring.datasource.url=jdbc:mysql://localhost:3306/user_management`
-The database should be a mysql server and is accessed using MyBatis XML mappers [here](backend/src/main/resources/mapper).
+The database should be a mysql server and is accessed using MyBatis XML mappers [here](backend/src/main/resources/mapper).</s>
 
 ---
 
