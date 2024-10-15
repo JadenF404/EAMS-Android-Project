@@ -1,16 +1,24 @@
 ## Database
 
-We will use Firebase as our database.
+### UPDATE: We will use Firebase as our database.
 
-~~The current configuration in Spring's `application.properties` file is set to a locally hosted MySQL server using the following URL:
+
+---
+
+Old Version: 
+
+The current configuration in Spring's `application.properties` file is set to a locally hosted MySQL server using the following URL:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/user_management
 ```
 
-The database should be a MySQL server, and it can be accessed using MyBatis XML mappers located [here](backend/src/main/resources/mapper).~~
+~~The database should be a MySQL server, and it can be accessed using MyBatis XML mappers located [here](backend/src/main/resources/mapper).~~
+~~The current configuration in Spring's `application.properties` file is set to a locally hosted MySQL server using the following URL:~~
 
 ---
+
+Pointers for the person implementing the backend/database
 
 @MILLER:  
 Please add your code for the Password Reset. The system currently throws all user-facing errors.  
