@@ -9,7 +9,7 @@ The database should be a mysql server and is accessed using MyBatis XML mappers 
 
 
 @MILLER: 
-Add your code for the Password Reset;  {It already thows all User facing errors}<\n>
+Add your code for the Password Reset;  {It already thows all User facing errors}
 `AttendeePasswordChange.class` Line: 57
 `OrganizerPasswordChange.class` Line: 60
 
