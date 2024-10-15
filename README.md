@@ -1,20 +1,18 @@
-
 # Event Attendance Management
 
 Event Attendance Management System (EAMS) Android app, built with Android Studio. The app will have various user types, with different access levels.
 
 ---
+
 # Important Links 
 
-
 [Project's Description](https://uottawa.brightspace.com/d2l/le/content/454762/viewContent/6306214/View). 
-
 
 ---
 
 ## Database
 
-[Database Log_Todo] (Database.md) 
+All database changes/info is stored here  :[Database Log](Database.md)
 
 ---
 
@@ -32,4 +30,3 @@ For a detailed list of changes, see the [Change Log](CHANGELOG.md).
 - [@Mark Chen](https://www.github.com/marks-code)
 - [@Miller Ding](https://www.github.com/mding022)
 - [@Matias Nicholas Suxo](https://www.github.com/matias-io)
-
