@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     android:padding="24dp"
-    android:background="#23dbd5"
     tools:context=".MainActivity">
 
     <!-- Header Text -->
+
+    <!-- First Name Input -->
     <TextView
         android:id="@+id/textViewHeader"
         android:layout_width="0dp"
@@ -17,19 +18,20 @@
         android:layout_marginBottom="36dp"
         android:fontFamily="cursive"
         android:gravity="center"
-        android:text="Attendee Login Form"
+        android:text="Organizer Login Form"
         android:textColor="#000000"
-        android:textSize="48sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editTextFirstName"
+        app:layout_constraintBottom_toTopOf="@+id/editTextFirstNameOrg"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:textSize="60sp" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:textSize="44.7619sp" />
 
-    <!-- First Name Input -->
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editTextFirstName"
+        android:id="@+id/editTextFirstNameOrg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -83,46 +85,74 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Phone Input -->
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editTextPhoneOrg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="20dp"
         android:hint="Phone"
+        android:inputType="phone"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/editTextAddOrg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/editTextAddOrg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:hint="Address"
+        android:inputType="phone"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/editTextAddOrganization"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/editTextAddOrganization"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:hint="Organization"
         android:inputType="phone"
         android:textColor="#000000"
         android:textColorHint="#000000"
         app:layout_constraintBottom_toTopOf="@+id/buttonSubmitOrg"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Submit Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSubmitOrg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="#008080"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#BF9898"
         android:text="Submit"
         android:textColor="#FFFFFF"
         app:cornerRadius="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/backButtonOrg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhoneOrg" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Back Button -->
     <Button
         android:id="@+id/backButtonOrg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#008080"
-        android:onClick="backAttendeeForm"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#BF9898"
+        android:onClick="backOrganizerForm"
         android:text="Back"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSubmitOrg"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSubmitOrg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

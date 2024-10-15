@@ -21,8 +21,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <!-- Attendee Specific classes   -->
         <activity android:name=".AttendeeLoginActivity" />
+        <activity android:name=".AttendeePasswordChange" />
+
+
+        <!-- Organizer Specific classes   -->
         <activity android:name=".OrganizerLoginActivity"/>
+        <activity android:name=".OrganizerPasswordChange"/>
 
 
     </application>
