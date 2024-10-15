@@ -36,5 +36,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Organizer Button
+        Button organizerButton = findViewById(R.id.Organizer_button);
+        organizerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, OrganizerLoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
