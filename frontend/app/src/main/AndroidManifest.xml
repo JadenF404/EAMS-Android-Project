@@ -32,6 +32,9 @@
         <activity android:name=".OrganizerLoginActivity"/>
         <activity android:name=".OrganizerPasswordChange"/>
 
+        <!-- Admininisttration Specific Classes -->
+        <activity android:name=".AdministratorLoginActivity"/>
+
 
     </application>
 

@@ -39,13 +39,13 @@
         android:inputType="text"
         android:textColor="#000000"
         android:textColorHint="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/editTextLastNameOrg"
+        app:layout_constraintBottom_toTopOf="@+id/signupLastName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Last Name Input -->
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editTextLastNameOrg"
+        android:id="@+id/signupLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -53,13 +53,13 @@
         android:inputType="text"
         android:textColor="#000000"
         android:textColorHint="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/editTextEmailOrg"
+        app:layout_constraintBottom_toTopOf="@+id/signupEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Email Input -->
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editTextEmailOrg"
+        android:id="@+id/signupEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -67,13 +67,13 @@
         android:inputType="textEmailAddress"
         android:textColor="#000000"
         android:textColorHint="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPasswordOrg"
+        app:layout_constraintBottom_toTopOf="@+id/signupPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Password Input -->
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editTextPasswordOrg"
+        android:id="@+id/signupPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -81,12 +81,12 @@
         android:inputType="textPassword"
         android:textColor="#000000"
         android:textColorHint="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPhoneOrg"
+        app:layout_constraintBottom_toTopOf="@+id/signupPhone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editTextPhoneOrg"
+        android:id="@+id/signupPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
