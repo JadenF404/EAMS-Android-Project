@@ -14,8 +14,6 @@ Event Attendance Management System (EAMS) Android app, built with Android Studio
 
 All database changes/info is stored here  :[Database Log](Database.md)
 
-@Aditya added pointers for DB implementation in the [Database Log](Database.md) ; Refer to it if you need help. 
-
 ---
 
 ## Change Log
