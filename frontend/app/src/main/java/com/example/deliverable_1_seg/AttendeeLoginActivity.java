@@ -67,7 +67,7 @@ public class AttendeeLoginActivity extends AppCompatActivity {
         signupEmail = findViewById(R.id.signupEmail);
         signupPassword = findViewById(R.id.signupPassword);
         signupPhone = findViewById(R.id.signupPhone);
-        signupPhone = findViewById(R.id.signupAddress);
+        signupAddress = findViewById(R.id.signupAddress);
     }
 
 
@@ -123,7 +123,7 @@ public class AttendeeLoginActivity extends AppCompatActivity {
         }
 
         DatabaseReference attendeeRef = FirebaseDatabase.getInstance().getReference("attendee");
-        String userKey = signupAddress.getText().toString().replace(".", ",");
+        String userKey = signupEmail.getText().toString().replace(".", ",");
 
         attendeeRef.child(userKey).get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult().exists()) {
