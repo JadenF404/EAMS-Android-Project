@@ -33,17 +33,23 @@ public class AttendeeLoginActivity extends AppCompatActivity {
 
 
     // Method to switch to the signup form
-    public void signupAttendee(View view) {
+    public void switchToSignupAttendee(View view) {
         setContentView(R.layout.attendee_signup_form); // Link to attendee_signup_form.xml
     }
 
-    public void notanAttendee(View view){
+
+
+    public void notAnAttendee(View view){
         finish();
     }
 
 
-    public void login_attendee(View view){
+    public void loginAttendee(View view){
         //Todo MILLER: ADD THE CODE FOR ATTENDEE LOGIN HERE
+    }
+
+    public void signupAttendee(View view){
+
     }
 
 

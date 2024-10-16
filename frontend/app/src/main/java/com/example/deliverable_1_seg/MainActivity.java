@@ -47,5 +47,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Organizer Button
+        Button administratorButton = findViewById(R.id.Administrator_button);
+        administratorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AdministratorLoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

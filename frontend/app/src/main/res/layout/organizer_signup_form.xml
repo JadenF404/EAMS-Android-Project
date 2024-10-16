@@ -134,6 +134,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#BF9898"
+        android:onClick="signupOrganizer"
         android:text="Submit"
         android:textColor="#FFFFFF"
         app:cornerRadius="8dp"

@@ -34,16 +34,25 @@ public class OrganizerLoginActivity extends AppCompatActivity {
 
 
     // Method to switch to the signup form
-    public void signupOrganizer(View view) {
+    public void switchToSignupOrganizer(View view) {
         setContentView(R.layout.organizer_signup_form); // Link to attendee_signup_form.xml
     }
+    public void loginOrganizer(View view){
+        //Todo MILLER: ADD THE CODE FOR ATTENDEE LOGIN HERE
+    }
+
+    public void signupAttendee(View view){
+
+    }
+
+
+
+
     public void notAnOrganizer(View view){
         finish();
     }
 
-    public void org_attendee(View view){
-        //Todo MILLER: ADD THE CODE FOR ATTENDEE LOGIN HERE
-    }
+
 
 
     //Back button to go back to login page
