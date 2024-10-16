@@ -22,7 +22,7 @@
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editTextFirstNameOrg"
+        app:layout_constraintBottom_toTopOf="@+id/signupFirstName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
         tools:textSize="44.7619sp" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editTextFirstNameOrg"
+        android:id="@+id/signupFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -94,13 +94,13 @@
         android:inputType="phone"
         android:textColor="#000000"
         android:textColorHint="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/editTextAddOrg"
+        app:layout_constraintBottom_toTopOf="@+id/signupAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editTextAddOrg"
+        android:id="@+id/signupAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -108,14 +108,14 @@
         android:inputType="phone"
         android:textColor="#000000"
         android:textColorHint="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/editTextAddOrganization"
+        app:layout_constraintBottom_toTopOf="@+id/signupOrgName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editTextAddOrganization"
+        android:id="@+id/signupOrgName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"

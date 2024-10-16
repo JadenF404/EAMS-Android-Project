@@ -15,8 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AttendeeLoginActivity extends AppCompatActivity {
-
-
     private EditText loginUsername;
     private EditText loginPassword;
 

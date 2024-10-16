@@ -21,7 +21,7 @@ public class OrganizerPasswordChange extends AppCompatActivity { // Correctly in
         // Initialize views
         Button changePasswordButton = findViewById(R.id.Login_bttn);
         EditText newPassword = findViewById(R.id.NewPassword);
-        EditText confirmPassword = findViewById(R.id.ConfirmPassword);
+        EditText confirmPassword = findViewById(R.id.loginPassword);
         TextView passwordError = findViewById(R.id.passwordError);
         passwordError.setVisibility(View.GONE); // Initially hide the error message
 
