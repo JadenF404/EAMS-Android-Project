@@ -90,6 +90,8 @@ public class OrganizerLoginActivity extends AppCompatActivity {
                         // Check if the password in the database matches the input password
                     if (attendeeData != null && attendeeData.containsKey("password") && attendeeData.get("password").equals(loginPassword.getText().toString())) {
                         Toast.makeText(this, "Organizer login successful", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(OrganizerLoginActivity.this, OrganizerWelcomePage.class);
+                        startActivity(intent);
                         // Proceed to attendee dashboard or next activity
                     } else {
                         Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();

@@ -97,7 +97,9 @@ public class AttendeeLoginActivity extends AppCompatActivity {
                     // Check if the password in the database matches the input password
                     if (attendeeData != null && attendeeData.containsKey("password") && attendeeData.get("password").equals(loginPassword.getText().toString())) {
                         Toast.makeText(this, "Attendee login successful", Toast.LENGTH_SHORT).show();
-                        // Proceed to attendee dashboard or next activity
+                        // Proceed to attendee welcome screen
+                        Intent intent = new Intent(AttendeeLoginActivity.this, AttendeeWelcomePage.class);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();
                     }
