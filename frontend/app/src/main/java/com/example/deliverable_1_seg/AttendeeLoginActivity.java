@@ -1,6 +1,9 @@
 package com.example.deliverable_1_seg;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -125,6 +128,18 @@ public class AttendeeLoginActivity extends AppCompatActivity {
         // If the conditions are not met, return false
         return false;
     }
+
+    public boolean isValidAddress(String address) {
+        // Define the regex pattern for "number Word Word (Street Address Pattern)"
+        String regex = "^\\d+\\s+[a-zA-Z0-9]+\\s+[a-zA-Z0-9]+$";
+        // Compile the pattern
+        Pattern pattern = Pattern.compile(regex);
+        // Match the address against the pattern
+        Matcher matcher = pattern.matcher(address);
+        // Return true if it matches, false otherwise
+        return matcher.matches();
+    }
+
     public void signupAttendee(View view){
 
         if (signupFirstName.getText().toString().isEmpty()
@@ -149,6 +164,8 @@ public class AttendeeLoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
             } else if (signupPhone.getText().toString().length() != 10){
                 Toast.makeText(this, "Invalid Phone Number", Toast.LENGTH_SHORT).show();
+            } else if (!isValidAddress(signupAddress.getText().toString())){
+                Toast.makeText(this, "Invalid Address", Toast.LENGTH_SHORT).show();
             } else {
                 Map<String, Object> attendeeData = new HashMap<>();
                 attendeeData.put("firstName", signupFirstName.getText().toString());

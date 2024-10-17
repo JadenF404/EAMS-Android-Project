@@ -16,6 +16,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 public class OrganizerLoginActivity extends AppCompatActivity {
     private EditText loginUsername;
     private EditText loginPassword;
@@ -119,6 +122,16 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         return false; //Email was not valid
     }
 
+        public boolean isValidAddress(String address) {
+            // Define the regex pattern for "number Word Word"
+            String regex = "^\\d+\\s+[a-zA-Z0-9]+\\s+[a-zA-Z0-9]+$";
+            // Compile the pattern
+            Pattern pattern = Pattern.compile(regex);
+            // Match the address against the pattern
+            Matcher matcher = pattern.matcher(address);
+            // Return true if it matches, false otherwise
+            return matcher.matches();
+        }
 
     public void signupOrganizer(View view){
 
@@ -145,6 +158,9 @@ public class OrganizerLoginActivity extends AppCompatActivity {
             } else if (signupPhone.getText().toString().length() != 10){
                 Toast.makeText(this, "Invalid Phone Number", Toast.LENGTH_SHORT).show();
             }
+            else if (!isValidAddress(signupAddress.getText().toString())){
+                Toast.makeText(this, "Invalid Address", Toast.LENGTH_SHORT).show();
+            }
             else {
                 Map<String, Object> organizerData = new HashMap<>();
                 organizerData.put("firstName", signupFirstName.getText().toString());
@@ -158,6 +174,7 @@ public class OrganizerLoginActivity extends AppCompatActivity {
                 organizerRef.child(userKey).setValue(organizerData).addOnCompleteListener(databaseTask -> {
                     if (databaseTask.isSuccessful()) {
                         Toast.makeText(this, "Organizer signed up successfully", Toast.LENGTH_SHORT).show();
+
                     } else {
                         Toast.makeText(this, "Failed to sign up organizer", Toast.LENGTH_SHORT).show();
                     }
