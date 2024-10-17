@@ -27,7 +27,7 @@ For a detailed list of changes, see the [Change Log](CHANGELOG.md).
 
 - [@Aditya Baindur](https://www.github.com/Aditya-Baindur)
 - [@Jaden Fielding](https://www.github.com/JadenF404)
-- [@Malik Buse](https://www.github.com/mbuse045)
+- [@Malik Buser](https://www.github.com/mbuse045)
 - [@Mark Chen](https://www.github.com/marks-code)
 - [@Miller Ding](https://www.github.com/mding022)
 - [@Matias Nicholas Suxo](https://www.github.com/matias-io)
