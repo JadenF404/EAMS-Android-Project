@@ -1,3 +1,16 @@
+## [1.03] - 2024-16-11 (16th October 2024) 
+
+## Added 
+- Welcome pages added for after a user logs in
+- Error checking for certain inputs when signing up
+
+# Fixed 
+- Input type incorrect for certain fields in organizer
+
+
+---
+
+
 ## [1.02] - 2024-10-11 (15th October 2024) 
 
 ## Added 
