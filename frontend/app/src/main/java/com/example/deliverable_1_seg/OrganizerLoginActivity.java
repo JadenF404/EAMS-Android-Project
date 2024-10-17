@@ -135,12 +135,13 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         String userKey = signupEmail.getText().toString().replace(".", ",");
 
         organizerRef.child(userKey).get().addOnCompleteListener(task -> {
-            if (!emailChecker(userKey)){
-                Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
-            }
 
             if (task.isSuccessful() && task.getResult().exists()) {
                 Toast.makeText(this, "User with this email already exists", Toast.LENGTH_SHORT).show();
+            } else if (!emailChecker(userKey)){
+                Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
+            } else if (signupPhone.getText().toString().length() != 10){
+                Toast.makeText(this, "Invalid Phone Number", Toast.LENGTH_SHORT).show();
             }
             else {
                 Map<String, Object> organizerData = new HashMap<>();

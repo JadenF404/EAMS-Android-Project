@@ -140,12 +140,13 @@ public class AttendeeLoginActivity extends AppCompatActivity {
 
 
         attendeeRef.child(userKey).get().addOnCompleteListener(task -> {
-            // Check if email is valid
-            if (!emailChecker(userKey)){
-                Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
-            }
+            // Check if parameters is valid
             if (task.isSuccessful() && task.getResult().exists()) {
                 Toast.makeText(this, "User with this email already exists", Toast.LENGTH_SHORT).show();
+            } else if (!emailChecker(userKey)){
+                Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
+            } else if (signupPhone.getText().toString().length() != 10){
+                Toast.makeText(this, "Invalid Phone Number", Toast.LENGTH_SHORT).show();
             } else {
                 Map<String, Object> attendeeData = new HashMap<>();
                 attendeeData.put("firstName", signupFirstName.getText().toString());
