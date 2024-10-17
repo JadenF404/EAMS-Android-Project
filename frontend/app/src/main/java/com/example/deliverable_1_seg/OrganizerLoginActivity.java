@@ -79,13 +79,15 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         }
 
         organizerRef.child(userKey).get().addOnCompleteListener(task -> {
+
             if (task.isSuccessful()) {
                 DataSnapshot dataSnapshot = task.getResult();
                 if (dataSnapshot.exists()) {
                     // Retrieve the data as a Map, Hasmap more preciesely
                     Map<String, Object> attendeeData = (Map<String, Object>) dataSnapshot.getValue();
 
-                    // Check if the password in the database matches the input password
+
+                        // Check if the password in the database matches the input password
                     if (attendeeData != null && attendeeData.containsKey("password") && attendeeData.get("password").equals(loginPassword.getText().toString())) {
                         Toast.makeText(this, "Organizer login successful", Toast.LENGTH_SHORT).show();
                         // Proceed to attendee dashboard or next activity
@@ -100,6 +102,21 @@ public class OrganizerLoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    public Boolean emailChecker(String email) {
+        // Check if the email contains an @ symbol
+        if (email.contains("@")) {
+
+            // Find the index of @ and check if there's a "," after it
+            String afterAt = email.substring(email.indexOf("@") + 1);
+            // Ensure there is a "," after the @
+            if (afterAt.contains(",")) {
+                return true; // Email is valid
+            }
+        }
+        return false; //Email was not valid
+    }
+
 
     public void signupOrganizer(View view){
 
@@ -118,9 +135,14 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         String userKey = signupEmail.getText().toString().replace(".", ",");
 
         organizerRef.child(userKey).get().addOnCompleteListener(task -> {
+            if (!emailChecker(userKey)){
+                Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
+            }
+
             if (task.isSuccessful() && task.getResult().exists()) {
                 Toast.makeText(this, "User with this email already exists", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else {
                 Map<String, Object> organizerData = new HashMap<>();
                 organizerData.put("firstName", signupFirstName.getText().toString());
                 organizerData.put("lastName", signupLastName.getText().toString());

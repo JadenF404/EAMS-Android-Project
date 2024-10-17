@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Organizer Button
+        // Administrator Button
         Button administratorButton = findViewById(R.id.Administrator_button);
         administratorButton.setOnClickListener(new View.OnClickListener() {
             @Override

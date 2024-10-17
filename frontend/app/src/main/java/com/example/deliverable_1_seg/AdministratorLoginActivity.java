@@ -57,12 +57,15 @@ public class AdministratorLoginActivity extends AppCompatActivity {
                     // Check if the password in the database matches the input password
                     if (adminData != null && adminData.containsKey("password") && adminData.get("password").equals(loginPassword.getText().toString())) {
                         Toast.makeText(this, "Admin login successful", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(AdministratorLoginActivity.this, AdministratorWelcomePage.class);
+                        startActivity(intent);
                         // Proceed to attendee dashboard or next activity
                     } else {
                         Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(this, "No admin found with this email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "No admin found with this information", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(this, "Failed to retrieve admin data", Toast.LENGTH_SHORT).show();

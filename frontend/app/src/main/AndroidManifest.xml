@@ -26,14 +26,17 @@
         <!-- Attendee Specific classes   -->
         <activity android:name=".AttendeeLoginActivity" />
         <activity android:name=".AttendeePasswordChange" />
+        <activity android:name=".AttendeeWelcomePage"/>
 
 
         <!-- Organizer Specific classes   -->
         <activity android:name=".OrganizerLoginActivity"/>
         <activity android:name=".OrganizerPasswordChange"/>
+        <activity android:name=".OrganizerWelcomePage"/>
 
         <!-- Admininisttration Specific Classes -->
         <activity android:name=".AdministratorLoginActivity"/>
+        <activity android:name=".AdministratorWelcomePage"/>
 
 
     </application>

@@ -75,6 +75,8 @@ public class AttendeeLoginActivity extends AppCompatActivity {
     }
 
 
+
+
     public void loginAttendee(View view){
         DatabaseReference attendeeRef = FirebaseDatabase.getInstance().getReference("attendee");
         String userKey = loginUsername.getText().toString().replace(".", ",");
@@ -108,6 +110,19 @@ public class AttendeeLoginActivity extends AppCompatActivity {
         });
     }
 
+    public Boolean emailChecker(String email) {
+        // Check if the email contains an '@' symbol
+        if (email.contains("@")) {
+            // Find the index of '@' and check if there's a ',' after it
+            String afterAt = email.substring(email.indexOf("@") + 1);
+            // Ensure there is a ',' after the '@'
+            if (afterAt.contains(",")) {
+                return true; // Email is valid
+            }
+        }
+        // If the conditions are not met, return false
+        return false;
+    }
     public void signupAttendee(View view){
 
         if (signupFirstName.getText().toString().isEmpty()
@@ -123,7 +138,12 @@ public class AttendeeLoginActivity extends AppCompatActivity {
         DatabaseReference attendeeRef = FirebaseDatabase.getInstance().getReference("attendee");
         String userKey = signupEmail.getText().toString().replace(".", ",");
 
+
         attendeeRef.child(userKey).get().addOnCompleteListener(task -> {
+            // Check if email is valid
+            if (!emailChecker(userKey)){
+                Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
+            }
             if (task.isSuccessful() && task.getResult().exists()) {
                 Toast.makeText(this, "User with this email already exists", Toast.LENGTH_SHORT).show();
             } else {
