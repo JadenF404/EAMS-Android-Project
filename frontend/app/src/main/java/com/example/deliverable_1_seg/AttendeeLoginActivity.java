@@ -178,6 +178,8 @@ public class AttendeeLoginActivity extends AppCompatActivity {
                 attendeeRef.child(userKey).setValue(attendeeData).addOnCompleteListener(databaseTask -> {
                     if (databaseTask.isSuccessful()) {
                         Toast.makeText(this, "Attendee signed up successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(AttendeeLoginActivity.this, AttendeeWelcomePage.class);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(this, "Failed to sign up attendee", Toast.LENGTH_SHORT).show();
                     }

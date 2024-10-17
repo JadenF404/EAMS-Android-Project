@@ -174,7 +174,8 @@ public class OrganizerLoginActivity extends AppCompatActivity {
                 organizerRef.child(userKey).setValue(organizerData).addOnCompleteListener(databaseTask -> {
                     if (databaseTask.isSuccessful()) {
                         Toast.makeText(this, "Organizer signed up successfully", Toast.LENGTH_SHORT).show();
-
+                        Intent intent = new Intent(OrganizerLoginActivity.this, OrganizerWelcomePage.class);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(this, "Failed to sign up organizer", Toast.LENGTH_SHORT).show();
                     }
