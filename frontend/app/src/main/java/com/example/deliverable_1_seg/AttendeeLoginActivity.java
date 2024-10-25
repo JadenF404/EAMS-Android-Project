@@ -161,7 +161,7 @@ public class AttendeeLoginActivity extends AppCompatActivity {
 
                     //Save the additional attendee data
                     String userKey = user.getUid();
-                    DatabaseReference attendeeRef = FirebaseDatabase.getInstance().getReference("attendee");
+                    DatabaseReference attendeeRef = FirebaseDatabase.getInstance().getReference("attendee/attendee_requests");
 
                     Map<String, Object> attendeeData = new HashMap<>();
                     attendeeData.put("firstName", signupFirstName.getText().toString());
@@ -169,6 +169,8 @@ public class AttendeeLoginActivity extends AppCompatActivity {
                     attendeeData.put("email", email);
                     attendeeData.put("phoneNumber", signupPhone.getText().toString());
                     attendeeData.put("address", signupAddress.getText().toString());
+                    attendeeData.put("status","pending");
+
 
                     attendeeRef.child(userKey).setValue(attendeeData).addOnCompleteListener(databaseTask -> {
                         if (databaseTask.isSuccessful()) {

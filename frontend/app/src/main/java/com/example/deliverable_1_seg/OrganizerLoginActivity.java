@@ -154,7 +154,7 @@ public class OrganizerLoginActivity extends AppCompatActivity {
 
                     //Save the additional attendee data
                     String userKey = user.getUid();
-                    DatabaseReference organizerRef = FirebaseDatabase.getInstance().getReference("organizer");
+                    DatabaseReference organizerRef = FirebaseDatabase.getInstance().getReference("organizer/organizer_requests");
 
                     Map<String, Object> organizerData = new HashMap<>();
                     organizerData.put("firstName", signupFirstName.getText().toString());
@@ -164,6 +164,8 @@ public class OrganizerLoginActivity extends AppCompatActivity {
                     organizerData.put("address", signupAddress.getText().toString());
                     organizerData.put("address", signupAddress.getText().toString());
                     organizerData.put("orgName", signupOrgName.getText().toString());
+                    organizerData.put("status", "pending");
+
 
                     organizerRef.child(userKey).setValue(organizerData).addOnCompleteListener(databaseTask -> {
                         if (databaseTask.isSuccessful()) {

@@ -60,7 +60,6 @@ public class AdministratorLoginActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(AdministratorLoginActivity.this, AdministratorWelcomePage.class);
                         startActivity(intent);
-                        // Proceed to administrator welcome screen
                     } else {
                         Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();
                     }
