@@ -1,4 +1,4 @@
-## [1.??] - 2024-10-25 (16th October 2024) 
+## [1.??] - 2024-10-25 (25th October 2024) 
 
 ## Added 
 - Firebase auth is set up and working. It saves each user with a unique ID and all the other user data is still stored in the real-time database
