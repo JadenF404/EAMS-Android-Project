@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,6 +30,8 @@ public class AttendeeLoginActivity extends AppCompatActivity {
     private EditText signupPhone;
     private EditText signupAddress;
 
+    private FirebaseAuth userAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,8 @@ public class AttendeeLoginActivity extends AppCompatActivity {
         loginUsername = findViewById(R.id.loginUsername);
         loginPassword = findViewById(R.id.loginPassword);
 
-
+        //Initialize firebase auth
+        userAuth = FirebaseAuth.getInstance();
 
 
         // Find the Attendee button and set its click listener
@@ -84,35 +89,28 @@ public class AttendeeLoginActivity extends AppCompatActivity {
         DatabaseReference attendeeRef = FirebaseDatabase.getInstance().getReference("attendee");
         String userKey = loginUsername.getText().toString().replace(".", ",");
 
+        String email = loginUsername.getText().toString();
+        String password = loginPassword.getText().toString();
+
+        //ensure all fields are filled
         if (loginUsername.getText().toString().isEmpty()
                 || loginPassword.getText().toString().isEmpty()){
             Toast.makeText(this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
         return;
     }
-
-        attendeeRef.child(userKey).get().addOnCompleteListener(task -> {
+        //firebase auth login
+        userAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task ->{
             if (task.isSuccessful()) {
-                DataSnapshot dataSnapshot = task.getResult();
-                if (dataSnapshot.exists()) {
-                    // Retrieve the data as a Map, Hasmap more preciesely
-                    Map<String, Object> attendeeData = (Map<String, Object>) dataSnapshot.getValue();
-
-                    // Check if the password in the database matches the input password
-                    if (attendeeData != null && attendeeData.containsKey("password") && attendeeData.get("password").equals(loginPassword.getText().toString())) {
-                        Toast.makeText(this, "Attendee login successful", Toast.LENGTH_SHORT).show();
-                        // Proceed to attendee welcome screen
-                        Intent intent = new Intent(AttendeeLoginActivity.this, AttendeeWelcomePage.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(this, "No attendee found with this email", Toast.LENGTH_SHORT).show();
-                }
+                // Sign-in success
+                FirebaseUser user = userAuth.getCurrentUser();
+                Intent intent = new Intent(AttendeeLoginActivity.this, AttendeeWelcomePage.class);
+                startActivity(intent);
             } else {
-                Toast.makeText(this, "Failed to retrieve attendee data", Toast.LENGTH_SHORT).show();
+                // Sign-in failed
+                Toast.makeText(this, "Login Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     public Boolean emailChecker(String email) {
@@ -142,6 +140,9 @@ public class AttendeeLoginActivity extends AppCompatActivity {
 
     public void signupAttendee(View view){
 
+        String email = signupEmail.getText().toString();
+        String password = signupPassword.getText().toString();
+
         if (signupFirstName.getText().toString().isEmpty()
                 || signupLastName.getText().toString().isEmpty()
                 || signupEmail.getText().toString().isEmpty()
@@ -152,40 +153,38 @@ public class AttendeeLoginActivity extends AppCompatActivity {
             return;
         }
 
-        DatabaseReference attendeeRef = FirebaseDatabase.getInstance().getReference("attendee");
-        String userKey = signupEmail.getText().toString().replace(".", ",");
+        userAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this, task -> {
+                if (task.isSuccessful()) {
+                    //create user
+                    FirebaseUser user = userAuth.getCurrentUser();
 
+                    //Save the additional attendee data
+                    String userKey = user.getUid();
+                    DatabaseReference attendeeRef = FirebaseDatabase.getInstance().getReference("attendee");
 
-        attendeeRef.child(userKey).get().addOnCompleteListener(task -> {
-            // Check if parameters is valid
-            if (task.isSuccessful() && task.getResult().exists()) {
-                Toast.makeText(this, "User with this email already exists", Toast.LENGTH_SHORT).show();
-            } else if (!emailChecker(userKey)){
-                Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
-            } else if (signupPhone.getText().toString().length() != 10){
-                Toast.makeText(this, "Invalid Phone Number", Toast.LENGTH_SHORT).show();
-            } else if (!isValidAddress(signupAddress.getText().toString())){
-                Toast.makeText(this, "Invalid Address", Toast.LENGTH_SHORT).show();
-            } else {
-                Map<String, Object> attendeeData = new HashMap<>();
-                attendeeData.put("firstName", signupFirstName.getText().toString());
-                attendeeData.put("lastName", signupLastName.getText().toString());
-                attendeeData.put("email", signupEmail.getText().toString());
-                attendeeData.put("password", signupPassword.getText().toString());
-                attendeeData.put("phoneNumber", signupPhone.getText().toString());
-                attendeeData.put("address", signupAddress.getText().toString());
+                    Map<String, Object> attendeeData = new HashMap<>();
+                    attendeeData.put("firstName", signupFirstName.getText().toString());
+                    attendeeData.put("lastName", signupLastName.getText().toString());
+                    attendeeData.put("email", email);
+                    attendeeData.put("phoneNumber", signupPhone.getText().toString());
+                    attendeeData.put("address", signupAddress.getText().toString());
 
-                attendeeRef.child(userKey).setValue(attendeeData).addOnCompleteListener(databaseTask -> {
-                    if (databaseTask.isSuccessful()) {
-                        Toast.makeText(this, "Attendee signed up successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(AttendeeLoginActivity.this, AttendeeWelcomePage.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(this, "Failed to sign up attendee", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+                    attendeeRef.child(userKey).setValue(attendeeData).addOnCompleteListener(databaseTask -> {
+                        if (databaseTask.isSuccessful()) {
+                            Toast.makeText(this, "Attendee signed up successfully", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(AttendeeLoginActivity.this, AttendeeWelcomePage.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(this, "Failed to save user details", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else {
+                    // Sign-up failed
+                    Toast.makeText(this, "Failed to sign up attendee: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 
 
