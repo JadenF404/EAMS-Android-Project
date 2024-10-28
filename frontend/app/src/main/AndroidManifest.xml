@@ -37,6 +37,8 @@
         <!-- Admininisttration Specific Classes -->
         <activity android:name=".AdministratorLoginActivity"/>
         <activity android:name=".AdministratorWelcomePage"/>
+        <activity android:name=".AdminRequestsActivity" />
+
 
 
     </application>

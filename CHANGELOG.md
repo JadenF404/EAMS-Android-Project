@@ -1,3 +1,21 @@
+## [1.??] - 2024-10-25 (25th October 2024) 
+
+## Added 
+- Firebase auth is set up and working. It saves each user with a unique ID and all the other user data is still stored in the real-time database
+- I added a new attribute status that is set to 'pending' when creating an account. There is no way to change it as of yet
+- When you login as admin, there is now a page called 'admin_requests_inbox' that lists all the pending requests using a RecyclerView that displays items of class 'RegistrationRequest' using the 'RequestAdapter' class
+
+
+# Still to implement 
+- The approve/reject buttons do not do anything yet
+- Logic on the attendee/organizer login forms to allow you only to login when your status changes to accepted
+- Message informing rejected requests that they need to contact administrator
+- The UI could be better if you wish
+  
+
+
+---
+
 ## [1.03] - 2024-16-11 (16th October 2024) 
 
 ## Added 

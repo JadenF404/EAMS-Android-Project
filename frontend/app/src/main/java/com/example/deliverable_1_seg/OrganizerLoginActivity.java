@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,6 +33,8 @@ public class OrganizerLoginActivity extends AppCompatActivity {
     private EditText signupAddress;
     private EditText signupOrgName;
 
+    private FirebaseAuth userAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,9 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         // Initialize views
         loginUsername = findViewById(R.id.loginUsername);
         loginPassword = findViewById(R.id.loginPassword);
+
+        //Initialize firebase auth
+        userAuth = FirebaseAuth.getInstance();
 
         // Find the Attendee button and set its click listener
         Button ForgotPassword_bttn = findViewById(R.id.ForgotPassword_bttn);
@@ -75,35 +82,26 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         DatabaseReference organizerRef = FirebaseDatabase.getInstance().getReference("organizer");
         String userKey = loginUsername.getText().toString().replace(".", ",");
 
+        String email = loginUsername.getText().toString();
+        String password = loginPassword.getText().toString();
+
+        //ensure all fields are filled
         if (loginUsername.getText().toString().isEmpty()
                 || loginPassword.getText().toString().isEmpty()){
             Toast.makeText(this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        organizerRef.child(userKey).get().addOnCompleteListener(task -> {
-
+        //firebase auth login
+        userAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task ->{
             if (task.isSuccessful()) {
-                DataSnapshot dataSnapshot = task.getResult();
-                if (dataSnapshot.exists()) {
-                    // Retrieve the data as a Map, Hasmap more preciesely
-                    Map<String, Object> attendeeData = (Map<String, Object>) dataSnapshot.getValue();
-
-
-                        // Check if the password in the database matches the input password
-                    if (attendeeData != null && attendeeData.containsKey("password") && attendeeData.get("password").equals(loginPassword.getText().toString())) {
-                        Toast.makeText(this, "Organizer login successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(OrganizerLoginActivity.this, OrganizerWelcomePage.class);
-                        startActivity(intent);
-                        // Proceed to attendee dashboard or next activity
-                    } else {
-                        Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(this, "No organizer found with this email", Toast.LENGTH_SHORT).show();
-                }
+                // Sign-in success
+                FirebaseUser user = userAuth.getCurrentUser();
+                Intent intent = new Intent(OrganizerLoginActivity.this, OrganizerWelcomePage.class);
+                startActivity(intent);
             } else {
-                Toast.makeText(this, "Failed to retrieve organizer data", Toast.LENGTH_SHORT).show();
+                // Sign-in failed
+                Toast.makeText(this, "Login Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -134,6 +132,8 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         }
 
     public void signupOrganizer(View view){
+        String email = signupEmail.getText().toString();
+        String password = signupPassword.getText().toString();
 
         if (signupFirstName.getText().toString().isEmpty()
                 || signupLastName.getText().toString().isEmpty()
@@ -146,42 +146,42 @@ public class OrganizerLoginActivity extends AppCompatActivity {
             return;
         }
 
-        DatabaseReference organizerRef = FirebaseDatabase.getInstance().getReference("organizer");
-        String userKey = signupEmail.getText().toString().replace(".", ",");
+        userAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this, task -> {
+                if (task.isSuccessful()) {
+                    //create user
+                    FirebaseUser user = userAuth.getCurrentUser();
 
-        organizerRef.child(userKey).get().addOnCompleteListener(task -> {
+                    //Save the additional attendee data
+                    String userKey = user.getUid();
+                    DatabaseReference organizerRef = FirebaseDatabase.getInstance().getReference("organizer/organizer_requests");
 
-            if (task.isSuccessful() && task.getResult().exists()) {
-                Toast.makeText(this, "User with this email already exists", Toast.LENGTH_SHORT).show();
-            } else if (!emailChecker(userKey)){
-                Toast.makeText(this, "Invalid Email", Toast.LENGTH_SHORT).show();
-            } else if (signupPhone.getText().toString().length() != 10){
-                Toast.makeText(this, "Invalid Phone Number", Toast.LENGTH_SHORT).show();
-            }
-            else if (!isValidAddress(signupAddress.getText().toString())){
-                Toast.makeText(this, "Invalid Address", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                Map<String, Object> organizerData = new HashMap<>();
-                organizerData.put("firstName", signupFirstName.getText().toString());
-                organizerData.put("lastName", signupLastName.getText().toString());
-                organizerData.put("email", signupEmail.getText().toString());
-                organizerData.put("password", signupPassword.getText().toString());
-                organizerData.put("phoneNumber", signupPhone.getText().toString());
-                organizerData.put("address", signupAddress.getText().toString());
-                organizerData.put("orgName", signupOrgName.getText().toString());
+                    Map<String, Object> organizerData = new HashMap<>();
+                    organizerData.put("firstName", signupFirstName.getText().toString());
+                    organizerData.put("lastName", signupLastName.getText().toString());
+                    organizerData.put("email", email);
+                    organizerData.put("phoneNumber", signupPhone.getText().toString());
+                    organizerData.put("address", signupAddress.getText().toString());
+                    organizerData.put("address", signupAddress.getText().toString());
+                    organizerData.put("orgName", signupOrgName.getText().toString());
+                    organizerData.put("status", "pending");
 
-                organizerRef.child(userKey).setValue(organizerData).addOnCompleteListener(databaseTask -> {
-                    if (databaseTask.isSuccessful()) {
-                        Toast.makeText(this, "Organizer signed up successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(OrganizerLoginActivity.this, OrganizerWelcomePage.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(this, "Failed to sign up organizer", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
+
+                    organizerRef.child(userKey).setValue(organizerData).addOnCompleteListener(databaseTask -> {
+                        if (databaseTask.isSuccessful()) {
+                            Toast.makeText(this, "Organizer signed up successfully", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(OrganizerLoginActivity.this, OrganizerWelcomePage.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(this, "Failed to save user details", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else {
+                    // Sign-up failed
+                    Toast.makeText(this, "Failed to sign up organizer: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 
 
