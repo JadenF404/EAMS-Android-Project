@@ -5,51 +5,60 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f0efe9"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/Status_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
-        android:fontFamily="cursive"
-        android:text="Who Are you?"
-        android:textSize="60sp"
+        android:layout_marginTop="140dp"
+        android:fontFamily="@font/Nexa"
+        android:text="Who are you?"
+        android:textSize="30sp"
+        android:textColor="#141413"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/Organizer_button"
+        android:id="@+id/Attendee_button"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="Organizer"
+        android:layout_marginTop="128dp"
+        android:backgroundTint="@color/black"
+        android:fontFamily="@font/Nexa"
+        android:text="I'm attending an event."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Attendee_button" />
+        app:layout_constraintTop_toBottomOf="@+id/Status_bar"
 
     <Button
         android:id="@+id/Administrator_button"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="124dp"
-        android:text="Administrator"
+        android:layout_marginTop="272dp"
+        android:backgroundTint="#f0efe9"
+        android:text="Log in as an Administrator"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Organizer_button" />
 
     <Button
-        android:id="@+id/Attendee_button"
+        android:id="@+id/Organizer_button"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:text="Attendee"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="@color/black"
+        android:fontFamily="@font/Nexa"
+        android:text="I'm organizing the event."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Status_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/Attendee_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
