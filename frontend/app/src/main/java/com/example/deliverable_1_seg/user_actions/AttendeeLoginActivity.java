@@ -3,7 +3,6 @@ package com.example.deliverable_1_seg.user_actions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -11,8 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.deliverable_1_seg.FirebaseHelper;
 import com.example.deliverable_1_seg.R;
-import com.example.deliverable_1_seg.helpers.AttendeePasswordChange;
-import com.example.deliverable_1_seg.helpers.AttendeeWelcomePage;
+import com.example.deliverable_1_seg.helpers.welcomepages.AttendeeWelcomePage;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
@@ -35,21 +33,12 @@ public class AttendeeLoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.attendee_login_screen); // Link to attendee_login_form.xml
-
         // Initialize views
         loginUsername = findViewById(R.id.loginUsername);
         loginPassword = findViewById(R.id.loginPassword);
-
-        // Initialize FirebaseHelper
         firebaseHelper = new FirebaseHelper();
-
-        // Find the Attendee button and set its click listener
-        Button forgotPasswordButton = findViewById(R.id.ForgotPassword_bttn);
-        forgotPasswordButton.setOnClickListener(v -> {
-            Intent intent = new Intent(AttendeeLoginActivity.this, AttendeePasswordChange.class);
-            startActivity(intent);
-        });
     }
+
 
     // Method to switch to the signup form
     public void switchToSignupAttendee(View view) {

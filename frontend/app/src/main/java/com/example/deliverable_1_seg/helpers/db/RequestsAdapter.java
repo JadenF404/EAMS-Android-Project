@@ -1,4 +1,4 @@
-package com.example.deliverable_1_seg.helpers;
+package com.example.deliverable_1_seg.helpers.db;
 
 import android.content.Context;
 import android.view.LayoutInflater;

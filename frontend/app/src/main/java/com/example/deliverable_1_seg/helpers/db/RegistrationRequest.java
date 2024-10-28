@@ -1,4 +1,4 @@
-package com.example.deliverable_1_seg.helpers;
+package com.example.deliverable_1_seg.helpers.db;
 
 public class RegistrationRequest {
     private String userId;
