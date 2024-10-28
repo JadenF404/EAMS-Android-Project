@@ -12,7 +12,7 @@
   - Fixed Issue with updated UI where app would crash 
   - Refractored the codebase of java classes. File structure as follows: 
 
-.
+
 └── deliverable_1_seg
     ├── FirebaseHelper.java
     ├── MainActivity.java
