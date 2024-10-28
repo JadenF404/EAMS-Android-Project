@@ -5,81 +5,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"> <!-- Clean white background for a minimalist look -->
+    android:background="#f0efe9"> <!-- Clean white background for a minimalist look -->
 
 
     <TextView
         android:id="@+id/ChangePassword_Attendee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:gravity="center"
-        android:text="Sign In"
-        android:textColor="#000000"
-        android:textSize="50sp"
-        android:textStyle="bold"
+        android:layout_marginTop="116dp"
+        android:fontFamily="@font/Nexa"
+        android:text="Welcome."
+        android:textColor="#141413"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/NotAnAttendee_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
-        android:background="#00FFFFFF"
-        android:onClick="notAnAttendee"
-        android:padding="8dp"
-        android:text="Not an Attendee?"
-        android:textColor="#000000"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.111"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Login_bttn" />
-
-    <TextView
-        android:id="@+id/ConfirmpasswordLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:text="Password"
-        android:textColor="#000000"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginUsername" />
 
     <Button
         android:id="@+id/Login_bttn"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
-        android:backgroundTint="#BF9898"
+        android:backgroundTint="#131314"
+        android:onClick="loginAttendee"
         android:padding="12dp"
         android:text="Login as Attendee"
-        android:onClick="loginAttendee"
-        android:textColor="#000000"
+        android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/SignUp_bttn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginPassword"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.666" />
 
     <Button
         android:id="@+id/SignUp_bttn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginTop="88dp"
+        android:layout_marginEnd="144dp"
         android:background="#00FFFFFF"
         android:onClick="switchToSignupAttendee"
         android:padding="8dp"
-        android:text="Signup?"
+        android:text="Forgot Password"
         android:textColor="#000000"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,11 +61,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:backgroundTint="#CCCCCC"
-        android:hint="Password"
-        android:inputType="textPassword"
+        android:background="@drawable/rounded_edittext"
+        android:fontFamily="sans-serif"
+        android:hint="Enter your Password"
         android:padding="12dp"
         android:textColor="#000000"
         android:textColorHint="#AAAAAA"
@@ -104,15 +75,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ConfirmpasswordLabel" />
 
+    <TextView
+        android:id="@+id/ConfirmpasswordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/Nexa"
+        android:text="Password"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginUsername" />
+
     <EditText
         android:id="@+id/loginUsername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:backgroundTint="#CCCCCC"
-        android:hint="Username"
+        android:background="@drawable/rounded_edittext"
+        android:fontFamily="sans-serif"
+        android:hint="Enter your Username"
         android:inputType="text"
         android:padding="12dp"
         android:textColor="#000000"
@@ -123,31 +108,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MainpasswordLabel" />
 
-    <Button
-        android:id="@+id/ForgotPassword_bttn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="152dp"
-        android:background="#00FFFFFF"
-        android:padding="8dp"
-        android:text="Forgot password?"
-        android:textColor="#000000"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/NotAnAttendee_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginPassword"
-        app:layout_constraintVertical_bias="0.083" />
-
     <TextView
         android:id="@+id/MainpasswordLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="80dp"
+        android:fontFamily="@font/Nexa"
         android:text="Username"
         android:textColor="#000000"
-        android:textSize="25sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ChangePassword_Attendee" />
 
