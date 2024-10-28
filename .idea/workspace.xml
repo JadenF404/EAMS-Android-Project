@@ -5,9 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6c7d564-414e-4e0c-a59c-e3b2669a6cc2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app-debug-androidTest.apk" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/HELP.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/group25/db/EamsDatabaseApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/group25/db/controller/DatabaseController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/group25/db/model/Admin.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/group25/db/model/Attendee.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/group25/db/model/Organizer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/group25/db/service/AttendeeMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/group25/db/service/DatabaseService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/mapper/AttendeeMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/test/java/com/group25/db/EamsDatabaseApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/group25/db/EamsDatabaseApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/group25/db/controller/DatabaseController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/group25/db/model/Admin.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/group25/db/model/Attendee.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/group25/db/model/Organizer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/group25/db/service/AttendeeMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/group25/db/service/DatabaseService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/mapper/AttendeeMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/test-classes/com/group25/db/EamsDatabaseApplicationTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/screen-recording-20241016-232730-deliverable-1-seg_tlwfoBxL (1).mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uml_diagrams/uml.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/uml_diagrams/umlNoDB.pdf" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,10 +63,10 @@
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "implementing-firebase-auth",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Reima/Documents/Notes/project-project-group-25/frontend"
+    "last_opened_file_path": "/Users/adityabaindur/Desktop/Final/project-project-group-25"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

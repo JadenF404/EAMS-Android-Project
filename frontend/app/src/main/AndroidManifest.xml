@@ -24,20 +24,20 @@
 
 
         <!-- Attendee Specific classes   -->
-        <activity android:name=".AttendeeLoginActivity" />
-        <activity android:name=".AttendeePasswordChange" />
-        <activity android:name=".AttendeeWelcomePage"/>
+        <activity android:name=".user_actions.AttendeeLoginActivity" />
+        <activity android:name=".helpers.AttendeePasswordChange" />
+        <activity android:name=".helpers.AttendeeWelcomePage"/>
 
 
         <!-- Organizer Specific classes   -->
-        <activity android:name=".OrganizerLoginActivity"/>
-        <activity android:name=".OrganizerPasswordChange"/>
-        <activity android:name=".OrganizerWelcomePage"/>
+        <activity android:name=".user_actions.OrganizerLoginActivity"/>
+        <activity android:name=".helpers.OrganizerPasswordChange"/>
+        <activity android:name=".helpers.OrganizerWelcomePage"/>
 
         <!-- Admininisttration Specific Classes -->
-        <activity android:name=".AdministratorLoginActivity"/>
-        <activity android:name=".AdministratorWelcomePage"/>
-        <activity android:name=".AdminRequestsActivity" />
+        <activity android:name=".helpers.AdministratorLoginActivity"/>
+        <activity android:name=".helpers.AdministratorWelcomePage"/>
+        <activity android:name=".user_actions.AdminRequestsActivity" />
 
 
 

@@ -1,6 +1,20 @@
-## [1.??] - 2024-10-25 (25th October 2024) 
+
+
+
+## [1.11] - 2024-10-27 (27th October 2024) 
+
+@Aditya
+  - deleted random unused files & folder, such as `databaselog.md`  and  ` backend` 
+
+
+
+
+
+## [1.10] - 2024-10-25 (25th October 2024) 
 
 ## Added 
+
+@ Jaden 
 - Firebase auth is set up and working. It saves each user with a unique ID and all the other user data is still stored in the real-time database
 - I added a new attribute status that is set to 'pending' when creating an account. There is no way to change it as of yet
 - When you login as admin, there is now a page called 'admin_requests_inbox' that lists all the pending requests using a RecyclerView that displays items of class 'RegistrationRequest' using the 'RequestAdapter' class
