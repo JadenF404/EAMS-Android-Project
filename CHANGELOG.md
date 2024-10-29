@@ -3,10 +3,40 @@
 
 ## [1.11] - 2024-10-27 (27th October 2024) 
 
+@ Miller 
+  - Remade Main login page UI & Attendee Login Page UI
+
 @Aditya
-  - deleted random unused files & folder, such as `databaselog.md`  and  ` backend` 
+  - deleted random unused files & folder, such as `databaselog.md`  and  ` backend`
+  - Everything related to firebase is in the `FirebaseHelper` class
+  - Fixed Issue with updated UI where app would crash 
+  - Refractored the codebase of java classes. File structure as follows: 
 
 
+└── 
+deliverable_1_seg
+    ├── FirebaseHelper.java
+    ├── MainActivity.java
+    ├── helpers
+    
+    │   ├── db
+    │   │   ├── RegistrationRequest.java
+    │   │   └── RequestsAdapter.java
+    
+    │   ├── password
+    │   │   ├── AttendeePasswordChange.java
+    │   │   └── OrganizerPasswordChange.java
+    
+    │   └── welcomepages
+    │       ├── AdministratorWelcomePage.java
+    │       ├── AttendeeWelcomePage.java
+    │       └── OrganizerWelcomePage.java
+    
+    └── user_actions
+        ├── AdminRequestsActivity.java
+        ├── AdministratorLoginActivity.java
+        ├── AttendeeLoginActivity.java
+        └── OrganizerLoginActivity.java
 
 
 
