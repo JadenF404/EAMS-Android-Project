@@ -1,4 +1,4 @@
-package com.example.deliverable_1_seg.helpers.welcomepages;
+package com.example.deliverable_1_seg.helpers;
 
 import android.content.Intent;
 import android.view.View;

@@ -1,4 +1,4 @@
-package com.example.deliverable_1_seg.helpers.password;
+package com.example.deliverable_1_seg.helpers;
 
 import android.os.Bundle;
 import android.view.View;

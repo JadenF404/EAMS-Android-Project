@@ -11,7 +11,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.deliverable_1_seg.user_actions.AdministratorLoginActivity;
+import com.example.deliverable_1_seg.helpers.AdministratorLoginActivity;
 import com.example.deliverable_1_seg.user_actions.AttendeeLoginActivity;
 import com.example.deliverable_1_seg.user_actions.OrganizerLoginActivity;
 

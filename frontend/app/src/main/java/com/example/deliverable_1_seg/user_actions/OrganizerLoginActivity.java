@@ -10,8 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.deliverable_1_seg.R;
-import com.example.deliverable_1_seg.helpers.password.OrganizerPasswordChange;
-import com.example.deliverable_1_seg.helpers.welcomepages.OrganizerWelcomePage;
+import com.example.deliverable_1_seg.helpers.OrganizerPasswordChange;
+import com.example.deliverable_1_seg.helpers.OrganizerWelcomePage;
 import com.example.deliverable_1_seg.FirebaseHelper;
 import com.google.firebase.auth.FirebaseUser;
 
