@@ -1,4 +1,4 @@
-package com.example.deliverable_1_seg.helpers;
+package com.example.deliverable_1_seg.user_actions;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.deliverable_1_seg.R;
+import com.example.deliverable_1_seg.helpers.welcomepages.AdministratorWelcomePage;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;

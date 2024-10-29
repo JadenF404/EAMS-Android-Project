@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.deliverable_1_seg.FirebaseHelper;
 import com.example.deliverable_1_seg.R;
 import com.google.firebase.database.DatabaseError;
-import com.example.deliverable_1_seg.helpers.RequestsAdapter;
+import com.example.deliverable_1_seg.helpers.db.RequestsAdapter;
 
-import com.example.deliverable_1_seg.helpers.AdministratorWelcomePage;
-import com.example.deliverable_1_seg.helpers.RegistrationRequest;
+import com.example.deliverable_1_seg.helpers.welcomepages.AdministratorWelcomePage;
+import com.example.deliverable_1_seg.helpers.db.RegistrationRequest;
 
 import java.util.ArrayList;
 import java.util.List;
