@@ -1,10 +1,12 @@
 package com.example.deliverable_1_seg;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.deliverable_1_seg.helpers.db.RegistrationRequest;
+import com.example.deliverable_1_seg.user_actions.AdminRequestsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -121,6 +123,7 @@ public class FirebaseHelper {
         });
     }
 
+
     // Callback interfaces for authentication
     public interface SignInCallback {
         void onSuccess(FirebaseUser user);
@@ -131,4 +134,5 @@ public class FirebaseHelper {
         void onSuccess();
         void onFailure(Exception e);
     }
+
 }

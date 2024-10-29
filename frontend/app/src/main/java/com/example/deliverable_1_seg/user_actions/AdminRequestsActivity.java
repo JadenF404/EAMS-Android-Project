@@ -2,6 +2,7 @@ package com.example.deliverable_1_seg.user_actions;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.util.Log;
 
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.deliverable_1_seg.FirebaseHelper;
+import com.example.deliverable_1_seg.MainActivity;
 import com.example.deliverable_1_seg.R;
 import com.google.firebase.database.DatabaseError;
 import com.example.deliverable_1_seg.helpers.db.RequestsAdapter;
@@ -50,7 +52,11 @@ public class AdminRequestsActivity extends AppCompatActivity {
 
         // Load pending requests
         loadPendingRequests();
+
+
+
     }
+
 
     private void loadPendingRequests() {
         firebaseHelper.loadAttendeeRequests(new FirebaseHelper.DataStatus() {

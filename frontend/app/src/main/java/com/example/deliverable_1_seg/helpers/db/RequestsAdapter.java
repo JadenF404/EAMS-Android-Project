@@ -1,6 +1,7 @@
 package com.example.deliverable_1_seg.helpers.db;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
     }
 
     public static class RequestViewHolder extends RecyclerView.ViewHolder {
+
         TextView requestDetailsTextView;
         Button approveButton, rejectButton;
 
