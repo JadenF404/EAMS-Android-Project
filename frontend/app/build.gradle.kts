@@ -1,25 +1,47 @@
+import java.util.Properties
+import java.io.FileInputStream
+
+val configProperties = Properties()
+val configFile = rootProject.file("config.properties")
+if (configFile.exists()) {
+    configProperties.load(FileInputStream(configFile))
+} 
+
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
 }
 
 android {
+    buildFeatures {
+        buildConfig = true
+    }
     namespace = "com.example.deliverable_1_seg"
     compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.deliverable_1_seg"
-        minSdk = 25
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
+
     }
 
     buildTypes {
+        debug{
+            buildConfigField("String", "API_KEY", "\"${configProperties["API_KEY"]}\"")
+            buildConfigField("String", "API_SECRET", "\"${configProperties["API_SECRET"]}\"")
+            buildConfigField("boolean", "IS_PRODUCTION", "false")
+        }
         release {
             isMinifyEnabled = false
+            buildConfigField("boolean", "IS_PRODUCTION", "true")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

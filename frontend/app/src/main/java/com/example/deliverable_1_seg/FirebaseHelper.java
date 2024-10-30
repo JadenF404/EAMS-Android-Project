@@ -61,6 +61,54 @@ public class FirebaseHelper {
         });
     }
 
+    // Load pending requests for attendees
+    public void loadRejectedAttendeeRequests(DataStatus dataStatus) {
+        attendeeRequestsRef.orderByChild("status").equalTo("rejected").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<RegistrationRequest> requestList = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    RegistrationRequest request = snapshot.getValue(RegistrationRequest.class);
+                    if (request != null) {
+                        request.setUserId(snapshot.getKey());
+                        requestList.add(request);
+                    }
+                }
+                dataStatus.onDataLoaded(requestList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Failed to load rejected requests", databaseError.toException());
+                dataStatus.onError(databaseError);
+            }
+        });
+    }
+    // Load pending requests for attendees
+    public void loadRejectedOrganizerRequests(DataStatus dataStatus) {
+        organizerRequestsRef.orderByChild("status").equalTo("rejected").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<RegistrationRequest> requestList = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    RegistrationRequest request = snapshot.getValue(RegistrationRequest.class);
+                    if (request != null) {
+                        request.setUserId(snapshot.getKey());
+                        requestList.add(request);
+                    }
+                }
+                dataStatus.onDataLoaded(requestList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Failed to load rejected requests", databaseError.toException());
+                dataStatus.onError(databaseError);
+            }
+        });
+    }
+
+
     // Load pending requests for organizers
     public void loadOrganizerRequests(DataStatus dataStatus) {
         organizerRequestsRef.orderByChild("status").equalTo("pending").addListenerForSingleValueEvent(new ValueEventListener() {

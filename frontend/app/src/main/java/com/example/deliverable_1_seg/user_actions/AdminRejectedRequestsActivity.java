@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.deliverable_1_seg.FirebaseHelper;
 import com.example.deliverable_1_seg.R;
 import com.example.deliverable_1_seg.helpers.db.RegistrationRequest;
 import com.example.deliverable_1_seg.helpers.db.RequestsAdapter;
@@ -22,10 +23,10 @@ import java.util.List;
 public class AdminRejectedRequestsActivity extends AppCompatActivity {
 
     private RecyclerView rejectedRequestsRecyclerView;
-    private DatabaseReference attendeeRequestsRef;
-    private DatabaseReference organizerRequestsRef;
-    private List<RegistrationRequest> rejectedRequestList = new ArrayList<>();
+    private final List<RegistrationRequest> rejectedRequestList = new ArrayList<>();
     private RequestsAdapter rejectedRequestsAdapter;
+    private FirebaseHelper firebaseHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,53 +39,39 @@ public class AdminRejectedRequestsActivity extends AppCompatActivity {
         rejectedRequestsAdapter = new RequestsAdapter(this, rejectedRequestList, true);
         rejectedRequestsRecyclerView.setAdapter(rejectedRequestsAdapter);
 
-        // Initialize Firebase references
-        attendeeRequestsRef = FirebaseDatabase.getInstance().getReference("attendee/attendee_requests");
-        organizerRequestsRef = FirebaseDatabase.getInstance().getReference("organizer/organizer_requests");
 
         // Load rejected requests
         loadRejectedRequests();
     }
 
     private void loadRejectedRequests() {
-        attendeeRequestsRef.orderByChild("status").equalTo("rejected").addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseHelper.loadRejectedAttendeeRequests(new FirebaseHelper.DataStatus() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    RegistrationRequest request = snapshot.getValue(RegistrationRequest.class);
-                    if (request != null) {
-                        rejectedRequestList.add(request);
-                    }
-                }
-                rejectedRequestsAdapter.notifyDataSetChanged();
+            public void onDataLoaded(List<RegistrationRequest> requests) {
+                rejectedRequestsAdapter.addRequests(requests); // Use addRequests for specific notifications
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("AdminRejectedRequestsActivity", "Failed to load rejected attendee requests", databaseError.toException());
+            public void onError(DatabaseError error) {
+                Log.e("AdminRequestsActivity", "Failed to load attendee requests", error.toException());
             }
         });
 
-        organizerRequestsRef.orderByChild("status").equalTo("rejected").addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseHelper.loadRejectedOrganizerRequests(new FirebaseHelper.DataStatus() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    RegistrationRequest request = snapshot.getValue(RegistrationRequest.class);
-                    if (request != null) {
-                        rejectedRequestList.add(request);
-                    }
-                }
-                rejectedRequestsAdapter.notifyDataSetChanged();
+            public void onDataLoaded(List<RegistrationRequest> requests) {
+                rejectedRequestsAdapter.addRequests(requests); // Use addRequests for specific notifications
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("AdminRejectedRequestsActivity", "Failed to load rejected organizer requests", databaseError.toException());
+            public void onError(DatabaseError error) {
+                Log.e("AdminRequestsActivity", "Failed to load organizer requests", error.toException());
             }
         });
+
     }
 
-    public void onBackButtonClick(View view) {
-        finish();
-    }
+//    public void onBackButtonClick(View view) {
+//        finish();
+//    }
 }

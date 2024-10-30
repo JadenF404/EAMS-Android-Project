@@ -1,0 +1,12 @@
+Go to https://dev.mailjet.com/, it is what I used.
+
+Get API key and secret after you signup free account.
+
+Please please keep it secret, to use it in app do the following
+
+ - Create a config.properties file in this same directory
+ - Write the two lines as below, no spaces
+
+##################################################################
+API_KEY=your_api_key_here
+DB_PASSWORD=your_password_here
