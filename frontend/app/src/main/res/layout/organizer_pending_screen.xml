@@ -21,16 +21,14 @@
         android:id="@+id/AttendeeLogOut_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/log_out"
-        android:onClick="logOut"
-        tools:layout_editor_absoluteX="160dp"
-        tools:layout_editor_absoluteY="524dp"
         android:layout_marginTop="100dp"
+        android:backgroundTint="#141413"
+        android:onClick="logOut"
+        android:text="@string/log_out"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/WelcomeMessage"
 
 
-        />
+        app:layout_constraintTop_toBottomOf="@+id/WelcomeMessage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

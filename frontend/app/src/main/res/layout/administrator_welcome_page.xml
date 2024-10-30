@@ -11,7 +11,7 @@
         android:layout_height="188dp"
         android:layout_marginTop="150dp"
         android:gravity="center"
-        android:text="Welcome! \nYou are logged in as Administrator."
+        android:text="Welcome. You are logged in as an Admin."
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,8 @@
         android:id="@+id/AdminLogOut_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="296dp"
+        android:layout_marginTop="372dp"
+        android:backgroundTint="#141413"
         android:onClick="logOut"
         android:text="Log Out"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,19 +36,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="108dp"
         android:layout_marginBottom="140dp"
+        android:backgroundTint="#141413"
         android:text="Manage Pending Requests"
         app:layout_constraintBottom_toTopOf="@+id/AdminLogOut_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/WelcomeMessage" />
+        app:layout_constraintTop_toBottomOf="@+id/WelcomeMessage"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/manageRejectedRequestsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:backgroundTint="#141413"
         android:text="Manage Rejected Requests"
         app:layout_constraintBottom_toTopOf="@+id/AdminLogOut_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manageRequestsButton" />
+        app:layout_constraintTop_toBottomOf="@+id/manageRequestsButton"
+        app:layout_constraintVertical_bias="0.129" />
 </androidx.constraintlayout.widget.ConstraintLayout>
