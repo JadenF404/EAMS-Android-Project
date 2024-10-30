@@ -12,27 +12,7 @@
   - Fixed Issue with updated UI where app would crash 
   - Refractored the codebase of java classes. File structure as follows: 
 
-
-    deliverable_1_seg/
-    ├── FirebaseHelper.java
-    ├── MainActivity.java
-    ├── helpers/
-    │   ├── db/
-    │   │   ├── RegistrationRequest.java
-    │   │   └── RequestsAdapter.java
-    │   ├── password/
-    │   │   ├── AttendeePasswordChange.java
-    │   │   └── OrganizerPasswordChange.java
-    │   └── welcomepages/
-    │       ├── AdministratorWelcomePage.java
-    │       ├── AttendeeWelcomePage.java
-    │       └── OrganizerWelcomePage.java
-    └── user_actions/
-        ├── AdminRequestsActivity.java
-        ├── AdministratorLoginActivity.java
-        ├── AttendeeLoginActivity.java
-        └── OrganizerLoginActivity.java
-
+``` deliverable_1_seg/ ├── FirebaseHelper.java ├── MainActivity.java ├── helpers/ │ ├── db/ │ │ ├── RegistrationRequest.java │ │ └── RequestsAdapter.java │ ├── password/ │ │ ├── AttendeePasswordChange.java │ │ └── OrganizerPasswordChange.java │ └── welcomepages/ │ ├── AdministratorWelcomePage.java │ ├── AttendeeWelcomePage.java │ └── OrganizerWelcomePage.java └── user_actions/ ├── AdminRequestsActivity.java ├── AdministratorLoginActivity.java ├── AttendeeLoginActivity.java └── OrganizerLoginActivity.java ```
 
 
 ## [1.10] - 2024-10-25 (25th October 2024) 
