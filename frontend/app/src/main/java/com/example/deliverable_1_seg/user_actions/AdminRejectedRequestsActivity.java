@@ -35,12 +35,12 @@ public class AdminRejectedRequestsActivity extends AppCompatActivity {
         // Initialize RecyclerView
         rejectedRequestsRecyclerView = findViewById(R.id.rejectedRequestsRecyclerView);
         rejectedRequestsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        rejectedRequestsAdapter = new RequestsAdapter(this, rejectedRequestList);
+        rejectedRequestsAdapter = new RequestsAdapter(this, rejectedRequestList, true);
         rejectedRequestsRecyclerView.setAdapter(rejectedRequestsAdapter);
 
         // Initialize Firebase references
-        attendeeRequestsRef = FirebaseDatabase.getInstance().getReference("users/attendee_requests");
-        organizerRequestsRef = FirebaseDatabase.getInstance().getReference("users/organizer_requests");
+        attendeeRequestsRef = FirebaseDatabase.getInstance().getReference("attendee/attendee_requests");
+        organizerRequestsRef = FirebaseDatabase.getInstance().getReference("organizer/organizer_requests");
 
         // Load rejected requests
         loadRejectedRequests();
@@ -85,7 +85,6 @@ public class AdminRejectedRequestsActivity extends AppCompatActivity {
     }
 
     public void onBackButtonClick(View view) {
-        // Finish the current activity and go back to the previous one
         finish();
     }
 }
