@@ -37,6 +37,7 @@ android {
         debug{
             buildConfigField("String", "API_KEY", "\"${configProperties["API_KEY"]}\"")
             buildConfigField("String", "API_SECRET", "\"${configProperties["API_SECRET"]}\"")
+            buildConfigField("String", "EMAIL", "\"${configProperties["EMAIL"]}\"")
             buildConfigField("boolean", "IS_PRODUCTION", "false")
         }
         release {

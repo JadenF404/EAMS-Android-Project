@@ -113,7 +113,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
 
     public void sendConfirmationEmail(String email){
         if(!BuildConfig.IS_PRODUCTION){
-            if (!(BuildConfig.API_KEY.equals("null") || BuildConfig.API_SECRET.equals("null"))) {
+            if (!(BuildConfig.API_KEY.equals("null") || BuildConfig.API_SECRET.equals("null")|| BuildConfig.EMAIL.equals("null"))) {
                 Toast.makeText(context, "Sending Email: " + BuildConfig.API_KEY + " " + BuildConfig.API_SECRET, Toast.LENGTH_SHORT).show();
 
 
@@ -139,7 +139,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
 
                     // Creating JSON to be interpreted as string later
                     JSONObject from = new JSONObject();
-                    from.put("Email", "msuxo021@uottawa.ca");
+                    from.put("Email", BuildConfig.EMAIL);
                     from.put("Name", "Event Management");
 
 
