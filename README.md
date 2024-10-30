@@ -4,6 +4,8 @@ Event Attendance Management System (EAMS) Android app, built with Android Studio
 
 *Deliverable 1 Note: For the UML diagram there are two PDF files. uml.pdf has the UML with a database and umlNoDB.pdf has the UML without the database because we ended up switching to Firebase
 
+*Deliverable 2 Note: For the UML diagram there are two image files. umlImplementation.jpg has the UML with how we implemented all the functionality and umlTheory.png has our plan for how we wanted to implement without the activity files.
+
 ---
 
 # Important Links 

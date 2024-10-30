@@ -27,12 +27,15 @@
         <activity android:name=".user_actions.AttendeeLoginActivity" />
         <activity android:name=".helpers.password.AttendeePasswordChange" />
         <activity android:name=".helpers.welcomepages.AttendeeWelcomePage"/>
+        <activity android:name=".helpers.welcomepages.AttendeePendingPage"/>
+
 
 
         <!-- Organizer Specific classes   -->
         <activity android:name=".user_actions.OrganizerLoginActivity"/>
         <activity android:name=".helpers.password.OrganizerPasswordChange"/>
         <activity android:name=".helpers.welcomepages.OrganizerWelcomePage"/>
+        <activity android:name=".helpers.welcomepages.OrganizerPendingPage"/>
 
         <!-- Admininisttration Specific Classes -->
         <activity android:name=".user_actions.AdministratorLoginActivity"/>

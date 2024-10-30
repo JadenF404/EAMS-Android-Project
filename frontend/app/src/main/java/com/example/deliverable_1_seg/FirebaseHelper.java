@@ -88,12 +88,11 @@ public class FirebaseHelper {
     // Sign in method
 
     //TODO: very scuffed way to inject the UID, need to refactor into a better class system design!
-    public void signIn(String email, String password, SignInCallback callback) {
+    public void signIn(String email, String password, boolean isOrganizer, SignInCallback callback) {
         userAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 FirebaseUser user = userAuth.getCurrentUser();
-                DatabaseReference userStatusRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid()).child("status");
-
+                DatabaseReference userStatusRef = FirebaseDatabase.getInstance().getReference((isOrganizer) ? "organizer/organizer_requests": "attendee_attendee_requests").child(user.getUid()).child("status");
 
 
                 userStatusRef.get().addOnCompleteListener(statustask -> {
@@ -117,17 +116,12 @@ public class FirebaseHelper {
                     }
                 });
 
+
             } else {
                 callback.onFailure(task.getException());
                 Log.e(TAG, "Sign-in failed", task.getException());
             }
         });
-    }
-
-    public String getUserId(){
-
-
-        return null;
     }
 
     // Sign up method for both attendees and organizers
