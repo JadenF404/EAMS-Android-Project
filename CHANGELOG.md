@@ -14,9 +14,11 @@
 
 
 deliverable_1_seg/
+
 ├── FirebaseHelper.java
 ├── MainActivity.java
 ├── helpers/
+
 │   ├── db/
 │   │   ├── RegistrationRequest.java
 │   │   └── RequestsAdapter.java
