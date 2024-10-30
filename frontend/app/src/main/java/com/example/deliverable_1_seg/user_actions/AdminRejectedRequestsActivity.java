@@ -3,6 +3,8 @@ package com.example.deliverable_1_seg.user_actions;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,6 +42,9 @@ public class AdminRejectedRequestsActivity extends AppCompatActivity {
         rejectedRequestsRecyclerView.setAdapter(rejectedRequestsAdapter);
 
 
+        // Initialize FirebaseHelper
+        firebaseHelper = new FirebaseHelper();
+
         // Load rejected requests
         loadRejectedRequests();
     }
@@ -54,6 +59,7 @@ public class AdminRejectedRequestsActivity extends AppCompatActivity {
             @Override
             public void onError(DatabaseError error) {
                 Log.e("AdminRequestsActivity", "Failed to load attendee requests", error.toException());
+//                Toast.makeText(this, "1111", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -65,6 +71,7 @@ public class AdminRejectedRequestsActivity extends AppCompatActivity {
 
             @Override
             public void onError(DatabaseError error) {
+//                Toast.makeText(, "22222", Toast.LENGTH_SHORT).show();
                 Log.e("AdminRequestsActivity", "Failed to load organizer requests", error.toException());
             }
         });

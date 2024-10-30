@@ -63,8 +63,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
                         (request.getOrganization() != null ? "Organization: " + request.getOrganization() + "\n" : "")
         );
         if (isRejectedRequestsMode) {
+
             //hide rejected button
-//            holder.rejectButton.setVisibility(View.GONE);
+            holder.rejectButton.setVisibility(View.GONE);
             holder.approveButton.setText("Re-Approve");
 
             holder.approveButton.setOnClickListener(v -> {
