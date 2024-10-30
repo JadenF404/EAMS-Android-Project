@@ -51,13 +51,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/MainpasswordLabel"/>
 
+
     <TextView
         android:id="@+id/ConfirmpasswordLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
-        android:fontFamily="@font/nexa"
+        android:fontFamily="sans-serif"
         android:text="Password"
         android:textColor="#000000"
         android:textSize="20sp"
@@ -97,11 +98,13 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/SignUp_bttn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginPassword"/>
+        app:layout_constraintTop_toBottomOf="@+id/loginPassword"
+        app:layout_constraintVertical_bias="0.254" />
 
     <Button
-        android:id="@+id/SignUp_bttn"
+        android:id="@+id/ForgotPassword_bttn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
@@ -114,4 +117,18 @@
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loginPassword"/>
+
+    <Button
+        android:id="@+id/SignUp_bttn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="148dp"
+        android:background="#00FFFFFF"
+        android:onClick="switchToSignupAttendee"
+        android:padding="8dp"
+        android:text="Create Account"
+        android:textColor="#000000"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ForgotPassword_bttn" />
 </androidx.constraintlayout.widget.ConstraintLayout>
