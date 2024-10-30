@@ -7,6 +7,13 @@ Please please keep it secret, to use it in app do the following
  - Create a config.properties file in this same directory
  - Write the two lines as below, no spaces
 
+
+#TODO: Fix this to a universal email
+The email service will only allow you to use the email you signed up with for catfish reasons, for now it is enforced so just write it in the file as well
+
+Note: Prod is using mine, so will always be sent from msuxo021@uottawa.ca
+
 ##################################################################
 API_KEY=your_api_key_here
 DB_PASSWORD=your_password_here
+EMAIL=YOUR_EMAIL_YOU_SIGNED_UP_WITH
