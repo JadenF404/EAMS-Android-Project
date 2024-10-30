@@ -1,4 +1,4 @@
-Go to https://dev.mailjet.com/, it is what I used.
+Go to https://mailjet.com/, it is what I used.
 
 Get API key and secret after you signup free account.
 
@@ -15,5 +15,5 @@ Note: Prod is using mine, so will always be sent from msuxo021@uottawa.ca
 
 ##################################################################
 API_KEY=your_api_key_here
-DB_PASSWORD=your_password_here
+API_SECRET=your_password_here
 EMAIL=YOUR_EMAIL_YOU_SIGNED_UP_WITH
