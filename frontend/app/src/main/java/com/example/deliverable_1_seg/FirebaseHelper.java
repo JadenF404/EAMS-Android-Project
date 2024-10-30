@@ -92,7 +92,7 @@ public class FirebaseHelper {
         userAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 FirebaseUser user = userAuth.getCurrentUser();
-                DatabaseReference userStatusRef = FirebaseDatabase.getInstance().getReference((isOrganizer) ? "organizer/organizer_requests": "attendee_attendee_requests").child(user.getUid()).child("status");
+                DatabaseReference userStatusRef = FirebaseDatabase.getInstance().getReference((isOrganizer) ? "organizer/organizer_requests": "attendee/attendee_requests").child(user.getUid()).child("status");
 
 
                 userStatusRef.get().addOnCompleteListener(statustask -> {

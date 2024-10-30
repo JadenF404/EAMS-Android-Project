@@ -75,7 +75,7 @@ public class AttendeeLoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(FirebaseUser user, String status) {
                 if (status.equals("approved")) {
-                    Intent intent = new Intent(AttendeeLoginActivity.this, OrganizerWelcomePage.class);
+                    Intent intent = new Intent(AttendeeLoginActivity.this, AttendeeWelcomePage.class);
                     startActivity(intent);
                     finish();
                 } else if(status.equals("rejected")){
@@ -115,7 +115,7 @@ public class AttendeeLoginActivity extends AppCompatActivity {
         attendeeData.put("phoneNumber", signupPhone.getText().toString());
         attendeeData.put("address", signupAddress.getText().toString());
         attendeeData.put("status", "pending");
-        attendeeData.put("userType", "organizer");
+        attendeeData.put("userType", "attendee");
 
 
         // Firebase sign up
@@ -123,9 +123,8 @@ public class AttendeeLoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Toast.makeText(AttendeeLoginActivity.this, "Attendee signed up successfully", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(AttendeeLoginActivity.this, AttendeeWelcomePage.class);
-                startActivity(intent);
-                finish(); // Optional: Call finish to remove the signup activity from the back stack
+                setContentView(R.layout.attendee_login_screen);
+
             }
 
             @Override

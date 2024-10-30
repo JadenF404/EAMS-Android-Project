@@ -133,9 +133,7 @@ public class OrganizerLoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Toast.makeText(OrganizerLoginActivity.this, "Organizer signed up successfully", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(OrganizerLoginActivity.this, OrganizerWelcomePage.class);
-                startActivity(intent);
-                finish(); // Remove this activity from the back stack
+                setContentView(R.layout.organizer_login_screen);
             }
 
             @Override
