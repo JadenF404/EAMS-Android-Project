@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.deliverable_1_seg.R;
 import com.example.deliverable_1_seg.helpers.password.OrganizerPasswordChange;
+import com.example.deliverable_1_seg.helpers.welcomepages.OrganizerPendingPage;
 import com.example.deliverable_1_seg.helpers.welcomepages.OrganizerWelcomePage;
 import com.example.deliverable_1_seg.FirebaseHelper;
 import com.google.firebase.auth.FirebaseUser;
@@ -77,12 +78,20 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         }
 
         // Firebase login using FirebaseHelper
-        firebaseHelper.signIn(email, password, new FirebaseHelper.SignInCallback() {
+        firebaseHelper.signIn(email, password, true, new FirebaseHelper.SignInCallback() {
             @Override
             public void onSuccess(FirebaseUser user, String status) {
+                if (status.equals("approved")) {
                 Intent intent = new Intent(OrganizerLoginActivity.this, OrganizerWelcomePage.class);
-                startActivity(intent);
-                finish(); // Remove this activity from the back stack
+                    startActivity(intent);
+                    finish();
+                } else if(status.equals("rejected")){
+                    Toast.makeText(OrganizerLoginActivity.this, "SIGNUP DENIED; CONTACT 613-911!", Toast.LENGTH_SHORT).show();
+                }else if(status.equals("pending")){
+                    Intent intent = new Intent(OrganizerLoginActivity.this, OrganizerPendingPage.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
 
             @Override

@@ -10,7 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.deliverable_1_seg.FirebaseHelper;
 import com.example.deliverable_1_seg.R;
+import com.example.deliverable_1_seg.helpers.welcomepages.AttendeePendingPage;
 import com.example.deliverable_1_seg.helpers.welcomepages.AttendeeWelcomePage;
+import com.example.deliverable_1_seg.helpers.welcomepages.OrganizerPendingPage;
+import com.example.deliverable_1_seg.helpers.welcomepages.OrganizerWelcomePage;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashMap;
@@ -68,16 +71,21 @@ public class AttendeeLoginActivity extends AppCompatActivity {
         }
 
         // Firebase login
-        firebaseHelper.signIn(email, password, new FirebaseHelper.SignInCallback() {
+        firebaseHelper.signIn(email, password, false, new FirebaseHelper.SignInCallback() {
             @Override
-            public void onSuccess(FirebaseUser user, String Status) {
-                Intent intent = new Intent(AttendeeLoginActivity.this, AttendeeWelcomePage.class);
-
-
-                startActivity(intent);
-                finish(); // Optional: Call finish to remove the login activity from the back stack
+            public void onSuccess(FirebaseUser user, String status) {
+                if (status.equals("approved")) {
+                    Intent intent = new Intent(AttendeeLoginActivity.this, OrganizerWelcomePage.class);
+                    startActivity(intent);
+                    finish();
+                } else if(status.equals("rejected")){
+                    Toast.makeText(AttendeeLoginActivity.this, "SIGNUP DENIED; CONTACT 613-911!", Toast.LENGTH_SHORT).show();
+                }else if(status.equals("pending")){
+                    Intent intent = new Intent(AttendeeLoginActivity.this, AttendeePendingPage.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
-
             @Override
             public void onFailure(Exception e) {
                 Toast.makeText(AttendeeLoginActivity.this, "Login Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
