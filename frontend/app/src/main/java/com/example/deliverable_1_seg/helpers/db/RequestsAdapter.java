@@ -1,6 +1,7 @@
 package com.example.deliverable_1_seg.helpers.db;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,7 +117,23 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
     // to fix later, using a callback to delete the item on success ? very scuffed
     private void updateRequestStatus(String requestId, String userType, String status, Consumer<Boolean> callback) {
 //        Toast.makeText(context, userType + "/" + userType + "_requests/" + requestId, Toast.LENGTH_SHORT).show();
-        DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference(userType + "/" + userType + "_requests/").child(requestId);
+
+        if (requestId == null || requestId.isEmpty()) {
+            Log.e("updateRequestStatus", "Error: requestId is null or empty");
+            callback.accept(false);
+            return;
+        }
+
+        if (userType == null || userType.isEmpty()) {
+            Log.e("updateRequestStatus", "Error: userType is null or empty");
+            callback.accept(false);
+            return;
+        }
+
+        String path = userType + "/" + userType + "_requests/" + requestId;
+        Log.d("updateRequestStatus", "Updating status at path: " + path);
+
+        DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference(path);
         requestRef.child("status").setValue(status).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(context, "Request " + status, Toast.LENGTH_SHORT).show();
