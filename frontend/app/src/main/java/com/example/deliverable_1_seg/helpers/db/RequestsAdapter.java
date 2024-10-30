@@ -197,10 +197,62 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
             } else {
                 Toast.makeText(context, "Dev: Please setup api key", Toast.LENGTH_SHORT).show();
             }
-        } else{
-                Toast.makeText(context, "Sending Email", Toast.LENGTH_SHORT).show();
-        }
+        } else {
 
+            Toast.makeText(context, "Sending Email Through Service...", Toast.LENGTH_SHORT).show();
+
+
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    try {
+                        // Create URL object
+                        URL url = new URL("https://8c3f396d-workers-playground-shiny-voice-88bc.reimaginenetwork.workers.dev/");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("POST");
+                        connection.setRequestProperty("Content-Type", "application/json");
+                        connection.setDoOutput(true);
+
+                        // Create JSON payload with email
+                        String jsonInputString = "{\"email\": \"" + email + "\"}";
+
+                        // Write JSON to request body
+                        try (OutputStream os = connection.getOutputStream()) {
+                            byte[] input = jsonInputString.getBytes("utf-8");
+                            os.write(input, 0, input.length);
+                        }
+
+                        // Get the response code
+                        int status = connection.getResponseCode();
+                        Log.i("Note" ,"Response Code: " + status);
+
+
+//                Toast.makeText(context, "Send result: ", Toast.LENGTH_SHORT).show();
+                        BufferedReader in;
+                        if (status > 299) {
+                            in = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+                        } else {
+                            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        }
+                        String responseLine;
+                        StringBuilder response = new StringBuilder();
+                        while ((responseLine = in.readLine()) != null) {
+                            response.append(responseLine);
+                        }
+                        in.close();
+
+
+                    } catch (Exception e) {
+//                Toast.makeText(context, "Failed Sending email" + e.toString(), Toast.LENGTH_SHORT).show();
+                        Log.e("NOTE", "Failed to send email", e);
+                    }
+                }
+            });
+
+
+            thread.start();
+        }
 
 
     }
