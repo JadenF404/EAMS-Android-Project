@@ -61,6 +61,9 @@ public class AttendeeLoginActivity extends AppCompatActivity {
     }
 
     public void loginAttendee(View view) {
+        loginUsername = findViewById(R.id.loginUsername);
+        loginPassword = findViewById(R.id.loginPassword);
+
         String email = loginUsername.getText().toString();
         String password = loginPassword.getText().toString();
 

@@ -68,6 +68,9 @@ public class OrganizerLoginActivity extends AppCompatActivity {
     }
 
     public void loginOrganizer(View view) {
+        loginUsername = findViewById(R.id.loginUsername);
+        loginPassword = findViewById(R.id.loginPassword);
+
         String email = loginUsername.getText().toString();
         String password = loginPassword.getText().toString();
 
