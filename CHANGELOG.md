@@ -13,27 +13,25 @@
   - Refractored the codebase of java classes. File structure as follows: 
 
 
-deliverable_1_seg/
-
-├── FirebaseHelper.java
-├── MainActivity.java
-├── helpers/
-
-│   ├── db/
-│   │   ├── RegistrationRequest.java
-│   │   └── RequestsAdapter.java
-│   ├── password/
-│   │   ├── AttendeePasswordChange.java
-│   │   └── OrganizerPasswordChange.java
-│   └── welcomepages/
-│       ├── AdministratorWelcomePage.java
-│       ├── AttendeeWelcomePage.java
-│       └── OrganizerWelcomePage.java
-└── user_actions/
-    ├── AdminRequestsActivity.java
-    ├── AdministratorLoginActivity.java
-    ├── AttendeeLoginActivity.java
-    └── OrganizerLoginActivity.java
+    deliverable_1_seg/
+    ├── FirebaseHelper.java
+    ├── MainActivity.java
+    ├── helpers/
+    │   ├── db/
+    │   │   ├── RegistrationRequest.java
+    │   │   └── RequestsAdapter.java
+    │   ├── password/
+    │   │   ├── AttendeePasswordChange.java
+    │   │   └── OrganizerPasswordChange.java
+    │   └── welcomepages/
+    │       ├── AdministratorWelcomePage.java
+    │       ├── AttendeeWelcomePage.java
+    │       └── OrganizerWelcomePage.java
+    └── user_actions/
+        ├── AdminRequestsActivity.java
+        ├── AdministratorLoginActivity.java
+        ├── AttendeeLoginActivity.java
+        └── OrganizerLoginActivity.java
 
 
 
