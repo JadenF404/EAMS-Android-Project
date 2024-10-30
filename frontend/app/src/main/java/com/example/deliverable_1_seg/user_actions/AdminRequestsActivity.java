@@ -59,7 +59,7 @@ public class AdminRequestsActivity extends AppCompatActivity {
 
 
     private void loadPendingRequests() {
-        firebaseHelper.loadAttendeeRequests(new FirebaseHelper.DataStatus() {
+        firebaseHelper.loadAttendeeRequests("pending", new FirebaseHelper.DataStatus() {
             @Override
             public void onDataLoaded(List<RegistrationRequest> requests) {
                 requestsAdapter.addRequests(requests); // Use addRequests for specific notifications
@@ -71,7 +71,7 @@ public class AdminRequestsActivity extends AppCompatActivity {
             }
         });
 
-        firebaseHelper.loadOrganizerRequests(new FirebaseHelper.DataStatus() {
+        firebaseHelper.loadOrganizerRequests("pending", new FirebaseHelper.DataStatus() {
             @Override
             public void onDataLoaded(List<RegistrationRequest> requests) {
                 requestsAdapter.addRequests(requests); // Use addRequests for specific notifications
