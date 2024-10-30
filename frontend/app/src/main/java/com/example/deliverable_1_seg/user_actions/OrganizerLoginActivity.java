@@ -79,7 +79,7 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         // Firebase login using FirebaseHelper
         firebaseHelper.signIn(email, password, new FirebaseHelper.SignInCallback() {
             @Override
-            public void onSuccess(FirebaseUser user) {
+            public void onSuccess(FirebaseUser user, String status) {
                 Intent intent = new Intent(OrganizerLoginActivity.this, OrganizerWelcomePage.class);
                 startActivity(intent);
                 finish(); // Remove this activity from the back stack
@@ -117,6 +117,7 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         organizerData.put("address", signupAddress.getText().toString());
         organizerData.put("orgName", signupOrgName.getText().toString());
         organizerData.put("status", "pending");
+        organizerData.put("userType", "organizer");
 
         // Firebase sign up using FirebaseHelper
         firebaseHelper.signUp(email, password, organizerData, true, new FirebaseHelper.SignUpCallback() {

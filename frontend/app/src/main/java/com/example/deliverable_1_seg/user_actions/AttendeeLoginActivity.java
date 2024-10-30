@@ -70,8 +70,10 @@ public class AttendeeLoginActivity extends AppCompatActivity {
         // Firebase login
         firebaseHelper.signIn(email, password, new FirebaseHelper.SignInCallback() {
             @Override
-            public void onSuccess(FirebaseUser user) {
+            public void onSuccess(FirebaseUser user, String Status) {
                 Intent intent = new Intent(AttendeeLoginActivity.this, AttendeeWelcomePage.class);
+
+
                 startActivity(intent);
                 finish(); // Optional: Call finish to remove the login activity from the back stack
             }
@@ -105,6 +107,8 @@ public class AttendeeLoginActivity extends AppCompatActivity {
         attendeeData.put("phoneNumber", signupPhone.getText().toString());
         attendeeData.put("address", signupAddress.getText().toString());
         attendeeData.put("status", "pending");
+        attendeeData.put("userType", "organizer");
+
 
         // Firebase sign up
         firebaseHelper.signUp(email, password, attendeeData,false, new FirebaseHelper.SignUpCallback() {

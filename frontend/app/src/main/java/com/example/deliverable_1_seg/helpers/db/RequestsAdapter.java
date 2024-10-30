@@ -1,7 +1,6 @@
 package com.example.deliverable_1_seg.helpers.db;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.RequestViewHolder> {
 
@@ -49,13 +49,31 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
 
         // Approve button click handler
         holder.approveButton.setOnClickListener(v -> {
-            updateRequestStatus(request.getUserId(), request.getUserType(), "approved");
+
+            updateRequestStatus(request.getUserId(), request.getUserType(), "approved", isSuccessful -> {
+                //realistically we could have the callback run here but this seems much less encapsulated
+                if (isSuccessful) {
+                    requestList.remove(holder.getAdapterPosition());
+                    notifyItemRemoved(holder.getAdapterPosition()); // Notify adapter of item removal
+                    notifyItemRangeChanged(holder.getAdapterPosition(), requestList.size()); // Update the remaining items
+                }
+
+            });
         });
 
         // Reject button click handler
         holder.rejectButton.setOnClickListener(v -> {
-            updateRequestStatus(request.getUserId(), request.getUserType(), "rejected");
+            updateRequestStatus(request.getUserId(), request.getUserType(), "rejected", isSuccessful -> {
+                //realistically we could have the callback run here but this seems much less encapsulated
+                if (isSuccessful) {
+                    requestList.remove(holder.getAdapterPosition());
+                    notifyItemRemoved(holder.getAdapterPosition()); // Notify adapter of item removal
+                    notifyItemRangeChanged(holder.getAdapterPosition(), requestList.size()); // Update the remaining items
+                }
+
+            });
         });
+
     }
 
     @Override
@@ -76,15 +94,20 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
         }
     }
 
-    private void updateRequestStatus(String requestId, String userType, String status) {
-        DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference("users/" + userType + "_requests").child(requestId);
+    // to fix later, using a callback to delete the item on success ? very scuffed
+    private void updateRequestStatus(String requestId, String userType, String status, Consumer<Boolean> callback) {
+//        Toast.makeText(context, userType + "/" + userType + "_requests/" + requestId, Toast.LENGTH_SHORT).show();
+        DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference(userType + "/" + userType + "_requests/").child(requestId);
         requestRef.child("status").setValue(status).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(context, "Request " + status, Toast.LENGTH_SHORT).show();
+                callback.accept(true);
             } else {
                 Toast.makeText(context, "Failed to update status.", Toast.LENGTH_SHORT).show();
+                callback.accept(false);
             }
-        });
+        }
+        );
     }
 
     // New method to add requests to the adapter

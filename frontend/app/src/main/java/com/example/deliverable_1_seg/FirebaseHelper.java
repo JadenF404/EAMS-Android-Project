@@ -1,12 +1,10 @@
 package com.example.deliverable_1_seg;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.example.deliverable_1_seg.helpers.db.RegistrationRequest;
-import com.example.deliverable_1_seg.user_actions.AdminRequestsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -48,6 +46,7 @@ public class FirebaseHelper {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     RegistrationRequest request = snapshot.getValue(RegistrationRequest.class);
                     if (request != null) {
+                        request.setUserId(snapshot.getKey());
                         requestList.add(request);
                     }
                 }
@@ -71,6 +70,7 @@ public class FirebaseHelper {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     RegistrationRequest request = snapshot.getValue(RegistrationRequest.class);
                     if (request != null) {
+                        request.setUserId(snapshot.getKey());
                         requestList.add(request);
                     }
                 }
@@ -86,16 +86,48 @@ public class FirebaseHelper {
     }
 
     // Sign in method
+
+    //TODO: very scuffed way to inject the UID, need to refactor into a better class system design!
     public void signIn(String email, String password, SignInCallback callback) {
         userAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 FirebaseUser user = userAuth.getCurrentUser();
-                callback.onSuccess(user);
+                DatabaseReference userStatusRef = FirebaseDatabase.getInstance().getReference("users").child(user.getUid()).child("status");
+
+
+
+                userStatusRef.get().addOnCompleteListener(statustask -> {
+                    if (statustask.isSuccessful()) {
+                        DataSnapshot dataSnapshot = statustask.getResult();
+                        if (dataSnapshot.exists()) {
+                            String status = dataSnapshot.getValue(String.class);
+                            if ("approved".equals(status)) {
+                                callback.onSuccess(user, "approved");
+                            } else if ("pending".equals(status)) {
+                                callback.onSuccess(user, "pending");
+                            } else {
+                                callback.onSuccess(user, "rejected");
+                            }
+                        } else {
+                            callback.onFailure(new Exception("User status not found."));
+                        }
+                    } else {
+                        callback.onFailure(statustask.getException());
+                        Log.e(TAG, "Error retrieving status", statustask.getException());
+                    }
+                });
+
             } else {
                 callback.onFailure(task.getException());
                 Log.e(TAG, "Sign-in failed", task.getException());
             }
         });
+    }
+
+    public String getUserId(){
+
+
+        return null;
     }
 
     // Sign up method for both attendees and organizers
@@ -126,7 +158,7 @@ public class FirebaseHelper {
 
     // Callback interfaces for authentication
     public interface SignInCallback {
-        void onSuccess(FirebaseUser user);
+        void onSuccess(FirebaseUser user, String status);
         void onFailure(Exception e);
     }
 
