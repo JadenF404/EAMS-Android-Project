@@ -38,8 +38,8 @@ public class FirebaseHelper {
     }
 
     // Load pending requests for attendees
-    public void loadAttendeeRequests(DataStatus dataStatus) {
-        attendeeRequestsRef.orderByChild("status").equalTo("pending").addListenerForSingleValueEvent(new ValueEventListener() {
+    public void loadAttendeeRequests(String status, DataStatus dataStatus) {
+        attendeeRequestsRef.orderByChild("status").equalTo(status).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<RegistrationRequest> requestList = new ArrayList<>();
@@ -110,8 +110,8 @@ public class FirebaseHelper {
 
 
     // Load pending requests for organizers
-    public void loadOrganizerRequests(DataStatus dataStatus) {
-        organizerRequestsRef.orderByChild("status").equalTo("pending").addListenerForSingleValueEvent(new ValueEventListener() {
+    public void loadOrganizerRequests(String status, DataStatus dataStatus) {
+        organizerRequestsRef.orderByChild("status").equalTo(status).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<RegistrationRequest> requestList = new ArrayList<>();

@@ -131,4 +131,21 @@
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ForgotPassword_bttn" />
+
+    <TextView
+        android:id="@+id/notAnAttendeeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:background="#00FFFFFF"
+        android:textColor="#000000"
+        android:textStyle="italic"
+        android:onClick="notAnAttendee"
+        android:padding="8dp"
+        android:text="Not an Attendee?"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SignUp_bttn"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

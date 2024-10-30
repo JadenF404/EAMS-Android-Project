@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.deliverable_1_seg.FirebaseHelper;
+import com.example.deliverable_1_seg.FirebaseHelper;
 import com.example.deliverable_1_seg.R;
 import com.example.deliverable_1_seg.helpers.db.RegistrationRequest;
 import com.example.deliverable_1_seg.helpers.db.RequestsAdapter;
