@@ -53,7 +53,11 @@ public class AdminRejectedRequestsActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     RegistrationRequest request = snapshot.getValue(RegistrationRequest.class);
                     if (request != null) {
-                        rejectedRequestList.add(request);
+                        if (request.getUserId() == null) {
+                            Log.e("AdminRejectedRequests", "userId is null for request: " + snapshot.getKey());
+                        } else {
+                            rejectedRequestList.add(request);
+                        }
                     }
                 }
                 rejectedRequestsAdapter.notifyDataSetChanged();

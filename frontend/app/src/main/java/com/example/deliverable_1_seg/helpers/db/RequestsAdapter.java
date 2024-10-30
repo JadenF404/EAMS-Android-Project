@@ -49,6 +49,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
                         (request.getOrganization() != null ? "Organization: " + request.getOrganization() + "\n" : "")
         );
         if (isRejectedRequestsMode) {
+
             //hide rejected button
             holder.rejectButton.setVisibility(View.GONE);
             holder.approveButton.setText("Re-Approve");
@@ -56,7 +57,6 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
             holder.approveButton.setOnClickListener(v -> {
                 updateRequestStatus(request.getUserId(), request.getUserType(), "approved", isSuccessful -> {
                 if (isSuccessful) {
-
                     requestList.remove(holder.getAdapterPosition());
                     notifyItemRemoved(holder.getAdapterPosition()); // Notify adapter of item removal
                     notifyItemRangeChanged(holder.getAdapterPosition(), requestList.size()); // Update the remaining items
