@@ -25,6 +25,7 @@
 
     <Button
         android:id="@+id/Login_bttn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
@@ -36,10 +37,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/SignUp_bttn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginPassword"
-        app:layout_constraintVertical_bias="0.666" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <Button
         android:id="@+id/SignUp_bttn"
