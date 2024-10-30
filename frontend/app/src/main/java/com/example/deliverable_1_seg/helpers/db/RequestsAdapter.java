@@ -22,10 +22,12 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
 
     private List<RegistrationRequest> requestList;
     private Context context;
+    private boolean isRejectedRequestsMode;
 
-    public RequestsAdapter(Context context, List<RegistrationRequest> requestList) {
+    public RequestsAdapter(Context context, List<RegistrationRequest> requestList, boolean isRejectedRequestsMode) {
         this.context = context;
         this.requestList = requestList;
+        this.isRejectedRequestsMode = isRejectedRequestsMode;
     }
 
     @NonNull
@@ -46,33 +48,50 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
                         "Address: " + request.getAddress() + "\n" +
                         (request.getOrganization() != null ? "Organization: " + request.getOrganization() + "\n" : "")
         );
+        if (isRejectedRequestsMode) {
+            //hide rejected button
+            holder.rejectButton.setVisibility(View.GONE);
+            holder.approveButton.setText("Re-Approve");
 
-        // Approve button click handler
-        holder.approveButton.setOnClickListener(v -> {
-
-            updateRequestStatus(request.getUserId(), request.getUserType(), "approved", isSuccessful -> {
-                //realistically we could have the callback run here but this seems much less encapsulated
+            holder.approveButton.setOnClickListener(v -> {
+                updateRequestStatus(request.getUserId(), request.getUserType(), "approved", isSuccessful -> {
                 if (isSuccessful) {
+
                     requestList.remove(holder.getAdapterPosition());
                     notifyItemRemoved(holder.getAdapterPosition()); // Notify adapter of item removal
                     notifyItemRangeChanged(holder.getAdapterPosition(), requestList.size()); // Update the remaining items
                 }
-
+                });
             });
-        });
 
-        // Reject button click handler
-        holder.rejectButton.setOnClickListener(v -> {
-            updateRequestStatus(request.getUserId(), request.getUserType(), "rejected", isSuccessful -> {
-                //realistically we could have the callback run here but this seems much less encapsulated
-                if (isSuccessful) {
-                    requestList.remove(holder.getAdapterPosition());
-                    notifyItemRemoved(holder.getAdapterPosition()); // Notify adapter of item removal
-                    notifyItemRangeChanged(holder.getAdapterPosition(), requestList.size()); // Update the remaining items
-                }
+        } else {
+            // Approve button click handler
+            holder.approveButton.setOnClickListener(v -> {
+                updateRequestStatus(request.getUserId(), request.getUserType(), "approved", isSuccessful -> {
+                    //realistically we could have the callback run here but this seems much less encapsulated
+                    if (isSuccessful) {
+                        requestList.remove(holder.getAdapterPosition());
+                        notifyItemRemoved(holder.getAdapterPosition()); // Notify adapter of item removal
+                        notifyItemRangeChanged(holder.getAdapterPosition(), requestList.size()); // Update the remaining items
+                    }
 
+                });
             });
-        });
+
+            // Reject button click handler
+            holder.rejectButton.setOnClickListener(v -> {
+                updateRequestStatus(request.getUserId(), request.getUserType(), "rejected", isSuccessful -> {
+                    //realistically we could have the callback run here but this seems much less encapsulated
+                    if (isSuccessful) {
+                        requestList.remove(holder.getAdapterPosition());
+                        notifyItemRemoved(holder.getAdapterPosition()); // Notify adapter of item removal
+                        notifyItemRangeChanged(holder.getAdapterPosition(), requestList.size()); // Update the remaining items
+                    }
+
+                });
+            });
+
+        }
 
     }
 

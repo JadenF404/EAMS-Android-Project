@@ -44,7 +44,7 @@ public class AdminRequestsActivity extends AppCompatActivity {
         // Initialize RecyclerView
         requestsRecyclerView = findViewById(R.id.requestsRecyclerView);
         requestsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        requestsAdapter = new RequestsAdapter(this, requestList);
+        requestsAdapter = new RequestsAdapter(this, requestList, false);
         requestsRecyclerView.setAdapter(requestsAdapter);
 
         // Initialize FirebaseHelper
