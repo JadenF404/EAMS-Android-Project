@@ -37,6 +37,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="End Time" />
+
+        <TextView
+            android:id="@+id/textViewDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description" />
+
+        <Button
+            android:id="@+id/buttonManageRequests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage Registration Requests"/>
+
+        <Button
+            android:id="@+id/buttonDeleteEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete Event"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

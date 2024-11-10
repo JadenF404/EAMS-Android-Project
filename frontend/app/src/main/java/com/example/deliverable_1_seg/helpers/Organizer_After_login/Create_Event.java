@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.deliverable_1_seg.helpers.db.EventListActivity;
 import com.example.deliverable_1_seg.helpers.welcomepages.OrganizerWelcomePage;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -31,34 +30,6 @@ import com.google.firebase.database.DatabaseError;
 
 public class Create_Event extends AppCompatActivity {
 
-
-    public class Event {
-        private String title;
-        private String date;
-        private String startTime;
-        private String endTime;
-
-
-        public Event(String title, String date, String startTime, String endTime) {
-            this.title = title;
-            this.date = date;
-            this.startTime = startTime;
-            this.endTime = endTime;
-        }
-
-        // Getters and setters
-        public String getTitle() { return title; }
-        public void setTitle(String title) { this.title = title; }
-
-        public String getDate() { return date; }
-        public void setDate(String date) { this.date = date; }
-
-        public String getStartTime() { return startTime; }
-        public void setStartTime(String startTime) { this.startTime = startTime; }
-
-        public String getEndTime() { return endTime; }
-        public void setEndTime(String endTime) { this.endTime = endTime; }
-    }
     private static ArrayList<Event> eventList = new ArrayList<>();
 
     private EditText editTextDate, editTextStartTime, editTextEndTime;
