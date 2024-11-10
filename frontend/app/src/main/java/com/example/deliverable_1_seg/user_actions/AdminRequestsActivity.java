@@ -53,8 +53,6 @@ public class AdminRequestsActivity extends AppCompatActivity {
         // Load pending requests
         loadPendingRequests();
 
-
-
     }
 
 
