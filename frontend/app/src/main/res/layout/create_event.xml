@@ -13,80 +13,83 @@
         android:id="@+id/textViewHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        android:fontFamily="sans-serif"
-        android:gravity="center"
         android:text="Create New Event"
         android:textColor="#000000"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="sans-serif"
+        android:textFontWeight="900"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Event Title Input -->
+
+    <!-- Calendar View -->
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editTextEventTitle"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="24dp"
         android:hint="Event Title"
         android:inputType="text"
         android:textColor="#000000"
         android:textColorHint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewHeader" />
+        app:layout_constraintTop_toBottomOf="@id/textViewHeader" />
 
-    <!-- Event Date -->
-    <EditText
-        android:id="@+id/editTextDate"
-        android:layout_width="match_parent"
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:focusable="false"
-        android:hint="Event Date"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextEventTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEventTitle" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Start Time -->
+    <!-- Start Time Input -->
+
+    <!-- End Time Input -->
+
     <EditText
         android:id="@+id/editTextStartTime"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="384dp"
         android:clickable="true"
         android:focusable="false"
         android:hint="Start Time"
         android:textColor="#000000"
         android:textColorHint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+        app:layout_constraintTop_toBottomOf="@id/editTextEventTitle" />
 
-    <!-- End Time -->
     <EditText
         android:id="@+id/editTextEndTime"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:hint="End Time"
         android:clickable="true"
         android:focusable="false"
-        android:hint="End Time"
         android:textColor="#000000"
         android:textColorHint="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextStartTime"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextStartTime" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
-    <!-- Description -->
+    <!-- Description Input -->
+
+    <!-- Submit Button -->
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editTextDescription"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:hint="Description"
@@ -94,33 +97,21 @@
         android:textColor="#000000"
         android:textColorHint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEndTime" />
+        app:layout_constraintTop_toBottomOf="@id/editTextEndTime" />
 
-    <!-- Create Event Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSubmitOrg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="148dp"
         android:backgroundTint="#141413"
         android:text="Create Event"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
-
-    <!-- View Events Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonViewEvents"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#141413"
-        android:text="View Events"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonSubmitOrg" />
+        app:layout_constraintTop_toBottomOf="@id/editTextDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
