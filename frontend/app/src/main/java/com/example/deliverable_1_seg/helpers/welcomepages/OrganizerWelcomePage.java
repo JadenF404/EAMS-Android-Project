@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.deliverable_1_seg.MainActivity;
 import com.example.deliverable_1_seg.R;
-import com.example.deliverable_1_seg.helpers.Organizer_After_login.CreateEventActivity ;
+import com.example.deliverable_1_seg.helpers.Organizer_After_login.Create_Event ;
 import com.example.deliverable_1_seg.helpers.Organizer_After_login.ApproveAttendeesActivity;
 
 public class OrganizerWelcomePage extends AppCompatActivity {
