@@ -60,7 +60,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
                         "Email: " + request.getEmail() + "\n" +
                         "Phone: " + request.getPhoneNumber() + "\n" +
                         "Address: " + request.getAddress() + "\n" +
-                        (request.getOrganization() != null ? "Organization: " + request.getOrganization() + "\n" : "")
+                        (request.getOrgName() != null ? "Organization: " + request.getOrgName() + "\n" : "")
         );
         if (isRejectedRequestsMode) {
 

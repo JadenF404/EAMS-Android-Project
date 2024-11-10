@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.deliverable_1_seg.helpers.db.Event;
 import com.example.deliverable_1_seg.helpers.db.RegistrationRequest;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -131,6 +132,11 @@ public class FirebaseHelper {
                 dataStatus.onError(databaseError);
             }
         });
+    }
+
+    //add event method
+    public void addEvent(Event event, DataStatus dataStatus) {
+
     }
 
     // Sign in method

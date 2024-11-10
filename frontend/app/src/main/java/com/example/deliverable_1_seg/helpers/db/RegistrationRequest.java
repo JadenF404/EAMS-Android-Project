@@ -7,7 +7,7 @@ public class RegistrationRequest {
     private String email;
     private String phoneNumber;
     private String address;
-    private String organization;
+    private String orgName;
     private String status;
     private String userType;  // Can be "attendee" or "organizer"
 
@@ -15,7 +15,7 @@ public class RegistrationRequest {
     public RegistrationRequest() {}
 
     // Constructor to initialize all fields
-    public RegistrationRequest(String userId, String firstName, String lastName, String email, String address, String phoneNumber, String status, String userType) {
+    public RegistrationRequest(String userId, String firstName, String lastName, String email, String address, String phoneNumber, String status, String userType, String orgName) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -24,6 +24,7 @@ public class RegistrationRequest {
         this.address = address;
         this.status = status;
         this.userType = userType;
+        this.orgName = orgName;
     }
 
     // Getters and Setters for each field
@@ -83,12 +84,12 @@ public class RegistrationRequest {
         this.address = address;
     }
 
-    public String getOrganization() {
-        return organization;
+    public String getOrgName() {
+        return orgName;
     }
 
-    public void setOrganization(String organization) {
-        this.organization = organization;
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
     }
 
 

@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.deliverable_1_seg.helpers.db.EventListActivity;
+import com.example.deliverable_1_seg.helpers.welcomepages.OrganizerWelcomePage;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -21,6 +22,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import com.example.deliverable_1_seg.helpers.db.Event;
+import com.example.deliverable_1_seg.FirebaseEventHelper;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
 
 public class Create_Event extends AppCompatActivity {
 
@@ -93,6 +100,8 @@ public class Create_Event extends AppCompatActivity {
             String startTime = editTextStartTime.getText().toString();
             String endTime = editTextEndTime.getText().toString();
             String eventTitle = ((TextInputEditText) findViewById(R.id.editTextEventTitle)).getText().toString();
+            String description = ((TextInputEditText) findViewById(R.id.editTextDescription)).getText().toString();
+
 
 
 
@@ -112,11 +121,38 @@ public class Create_Event extends AppCompatActivity {
                     if (start != null && end != null && start.after(end)) {
                         Toast.makeText(this, "Start time cannot be later than end time", Toast.LENGTH_SHORT).show();
                     } else {
-                        // Successfully created event
-                        Event newEvent = new Event(eventTitle, date, startTime, endTime);
-                        eventList.add(newEvent);
-                        Toast.makeText(this, "Event created successfully!", Toast.LENGTH_SHORT).show();
+                       
+                        // Successfully created event, add and save to Firebase
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        if (user != null){
+                            //create event
+                            String organizerID = user.getUid();
+                            Event event = new Event(null, eventTitle, date, startTime, endTime, description, organizerID);
+
+                            //use FirebaseEvent helper to add event to firebase
+                            FirebaseEventHelper eventHelper = new FirebaseEventHelper();
+                            eventHelper.addEvent(event, new FirebaseEventHelper.writeCallback(){
+                                @Override
+                                public void onSuccess() {
+                                    eventList.add(event);
+                                    Toast.makeText(Create_Event.this, "Event created successfully!", Toast.LENGTH_SHORT).show();
+
+                                    //after creating event go back to welcome page
+                                    Intent intent = new Intent(Create_Event.this, OrganizerWelcomePage.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+
+                                @Override
+                                public void onFailure(DatabaseError error) {
+                                    Toast.makeText(Create_Event.this, "Failed to create event: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(Create_Event.this, "No user logged in", Toast.LENGTH_SHORT).show();
+                        }
                     }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(this, "Error parsing time", Toast.LENGTH_SHORT).show();
