@@ -34,7 +34,7 @@ public class OrganizerWelcomePage extends AppCompatActivity {
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(OrganizerWelcomePage.this, CreateEventActivity.class);
+                Intent intent = new Intent(OrganizerWelcomePage.this, Create_Event.class);
                 startActivity(intent);
             }
         });
