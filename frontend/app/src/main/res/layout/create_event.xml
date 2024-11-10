@@ -19,16 +19,24 @@
         android:text="Create New Event"
         android:textColor="#000000"
         android:textSize="24sp"
+        android:textFontWeight="900"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Event Title Input -->
+
+    <!-- Event Date -->
+
+    <!-- Start Time -->
+
+    <!-- End Time -->
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/editTextEventTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="28dp"
         android:hint="Event Title"
         android:inputType="text"
         android:textColor="#000000"
@@ -38,76 +46,78 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHeader" />
 
-    <!-- Event Date -->
-    <EditText
-        android:id="@+id/editTextDate"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonSubmitOrg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:backgroundTint="#141413"
+        android:text="Create Event"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/editTextDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:focusable="false"
-        android:hint="Event Date"
+        android:layout_marginTop="12dp"
+        android:hint="Description"
+        android:inputType="textMultiLine"
         android:textColor="#000000"
         android:textColorHint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEventTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextEndTime" />
 
-    <!-- Start Time -->
     <EditText
         android:id="@+id/editTextStartTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
         android:clickable="true"
         android:focusable="false"
         android:hint="Start Time"
         android:textColor="#000000"
         android:textColorHint="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calendarView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
-    <!-- End Time -->
+
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextStartTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.789" />
+
     <EditText
         android:id="@+id/editTextEndTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="4dp"
         android:clickable="true"
         android:focusable="false"
         android:hint="End Time"
         android:textColor="#000000"
         android:textColorHint="#000000"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextStartTime" />
 
     <!-- Description -->
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editTextDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="Description"
-        android:inputType="textMultiLine"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEndTime" />
 
     <!-- Submit Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonSubmitOrg"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:backgroundTint="#141413"
-        android:text="Create Event"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
