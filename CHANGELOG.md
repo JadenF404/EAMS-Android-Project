@@ -1,4 +1,10 @@
+## [1.2] - 2024-11-10 (10th November 2024) 
 
+## Added
+
+@ Malik
+ - Made events automatically be put into a list
+ - Implemented a localized way for organizers to access that list 
 
 
 ## [1.11] - 2024-10-27 (27th October 2024) 
