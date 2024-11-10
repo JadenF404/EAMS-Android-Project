@@ -37,9 +37,11 @@
         <activity android:name=".helpers.welcomepages.OrganizerWelcomePage"/>
         <activity android:name=".helpers.welcomepages.OrganizerPendingPage"/>
 
+
         <!-- Organizer Specific, AFTER LOGIN classes-->
         <activity android:name=".helpers.Organizer_After_login.ApproveAttendeesActivity"/>
         <activity android:name=".helpers.Organizer_After_login.Create_Event"/>
+        <activity android:name=".helpers.db.EventListActivity"/>
 
 
 
