@@ -26,6 +26,10 @@ import java.util.Locale;
 
 public class Create_Event extends AppCompatActivity {
 
+    private static ArrayList<Event> eventList = new ArrayList<>();
+
+    private EditText editTextDate, editTextStartTime, editTextEndTime;
+    private Calendar calendar;
     private CalendarView calendarView;
     private EditText editTextStartTime, editTextEndTime;
     private String selectedDate;

@@ -17,13 +17,13 @@
         app:layout_constraintTop_toBottomOf="@+id/WelcomeMessage" />
 
     <Button
-        android:id="@+id/manageRequestsButton2"
+        android:id="@+id/manageEventsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="Approve Attendees"
+        android:layout_marginTop="28dp"
+        android:text="Manage Events"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintHorizontal_bias="0.528"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_event" />
 
@@ -52,5 +52,5 @@
 
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manageRequestsButton2" />
+        app:layout_constraintTop_toBottomOf="@+id/manageEventsButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

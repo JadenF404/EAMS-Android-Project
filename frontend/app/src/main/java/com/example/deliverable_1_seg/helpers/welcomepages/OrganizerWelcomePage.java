@@ -11,6 +11,7 @@ import com.example.deliverable_1_seg.MainActivity;
 import com.example.deliverable_1_seg.R;
 import com.example.deliverable_1_seg.helpers.Organizer_After_login.Create_Event ;
 import com.example.deliverable_1_seg.helpers.Organizer_After_login.ApproveAttendeesActivity;
+import com.example.deliverable_1_seg.helpers.Organizer_After_login.EventListActivity;
 
 public class OrganizerWelcomePage extends AppCompatActivity {
     @Override
@@ -39,12 +40,12 @@ public class OrganizerWelcomePage extends AppCompatActivity {
             }
         });
 
-        // Approve Attendees Button
-        Button approveAttendeesButton = findViewById(R.id.manageRequestsButton2);
-        approveAttendeesButton.setOnClickListener(new View.OnClickListener() {
+        // Manage Attendees Button
+        Button manageEventsButton = findViewById(R.id.manageEventsButton);
+        manageEventsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(OrganizerWelcomePage.this, ApproveAttendeesActivity.class);
+                Intent intent = new Intent(OrganizerWelcomePage.this, EventListActivity.class);
                 startActivity(intent);
             }
         });

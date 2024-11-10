@@ -29,8 +29,8 @@ public class FirebaseEventHelper {
     }
 
     public interface DataStatus {
-        //void DataLoaded();
-        //void onError();
+        void DataLoaded(List<Event> events);
+        void onError(DatabaseError error);
     }
 
     //method called when creating event
@@ -52,5 +52,27 @@ public class FirebaseEventHelper {
            Log.e(TAG, "Failed to generate unique event ID.");
            callback.onFailure(DatabaseError.fromException(new Exception("Failed to generate unique event ID.")));
        }
+    }
+
+    //loads the organizers current events
+    public void loadEventsForCurrentUser (String organizerId, DataStatus dataStatus){
+        eventsRef.orderByChild("organizerId").equalTo(organizerId).addListenerForSingleValueEvent(new ValueEventListener() {
+            public void onDataChange(DataSnapshot dataSnapshot){
+                List<Event> eventsList = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Event event = snapshot.getValue(Event.class);
+                    if (event != null){
+                        event.setEventId(snapshot.getKey());
+                        eventsList.add(event);
+                    }
+                }
+                dataStatus.DataLoaded(eventsList);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Failed to load events", databaseError.toException());
+                dataStatus.onError(databaseError);
+            }
+        });
     }
 }
