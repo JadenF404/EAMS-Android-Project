@@ -5,29 +5,52 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <Button
+        android:id="@+id/new_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:text="Create New Event"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/WelcomeMessage" />
+
+    <Button
+        android:id="@+id/manageRequestsButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Approve Attendees"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_event" />
+
     <TextView
         android:id="@+id/WelcomeMessage"
         android:layout_width="269dp"
         android:layout_height="188dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="140dp"
         android:gravity="center"
         android:text="Welcome! \nYou are logged in as Organizer."
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/OrganizerLogOut_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="40dp"
         android:backgroundTint="#141413"
         android:onClick="logOut"
         android:text="Log Out"
         app:layout_constraintEnd_toEndOf="parent"
+
+
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-
-
-        app:layout_constraintTop_toBottomOf="@+id/WelcomeMessage" />
+        app:layout_constraintTop_toBottomOf="@+id/manageRequestsButton2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

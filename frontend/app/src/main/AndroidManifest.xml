@@ -37,11 +37,22 @@
         <activity android:name=".helpers.welcomepages.OrganizerWelcomePage"/>
         <activity android:name=".helpers.welcomepages.OrganizerPendingPage"/>
 
+        <!-- Organizer Specific, AFTER LOGIN classes-->
+        <activity android:name=".helpers.Organizer_After_login.ApproveAttendeesActivity"/>
+        <activity android:name=".helpers.Organizer_After_login.Create_Event"/>
+
+
+
+
+
+
         <!-- Admininisttration Specific Classes -->
         <activity android:name=".user_actions.AdministratorLoginActivity"/>
         <activity android:name=".helpers.welcomepages.AdministratorWelcomePage"/>
         <activity android:name=".user_actions.AdminRequestsActivity" />
         <activity android:name=".user_actions.AdminRejectedRequestsActivity" />
+
+
 
 
 
