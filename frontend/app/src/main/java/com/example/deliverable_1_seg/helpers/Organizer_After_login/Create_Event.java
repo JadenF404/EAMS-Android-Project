@@ -30,7 +30,7 @@ public class Create_Event extends AppCompatActivity {
 
     private static ArrayList<Event> eventList = new ArrayList<>();
 
-    private EditText editTextDate, editTextStartTime, editTextEndTime, editTextAddress;
+    private EditText editTextDate, editTextStartTime, editTextEndTime;
     private Calendar calendar;
     private CalendarView calendarView;
 //    private EditText editTextStartTime, editTextEndTime;
@@ -45,7 +45,6 @@ public class Create_Event extends AppCompatActivity {
         calendarView = findViewById(R.id.calendarView);
         editTextStartTime = findViewById(R.id.editTextStartTime);
         editTextEndTime = findViewById(R.id.editTextEndTime);
-        editTextAddress = findViewById(R.id.editTextAddress);
         MaterialButton buttonSubmit = findViewById(R.id.buttonSubmitOrg);
 
         // Initialize calendar and set the default date
@@ -70,6 +69,8 @@ public class Create_Event extends AppCompatActivity {
 
         // Handle the Submit button
         buttonSubmit.setOnClickListener(v -> {
+            System.out.println("Event Submitted");
+
             String startTime = editTextStartTime.getText().toString();
             String endTime = editTextEndTime.getText().toString();
             String eventTitle = ((android.widget.EditText) findViewById(R.id.editTextEventTitle)).getText().toString();
@@ -78,10 +79,8 @@ public class Create_Event extends AppCompatActivity {
             // Validation to ensure fields are filled in
             if (eventTitle.isEmpty()) {
                 Toast.makeText(this, "Please enter an event title", Toast.LENGTH_SHORT).show();
-                return;
-            } else if (startTime.isEmpty() || endTime.isEmpty()) {
+            } else if (startTime.isEmpty() || endTime.isEmpty() || description.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-                return;
             } else {
                 // Additional validation for start time before end time
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
