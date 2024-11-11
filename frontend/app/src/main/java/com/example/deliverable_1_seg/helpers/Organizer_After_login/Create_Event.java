@@ -79,7 +79,7 @@ public class Create_Event extends AppCompatActivity {
             // Validation to ensure fields are filled in
             if (eventTitle.isEmpty()) {
                 Toast.makeText(this, "Please enter an event title", Toast.LENGTH_SHORT).show();
-            } else if (startTime.isEmpty() || endTime.isEmpty()) {
+            } else if (startTime.isEmpty() || endTime.isEmpty() || description.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
                 // Additional validation for start time before end time
