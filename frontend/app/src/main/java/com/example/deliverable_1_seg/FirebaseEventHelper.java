@@ -75,4 +75,21 @@ public class FirebaseEventHelper {
             }
         });
     }
+
+    public void deleteEvent(String eventId, writeCallback callback){
+        if (eventId != null){
+            eventsRef.child(eventId).removeValue().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Event deleted successfully");
+                    callback.onSuccess();
+                } else {
+                    Log.e(TAG, "Failed to delete event", task.getException());
+                    callback.onFailure(DatabaseError.fromException(task.getException()));
+                }
+            });
+        } else {
+            Log.e(TAG, "Event ID is null. Cannot delete event.");
+        }
+            callback.onFailure(DatabaseError.fromException(new Exception("Event ID is null")));
+    }
 }

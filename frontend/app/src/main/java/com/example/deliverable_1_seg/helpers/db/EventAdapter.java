@@ -6,12 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.deliverable_1_seg.helpers.Organizer_After_login.ApproveAttendeesActivity;
 import com.example.deliverable_1_seg.*;
 import com.example.deliverable_1_seg.helpers.Organizer_After_login.EventListActivity;
+import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
 
@@ -52,7 +55,22 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
         //delete event button
         holder.buttonDeleteEvent.setOnClickListener(v -> {
-           //ToDo make delete event button using FirebaseEventHelper
+            FirebaseEventHelper eventHelper = new FirebaseEventHelper();
+
+            eventHelper.deleteEvent(event.getEventId(), new FirebaseEventHelper.writeCallback(){
+                public void onSuccess() {
+                    // Remove the deleted event from the list and notify the adapter
+                    Toast.makeText(context, "Event deleted successfully!", Toast.LENGTH_SHORT).show();
+                    eventList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, eventList.size());
+                }
+
+                @Override
+                public void onFailure(DatabaseError error) {
+                    Toast.makeText(context, "Failed to delete event: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         });
     }
 
