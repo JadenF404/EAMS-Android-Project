@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -31,7 +32,7 @@ public class Create_Event extends AppCompatActivity {
     private EditText editTextDate, editTextStartTime, editTextEndTime;
     private Calendar calendar;
     private CalendarView calendarView;
-    private EditText editTextStartTime, editTextEndTime;
+//    private EditText editTextStartTime, editTextEndTime;
     private String selectedDate;
 
     @Override
