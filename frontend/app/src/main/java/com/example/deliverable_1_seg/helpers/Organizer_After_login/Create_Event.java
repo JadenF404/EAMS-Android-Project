@@ -3,6 +3,7 @@ package com.example.deliverable_1_seg.helpers.Organizer_After_login;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -68,9 +69,11 @@ public class Create_Event extends AppCompatActivity {
 
         // Handle the Submit button
         buttonSubmit.setOnClickListener(v -> {
+            System.out.println("Event Submitted");
+
             String startTime = editTextStartTime.getText().toString();
             String endTime = editTextEndTime.getText().toString();
-            String eventTitle = ((TextInputEditText) findViewById(R.id.editTextEventTitle)).getText().toString();
+            String eventTitle = ((android.widget.EditText) findViewById(R.id.editTextEventTitle)).getText().toString();
             String description = ((TextInputEditText) findViewById(R.id.editTextDescription)).getText().toString();
 
             // Validation to ensure fields are filled in
