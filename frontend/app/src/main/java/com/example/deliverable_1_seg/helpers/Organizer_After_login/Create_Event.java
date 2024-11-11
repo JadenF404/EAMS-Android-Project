@@ -35,6 +35,7 @@ public class Create_Event extends AppCompatActivity {
     private CalendarView calendarView;
 //    private EditText editTextStartTime, editTextEndTime;
     private String selectedDate;
+    Date currentDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class Create_Event extends AppCompatActivity {
             // Update the selectedDate when the user picks a new date
             calendar.set(year, month, dayOfMonth);
             selectedDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
+            currentDate = new Date();
         });
 
         // Set up the Start Time Picker
@@ -75,13 +77,19 @@ public class Create_Event extends AppCompatActivity {
             String endTime = editTextEndTime.getText().toString();
             String eventTitle = ((android.widget.EditText) findViewById(R.id.editTextEventTitle)).getText().toString();
             String description = ((TextInputEditText) findViewById(R.id.editTextDescription)).getText().toString();
-
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            Date selectedDateObject = new Date();
+            try { selectedDateObject = dateFormat.parse(selectedDate);} catch(Exception e) {System.out.println("Error parsing the input date.");}
             // Validation to ensure fields are filled in
             if (eventTitle.isEmpty()) {
                 Toast.makeText(this, "Please enter an event title", Toast.LENGTH_SHORT).show();
             } else if (startTime.isEmpty() || endTime.isEmpty() || description.isEmpty()) {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+            else if(selectedDate!=null && !selectedDateObject.after(currentDate)) {
+                Toast.makeText(this, "The date cannot be before the current date. It is currently " + currentDate.toString(), Toast.LENGTH_SHORT).show();
+            }
+            else {
                 // Additional validation for start time before end time
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
                 try {
