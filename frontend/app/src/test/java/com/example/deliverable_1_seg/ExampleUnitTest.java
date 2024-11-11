@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import com.example.deliverable_1_seg.helpers.DataValidator;
+
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -11,7 +13,23 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void InvalidPassword() {
+        assertFalse(DataValidator.signUpPassword("pass"));
+    }
+
+    @Test
+    public void EmptyPassword() {
+        assertFalse(DataValidator.signUpPassword(""));
+    }
+
+    @Test
+    public void NullPassword() {
+        assertFalse(DataValidator.signUpPassword(null));
+    }
+
+
+    @Test
+    public void ValidPassword() {
+        assertTrue(DataValidator.signUpPassword("Password1!"));
     }
 }

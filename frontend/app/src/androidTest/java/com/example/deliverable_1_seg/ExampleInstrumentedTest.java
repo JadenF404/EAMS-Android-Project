@@ -1,26 +1,67 @@
 package com.example.deliverable_1_seg;
 
-import android.content.Context;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 
-import androidx.test.platform.app.InstrumentationRegistry;
+import android.content.Intent;
+import android.support.test.espresso.intent.Intents;
+
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.deliverable_1_seg.user_actions.AttendeeLoginActivity;
+import com.example.deliverable_1_seg.user_actions.OrganizerLoginActivity;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
-
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
+
+    @Rule
+    public ActivityScenarioRule<MainActivity> activityRule = new ActivityScenarioRule<>(MainActivity.class);
+
+//    @Before
+//    public void setUp() {
+//        Intents.init();
+//        ActivityScenario.launch(MainActivity.class);
+//    }
+
+    @Before
+    public void setUp() {
+        Intents.init();  // Initialize Intents for intent verification
+    }
+
+    @After
+    public void tearDown() {
+        Intents.release();  // Release Intents after the test is complete
+    }
     @Test
-    public void useAppContext() {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.deliverable_1_seg", appContext.getPackageName());
+    public void testAttendeeButtonLaunchesAttendeeLoginActivity() {
+        onView(withId(R.id.Attendee_button)).perform(click());
+
+
+        intended(hasComponent(AttendeeLoginActivity.class.getName()));
+
+//        onView(withId(R.id.attendee_login_screen)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testAttendeeButtonLaunchesAttendeeLoginActivityFail() {
+        onView(withId(R.id.Attendee_button)).perform(click());
+
+
+        intended(hasComponent(OrganizerLoginActivity.class.getName()));
+
+//        onView(withId(R.id.attendee_login_screen)).check(matches(isDisplayed()));
     }
 }

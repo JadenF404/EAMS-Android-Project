@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.deliverable_1_seg.R;
+import com.example.deliverable_1_seg.helpers.DataValidator;
 import com.example.deliverable_1_seg.helpers.password.OrganizerPasswordChange;
 import com.example.deliverable_1_seg.helpers.welcomepages.OrganizerPendingPage;
 import com.example.deliverable_1_seg.helpers.welcomepages.OrganizerWelcomePage;
@@ -112,7 +113,7 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         if (signupFirstName.getText().toString().isEmpty()
                 || signupLastName.getText().toString().isEmpty()
                 || email.isEmpty()
-                || password.isEmpty()
+                || !DataValidator.signUpPassword(password)
                 || signupPhone.getText().toString().isEmpty()
                 || signupAddress.getText().toString().isEmpty()
                 || signupOrgName.getText().toString().isEmpty()) {

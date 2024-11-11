@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -77,6 +78,9 @@ public class Create_Event extends AppCompatActivity {
             String endTime = editTextEndTime.getText().toString();
             String eventTitle = ((android.widget.EditText) findViewById(R.id.editTextEventTitle)).getText().toString();
             String description = ((TextInputEditText) findViewById(R.id.editTextDescription)).getText().toString();
+            String address = (findViewById(R.id.editTextAddress)).toString();
+            boolean automaticApproval = ((Switch) findViewById(R.id.switchApproval)).isChecked();
+
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             Date selectedDateObject = new Date();
             try { selectedDateObject = dateFormat.parse(selectedDate);} catch(Exception e) {System.out.println("Error parsing the input date.");}
@@ -102,7 +106,7 @@ public class Create_Event extends AppCompatActivity {
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         if (user != null) {
                             String organizerID = user.getUid();
-                            Event event = new Event(null, eventTitle, selectedDate, startTime, endTime, description, organizerID);
+                            Event event = new Event(null, eventTitle, selectedDate, startTime, endTime, description, organizerID, address, automaticApproval);
 
                             FirebaseEventHelper eventHelper = new FirebaseEventHelper();
                             eventHelper.addEvent(event, new FirebaseEventHelper.writeCallback() {

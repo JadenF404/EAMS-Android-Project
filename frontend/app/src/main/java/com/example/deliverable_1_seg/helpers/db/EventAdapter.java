@@ -9,11 +9,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.deliverable_1_seg.helpers.Organizer_After_login.ApproveAttendeesActivity;
 import com.example.deliverable_1_seg.*;
 import com.example.deliverable_1_seg.helpers.Organizer_After_login.EventListActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
@@ -22,11 +25,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     private ArrayList<Event> eventList;
     private Context context;
+    private boolean manageEvents;
+    private String userID;
 
-    public EventAdapter(ArrayList<Event> eventList, EventListActivity eventListActivity) {
-
+    public EventAdapter(ArrayList<Event> eventList, AppCompatActivity eventListActivity) {
+        this.manageEvents = eventListActivity instanceof EventListActivity;
         this.eventList = eventList;
         this.context = eventListActivity;
+
+        //get current user
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        userID = user.getUid();
     }
 
     @NonNull
@@ -46,32 +55,71 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.textViewEndTime.setText(event.getEndTime());
         holder.textViewDescription.setText(event.getDescription());
 
-        //manage requests button
-        holder.buttonManageRequests.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ApproveAttendeesActivity.class);
-            intent.putExtra("eventId", event.getEventId());
-            context.startActivity(intent);
-        });
+        if (manageEvents) {
+            //manage requests button
+            holder.buttonManageRequests.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ApproveAttendeesActivity.class);
+                intent.putExtra("eventId", event.getEventId());
+                context.startActivity(intent);
+            });
 
-        //delete event button
-        holder.buttonDeleteEvent.setOnClickListener(v -> {
+            //delete event button
+            holder.buttonDeleteEvent.setOnClickListener(v -> {
+                FirebaseEventHelper eventHelper = new FirebaseEventHelper();
+
+                eventHelper.deleteEvent(event.getEventId(), new FirebaseEventHelper.writeCallback() {
+                    public void onSuccess() {
+                        // Remove the deleted event from the list and notify the adapter
+                        Toast.makeText(context, "Event deleted successfully!", Toast.LENGTH_SHORT).show();
+                        eventList.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, eventList.size());
+                    }
+
+                    @Override
+                    public void onFailure(DatabaseError error) {
+                        Toast.makeText(context, "Failed to delete event: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
+        } else{
+            //manage requests button
             FirebaseEventHelper eventHelper = new FirebaseEventHelper();
+            holder.buttonManageRequests.setText(event.isAutomaticApproval() ? "Join Event": "Ask Permission");
 
-            eventHelper.deleteEvent(event.getEventId(), new FirebaseEventHelper.writeCallback(){
-                public void onSuccess() {
-                    // Remove the deleted event from the list and notify the adapter
-                    Toast.makeText(context, "Event deleted successfully!", Toast.LENGTH_SHORT).show();
-                    eventList.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, eventList.size());
-                }
+            holder.buttonManageRequests.setOnClickListener(v -> {
 
-                @Override
-                public void onFailure(DatabaseError error) {
-                    Toast.makeText(context, "Failed to delete event: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                if (event.isAutomaticApproval()) {
+                    // If automatic approval is true, add the user to the 'people' list
+                    eventHelper.joinEvent(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(context, "Joined event successfully!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(DatabaseError error) {
+                            Toast.makeText(context, "Failed to join event: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    // If automatic approval is false, add the user to the 'requests' list
+                    eventHelper.requestEvent(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(context, "Request sent to join event!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(DatabaseError error) {
+                            Toast.makeText(context, "Failed to send request: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
-        });
+
+            holder.buttonDeleteEvent.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
