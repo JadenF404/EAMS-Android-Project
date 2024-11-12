@@ -4,7 +4,7 @@ jobs:
   build:
     docker:
       # Using a prebuilt CircleCI Docker image for Android
-      - image: circleci/android:api-34
+      - image: circleci/android:api-30
 
     environment:
       # Cache dependencies
