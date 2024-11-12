@@ -17,7 +17,7 @@ jobs:
       # Restore the Gradle cache
       - restore_cache:
           keys:
-            - gradle-{{ checksum "build.gradle" }}
+            - gradle-{{ checksum "frontend/build.gradle" }}
             - gradle-
 
       # Run Gradle build
@@ -34,7 +34,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle
-          key: gradle-{{ checksum "build.gradle" }}
+          key: gradle-{{ checksum "frontend/build.gradle" }}
 
       # Save the test results
       - store_test_results:
