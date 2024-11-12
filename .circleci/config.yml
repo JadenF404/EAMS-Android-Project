@@ -2,25 +2,19 @@ version: 2.1
 
 jobs:
   build:
+    working_directory: ~/frontend
     docker:
-      # Using a prebuilt CircleCI Docker image for Android
-      - image: circleci/android:api-30
-
-    environment:
-      # Cache dependencies
-      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.jvmargs=-Xmx4096m -Dkotlin.incremental=false"
-      _JAVA_OPTIONS: "-Xmx4096m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
-
+      - image: circleci/android:api-30 # Or the appropriate image you’re using
     steps:
-      - checkout # Checkout the code
+      - checkout
 
-      # Restore the Gradle cache
+      # Adjust paths for caching
       - restore_cache:
           keys:
             - gradle-{{ checksum "frontend/build.gradle" }}
             - gradle-
 
-      # Run Gradle build
+      # Run the build
       - run:
           name: Build with Gradle
           command: ./gradlew assembleDebug
@@ -30,16 +24,14 @@ jobs:
           name: Run Unit Tests
           command: ./gradlew testDebugUnitTest
 
-      # Store Gradle cache
+      # Cache Gradle dependencies
       - save_cache:
           paths:
             - ~/.gradle
           key: gradle-{{ checksum "frontend/build.gradle" }}
 
-      # Save the test results
+      # Store test results and APK
       - store_test_results:
-          path: app/build/test-results
-
-      # Store the built APK
+          path: frontend/app/build/test-results
       - store_artifacts:
-          path: app/build/outputs/apk/debug
+          path: frontend/app/build/outputs/apk/debug
