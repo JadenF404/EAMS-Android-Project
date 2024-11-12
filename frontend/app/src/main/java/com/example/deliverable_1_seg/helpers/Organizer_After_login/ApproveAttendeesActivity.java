@@ -34,6 +34,7 @@ public class ApproveAttendeesActivity extends AppCompatActivity {
     private FirebaseEventHelper firebaseEventHelper;
     private List<RegistrationRequest> pendingRequests;
     private List<RegistrationRequest> requestList = new ArrayList<>();
+    private String eventId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class ApproveAttendeesActivity extends AppCompatActivity {
         pendingRequests = new ArrayList<>();
         firebaseEventHelper = new FirebaseEventHelper();
 
-        String eventId = getIntent().getStringExtra("eventId");
+        eventId = getIntent().getStringExtra("eventId");
 
         requestList = new ArrayList<>();
 
@@ -75,6 +76,43 @@ public class ApproveAttendeesActivity extends AppCompatActivity {
            }
        });
 
+    }
+
+    public void onApproveAllClick(View view) {
+        if (requestList.isEmpty()) {
+            Toast.makeText(this, "No requests to approve", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        for (RegistrationRequest request : requestList) {
+            String userID = request.getUserId();
+
+            firebaseEventHelper.removeUserFromRequests(eventId, userID, new FirebaseEventHelper.writeCallback() {
+                @Override
+                public void onSuccess() {
+                    firebaseEventHelper.joinEvent(eventId, userID, new FirebaseEventHelper.writeCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(ApproveAttendeesActivity.this, "All requests approved successfully!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(DatabaseError error) {
+                            Toast.makeText(ApproveAttendeesActivity.this, "Failed to add user to event: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(DatabaseError error) {
+                    Toast.makeText(ApproveAttendeesActivity.this, "Failed to remove user from requests: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        // Clear the request list and update the UI
+        requestList.clear();
+        adapter.notifyDataSetChanged();
     }
 
     public void onBackButtonClick(View view) {
