@@ -1,6 +1,10 @@
 package com.example.deliverable_1_seg.helpers.db;
+//import static android.content.Intent.getIntent;
+//import static android.content.Intent.parseUri;
+
 import static android.content.Intent.getIntent;
-import static android.content.Intent.parseUri;
+
+import android.os.Bundle;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapter.RequestViewHolder> {
@@ -33,8 +38,14 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
     private String eventID;
 
     public EventRequestAdapter(ArrayList<String> requestList, AppCompatActivity eventListActivity) {
-        Bundle resultIntent = getIntent().getExtras();
-        eventID = resultIntent.getString("eventId");
+//        Bundle resultIntent = getIntent().getExtras();
+//        try {
+//            eventID = parseUri("eventId", 1).getStringExtra("eventiD");
+//        } catch (URISyntaxException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        String eventId = getIntent().getStringExtra("eventId");
 
         this.requestList = requestList;
         this.context = eventListActivity;
