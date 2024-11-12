@@ -1,8 +1,12 @@
 package com.example.deliverable_1_seg.helpers.db;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class Event {
@@ -154,6 +158,21 @@ public class Event {
         return false;
     }
 
+    public long getLongDate() {
+        // Define the format pattern for the date and time
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+
+        try {
+            String dateTimeString = date + " " + endTime;
+
+            Date endDate = dateFormat.parse(dateTimeString);
+
+            return endDate != null ? endDate.getTime() : 0;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0; // Return 0 if parsing fails
+        }
+    }
 
 }
 
