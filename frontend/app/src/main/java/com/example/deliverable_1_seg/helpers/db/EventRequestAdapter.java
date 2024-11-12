@@ -74,6 +74,9 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
                 eventHelper.removeUserFromRequests(eventID, userID, new FirebaseEventHelper.writeCallback() {
                     @Override
                     public void onSuccess() {
+                        requestList.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, requestList.size());
                         Toast.makeText(context, "Joined event successfully!", Toast.LENGTH_SHORT).show();
                     }
 
@@ -98,28 +101,6 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
                 //context.startActivity(intent);
             });
 
-            //reject button
-        holder.buttonRejectRequest.setOnClickListener(v ->{
-            String userID = request.getUserId();
-
-            // Remove the user from the requests list in Firebase (rejecting the request)
-            eventHelper.removeUserFromRequests(eventID, userID, new FirebaseEventHelper.writeCallback() {
-                @Override
-                public void onSuccess() {
-                    Toast.makeText(context, "User request rejected successfully!", Toast.LENGTH_SHORT).show();
-
-                    //remove the item from the list in the adapter and notify the adapter to refresh the view
-                    requestList.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, requestList.size());
-                }
-
-                @Override
-                public void onFailure(DatabaseError error) {
-                    Toast.makeText(context, "Failed to reject user request: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        });
             //reject button
         holder.buttonRejectRequest.setOnClickListener(v ->{
             String userID = request.getUserId();
