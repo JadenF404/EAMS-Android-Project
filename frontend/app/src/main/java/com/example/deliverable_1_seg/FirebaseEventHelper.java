@@ -12,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -61,12 +62,47 @@ public class FirebaseEventHelper {
 
     //loads the organizers current events
     public void loadEventsForCurrentUser (String organizerId, DataStatus dataStatus){
+        long currentTime = Calendar.getInstance().getTimeInMillis();
+
         eventsRef.orderByChild("organizerId").equalTo(organizerId).addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot){
                 List<Event> eventsList = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Event event = snapshot.getValue(Event.class);
-                    if (event != null){
+                    if (event != null && event.getLongDate() > currentTime){
+                        event.setEventId(snapshot.getKey());
+
+                        // Ensure people and requests lists are not null
+                        if (event.getPeople() == null) {
+                            event.setPeople(new HashMap<>());
+                        }
+                        if (event.getRequests() == null) {
+                            event.setRequests(new HashMap<>());
+                        }
+
+                        eventsList.add(event);
+                    }
+                }
+                dataStatus.DataLoaded(eventsList);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Failed to load events", databaseError.toException());
+                dataStatus.onError(databaseError);
+            }
+        });
+    }
+
+    //loads the organizers past events
+    public void loadPastEventsForCurrentUser (String organizerId, DataStatus dataStatus){
+        long currentTime = Calendar.getInstance().getTimeInMillis();
+
+        eventsRef.orderByChild("organizerId").equalTo(organizerId).addListenerForSingleValueEvent(new ValueEventListener() {
+            public void onDataChange(DataSnapshot dataSnapshot){
+                List<Event> eventsList = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Event event = snapshot.getValue(Event.class);
+                    if (event != null && event.getLongDate() < currentTime){
                         event.setEventId(snapshot.getKey());
 
                         // Ensure people and requests lists are not null

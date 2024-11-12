@@ -44,9 +44,20 @@ public class EventListActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String organizerId = user.getUid();
 
-        //then load events specific to that user
-        firebaseEventHelper.loadEventsForCurrentUser(organizerId, new FirebaseEventHelper.DataStatus() {
+        //isPastEvents toggle
+        boolean isPastEvents = getIntent().getBooleanExtra("isPastEvents", false);
+        if (isPastEvents) {
+            loadPastEvents(organizerId);
+        } else {
+            loadCurrentEvents(organizerId);
+        }
+    }
+    public void onBackButtonClick(View view) {
+        finish();  // Closes the current activity and returns to the previous one
+    }
 
+    private void loadCurrentEvents(String organizerId) {
+        firebaseEventHelper.loadEventsForCurrentUser(organizerId, new FirebaseEventHelper.DataStatus() {
             @Override
             public void DataLoaded(List<Event> events) {
                 eventList.clear();
@@ -57,12 +68,25 @@ public class EventListActivity extends AppCompatActivity {
 
             @Override
             public void onError(DatabaseError error) {
-                Toast.makeText(EventListActivity.this, "Failed to load events: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(EventListActivity.this, "Failed to load current events: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
-    public void onBackButtonClick(View view) {
-        finish();  // Closes the current activity and returns to the previous one
+
+    private void loadPastEvents(String organizerId) {
+        firebaseEventHelper.loadPastEventsForCurrentUser(organizerId, new FirebaseEventHelper.DataStatus() {
+            @Override
+            public void DataLoaded(List<Event> events) {
+                eventList.clear();
+                eventList.addAll(events);
+                adapter = new EventAdapter(eventList, EventListActivity.this);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onError(DatabaseError error) {
+                Toast.makeText(EventListActivity.this, "Failed to load past events: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

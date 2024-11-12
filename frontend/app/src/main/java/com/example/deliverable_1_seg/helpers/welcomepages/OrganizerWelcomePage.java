@@ -46,6 +46,17 @@ public class OrganizerWelcomePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(OrganizerWelcomePage.this, EventListActivity.class);
+                intent.putExtra("isPastEvents", false);
+                startActivity(intent);
+            }
+        });
+
+        Button pastEventsButton = findViewById(R.id.pastEventsButton);
+        pastEventsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrganizerWelcomePage.this, EventListActivity.class);
+                intent.putExtra("isPastEvents", true);
                 startActivity(intent);
             }
         });

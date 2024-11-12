@@ -27,6 +27,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_event" />
 
+    <Button
+        android:id="@+id/pastEventsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="View Past Events"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/manageEventsButton" />
+
     <TextView
         android:id="@+id/WelcomeMessage"
         android:layout_width="269dp"
@@ -43,14 +54,12 @@
         android:id="@+id/OrganizerLogOut_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="24dp"
         android:backgroundTint="#141413"
         android:onClick="logOut"
         android:text="Log Out"
         app:layout_constraintEnd_toEndOf="parent"
-
-
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/manageEventsButton" />
+        app:layout_constraintTop_toBottomOf="@+id/pastEventsButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>
