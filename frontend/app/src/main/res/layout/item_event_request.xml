@@ -20,41 +20,11 @@
             android:layout_height="wrap_content"
             android:text="Title" />
 
-        <TextView
-            android:id="@+id/textViewDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date" />
-
-        <TextView
-            android:id="@+id/textViewStartTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start Time" />
-
-        <TextView
-            android:id="@+id/textViewEndTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="End Time" />
-
-        <TextView
-            android:id="@+id/textViewDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Description" />
-
         <Button
             android:id="@+id/buttonAcceptRequest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Manage Registration Requests"/>
-
-        <Button
-            android:id="@+id/buttonDeleteEvent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete Event"/>
+            android:text="Approve" />
 
     </LinearLayout>
 

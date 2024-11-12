@@ -133,13 +133,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewTitle = itemView.findViewById(R.id.textViewTitle);
+            textViewTitle = itemView.findViewById(R.id.textViewName);
             textViewDate = itemView.findViewById(R.id.textViewDate);
             textViewStartTime = itemView.findViewById(R.id.textViewStartTime);
             textViewEndTime = itemView.findViewById(R.id.textViewEndTime);
             textViewDescription = itemView.findViewById(R.id.textViewDescription);
 
-            buttonManageRequests = itemView.findViewById(R.id.buttonManageRequests);
+            buttonManageRequests = itemView.findViewById(R.id.buttonAcceptRequest);
             buttonDeleteEvent = itemView.findViewById(R.id.buttonDeleteEvent);
 
 
