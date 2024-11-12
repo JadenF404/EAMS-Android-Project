@@ -14,6 +14,18 @@ public class RegistrationRequest {
     // Required empty constructor for Firebase
     public RegistrationRequest() {}
 
+    public RegistrationRequest(String userId, String firstName, String lastName, String email, String phoneNumber, String address) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.status = status;
+        this.userType = userType;
+        this.orgName = orgName;
+    }
+
     // Constructor to initialize all fields
     public RegistrationRequest(String userId, String firstName, String lastName, String email, String address, String phoneNumber, String status, String userType, String orgName) {
         this.userId = userId;

@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.deliverable_1_seg.helpers.db.Event;
+import com.example.deliverable_1_seg.helpers.db.RegistrationRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +36,7 @@ public class FirebaseEventHelper {
         void onError(DatabaseError error);
     }
     public interface requestStatus {
-        void DataLoaded(List<String> events);
+        void DataLoaded(List<RegistrationRequest> events);
         void onError(DatabaseError error);
     }
 
@@ -157,31 +158,54 @@ public class FirebaseEventHelper {
     // Loads the list of requests by eventId and returns a list of request strings
     public void loadRequestsByEventId(String eventId, requestStatus requestStatus) {
         eventsRef.child(eventId).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
+            //            @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Check if the event exists
 //                if (dataSnapshot.exists()) {
 
-                    // Create a list to hold the request strings
-                    List<String> requestList = new ArrayList<>();
+                // Create a list to hold the request strings
+                List<RegistrationRequest> requestList = new ArrayList<>();
 
-                    // Check if the 'requests' node exists
-                    if (dataSnapshot.child("requests").exists()) {
-                        // Loop through the 'requests' map and collect all request values
-                        for (DataSnapshot requestSnapshot : dataSnapshot.child("requests").getChildren()) {
-                            String request = requestSnapshot.getValue(String.class);
-                            if (request != null) {
-                                requestList.add(request);
-                            }
+                // Check if the 'requests' node exists
+                if (dataSnapshot.child("requests").exists()) {
+                    // Loop through the 'requests' map and collect all request values
+                    for (DataSnapshot requestSnapshot : dataSnapshot.child("requests").getChildren()) {
+                        String userID = requestSnapshot.getKey();
+                        Boolean value = requestSnapshot.getValue(Boolean.class);
+
+                        if (value != null && value) {
+                            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("attendee/attendee_requests").child(userID);
+
+                            usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot userSnapshot) {
+                                    String firstname = userSnapshot.child("firstName").getValue(String.class);
+                                    String lastname = userSnapshot.child("lastName").getValue(String.class);
+                                    String email = userSnapshot.child("email").getValue(String.class);
+                                    String phone = userSnapshot.child("phoneNumber").getValue(String.class);
+                                    String address = userSnapshot.child("address").getValue(String.class);
+
+                                    RegistrationRequest registrationRequest = new RegistrationRequest(userID, firstname, lastname, email, phone, address);
+                                    requestList.add(registrationRequest);
+
+                                    if (requestList.size() == dataSnapshot.child("requests").getChildrenCount()) {
+                                        requestStatus.DataLoaded(requestList);
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.e(TAG, "Failed to load user details", databaseError.toException());
+                                    requestStatus.onError(databaseError);
+                                }
+                            });
                         }
                     }
-
+                } else {
                     requestStatus.DataLoaded(requestList);
-//                } else {
-//                    dataStatus.onError(new DatabaseError(DatabaseError.DISCONNECTED, "Event not found"));
-//                }
+                }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "Failed to load requests", databaseError.toException());

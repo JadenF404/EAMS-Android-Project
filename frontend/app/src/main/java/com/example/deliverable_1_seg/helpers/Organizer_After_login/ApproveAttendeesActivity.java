@@ -20,6 +20,12 @@ import com.example.deliverable_1_seg.helpers.db.PendingAttendeeAdapter;
 import com.example.deliverable_1_seg.helpers.db.RegistrationRequest;
 import com.example.deliverable_1_seg.helpers.welcomepages.AttendeeWelcomePage;
 import com.google.firebase.database.DatabaseError;
+<<<<<<< HEAD
+=======
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+>>>>>>> 1f26a65c940a6d125cb81958124be9fd3a4e4513
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +34,12 @@ public class ApproveAttendeesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private EventRequestAdapter adapter;
     private FirebaseEventHelper firebaseHelper;
+<<<<<<< HEAD
+=======
+    private FirebaseEventHelper firebaseEventHelper;
+>>>>>>> 1f26a65c940a6d125cb81958124be9fd3a4e4513
     private List<RegistrationRequest> pendingRequests;
-    private ArrayList<String> eventList = new ArrayList<>();
-
+    private List<RegistrationRequest> requestList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +50,15 @@ public class ApproveAttendeesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         pendingRequests = new ArrayList<>();
+<<<<<<< HEAD
         firebaseHelper = new FirebaseEventHelper();
+=======
+        firebaseEventHelper = new FirebaseEventHelper();
+>>>>>>> 1f26a65c940a6d125cb81958124be9fd3a4e4513
 
         String eventId = getIntent().getStringExtra("eventId");
 
-        eventList = new ArrayList<>();
+        requestList = new ArrayList<>();
 
         if (eventId != null) {
             loadPendingRequests(eventId);
@@ -57,12 +70,16 @@ public class ApproveAttendeesActivity extends AppCompatActivity {
     }
 
     private void loadPendingRequests(String eventId){
+<<<<<<< HEAD
        firebaseHelper.loadRequestsByEventId(eventId, new FirebaseEventHelper.requestStatus() {
+=======
+        firebaseEventHelper.loadRequestsByEventId(eventId, new FirebaseEventHelper.requestStatus() {
+>>>>>>> 1f26a65c940a6d125cb81958124be9fd3a4e4513
 
-           public void DataLoaded(List<String> events) {
-               eventList.clear();
-               eventList.addAll(events);
-               adapter = new EventRequestAdapter(eventList, ApproveAttendeesActivity.this);
+           public void DataLoaded(List<RegistrationRequest> requests) {
+               requestList.clear();
+               requestList.addAll(requests);
+               adapter = new EventRequestAdapter(requestList, ApproveAttendeesActivity.this, eventId);
                recyclerView.setAdapter(adapter);
            }
 
