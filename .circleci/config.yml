@@ -11,7 +11,7 @@ jobs:
       # Adjust paths for caching
       - restore_cache:
           keys:
-            - gradle-{{ checksum "frontend/build.gradle" }}
+            - gradle-{{ checksum "build.gradle" }}
             - gradle-
 
       # Run the build
@@ -28,7 +28,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle
-          key: gradle-{{ checksum "frontend/build.gradle" }}
+          key: gradle-{{ checksum "build.gradle" }}
 
       # Store test results and APK
       - store_test_results:
