@@ -24,21 +24,21 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapter.RequestViewHolder> {
 
-    private ArrayList<String> requestList;
+    private List<RegistrationRequest> requestList;
     private Context context;
     private String userID;
     private String eventID;
 
-    public EventRequestAdapter(ArrayList<String> requestList, AppCompatActivity eventListActivity) {
-        Bundle resultIntent = getIntent().getExtras();
-        eventID = resultIntent.getString("eventId");
+    public EventRequestAdapter(List<RegistrationRequest> requestList, AppCompatActivity eventListActivity, String eventID) {
+
 
         this.requestList = requestList;
         this.context = eventListActivity;
-
+        this.eventID = eventID;
         //get current user
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         userID = user.getUid();
@@ -47,7 +47,7 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
     @NonNull
     @Override
     public RequestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_request, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pending_attendee, parent, false);
         return new RequestViewHolder(view);
     }
 
@@ -55,15 +55,21 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
     public void onBindViewHolder(@NonNull RequestViewHolder holder, int position) {
         FirebaseEventHelper eventHelper = new FirebaseEventHelper();
 
-        String request = requestList.get(position);
+        RegistrationRequest request = requestList.get(position);
 
-
-        holder.textViewName.setText(request);
+        // Display each user's details
+        holder.textViewFirstName.setText(request.getFirstName());
+        holder.textViewLastName.setText(request.getLastName());
+        holder.textViewEmail.setText(request.getEmail());
+        holder.textViewPhone.setText(request.getPhoneNumber());
+        holder.textViewAddress.setText(request.getAddress());
 
             //manage requests button
             holder.buttonAcceptRequest.setOnClickListener(v -> {
-                Intent intent = new Intent(context, EventRequestAdapter.class);
-                eventHelper.removeUserFromRequests(request, eventID, new FirebaseEventHelper.writeCallback() {
+                String userID = request.getUserId();
+
+                //Intent intent = new Intent(context, EventRequestAdapter.class);
+                eventHelper.removeUserFromRequests(eventID, userID, new FirebaseEventHelper.writeCallback() {
                     @Override
                     public void onSuccess() {
                         Toast.makeText(context, "Joined event successfully!", Toast.LENGTH_SHORT).show();
@@ -75,7 +81,7 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
                     }
                 });
 
-                eventHelper.joinEvent(request, eventID, new FirebaseEventHelper.writeCallback() {
+                eventHelper.joinEvent(eventID, userID, new FirebaseEventHelper.writeCallback() {
                     @Override
                     public void onSuccess() {
                         Toast.makeText(context, "Joined event successfully!", Toast.LENGTH_SHORT).show();
@@ -87,9 +93,31 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
                     }
                 });
 //                intent.putExtra("eventId", event.getEventId());
-                context.startActivity(intent);
+                //context.startActivity(intent);
             });
 
+            //reject button
+        holder.buttonRejectRequest.setOnClickListener(v ->{
+            String userID = request.getUserId();
+
+            // Remove the user from the requests list in Firebase (rejecting the request)
+            eventHelper.removeUserFromRequests(eventID, userID, new FirebaseEventHelper.writeCallback() {
+                @Override
+                public void onSuccess() {
+                    Toast.makeText(context, "User request rejected successfully!", Toast.LENGTH_SHORT).show();
+
+                    //remove the item from the list in the adapter and notify the adapter to refresh the view
+                    requestList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, requestList.size());
+                }
+
+                @Override
+                public void onFailure(DatabaseError error) {
+                    Toast.makeText(context, "Failed to reject user request: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
 
     }
 
@@ -99,15 +127,21 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
     }
 
     public static class RequestViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewName;
-        Button buttonAcceptRequest;
+        TextView textViewFirstName, textViewLastName;
+        TextView textViewEmail;
+        TextView textViewPhone;
+        TextView textViewAddress;
+        Button buttonAcceptRequest, buttonRejectRequest;
 
         public RequestViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewName = itemView.findViewById(R.id.textViewName);
-
-            buttonAcceptRequest = itemView.findViewById(R.id.buttonAcceptRequest);
-
+            textViewFirstName = itemView.findViewById(R.id.textViewFirstName);
+            textViewLastName = itemView.findViewById(R.id.textViewLastName);
+            textViewEmail = itemView.findViewById(R.id.textViewEmail);
+            textViewPhone = itemView.findViewById(R.id.textViewPhoneNumber);
+            textViewAddress = itemView.findViewById(R.id.textViewAddress);
+            buttonAcceptRequest = itemView.findViewById(R.id.buttonApprove);
+            buttonRejectRequest = itemView.findViewById(R.id.buttonReject);
 
         }
     }
