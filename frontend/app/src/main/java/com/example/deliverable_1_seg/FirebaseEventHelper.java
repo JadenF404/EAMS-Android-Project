@@ -12,11 +12,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FirebaseEventHelper {
     private static final String TAG = "FirebaseEventHelper";
-    private final DatabaseReference eventsRef;
+    public final DatabaseReference eventsRef;
 
     public FirebaseEventHelper() {
         // Initialize Firebase reference for events
@@ -66,10 +67,10 @@ public class FirebaseEventHelper {
 
                         // Ensure people and requests lists are not null
                         if (event.getPeople() == null) {
-                            event.setPeople(new ArrayList<>());
+                            event.setPeople(new HashMap<>());
                         }
                         if (event.getRequests() == null) {
-                            event.setRequests(new ArrayList<>());
+                            event.setRequests(new HashMap<>());
                         }
 
                         eventsList.add(event);
@@ -85,7 +86,7 @@ public class FirebaseEventHelper {
         });
     }
 
-    //loads the organizers current events
+    //loads the all current events
     public void loadAllEvents (DataStatus dataStatus){
         eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             public void onDataChange(DataSnapshot dataSnapshot){
@@ -93,6 +94,12 @@ public class FirebaseEventHelper {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Event event = snapshot.getValue(Event.class);
                     if (event != null){
+                        if (event.getPeople() == null) {
+                            event.setPeople(new HashMap<>());
+                        }
+                        if (event.getRequests() == null) {
+                            event.setRequests(new HashMap<>());
+                        }
                         event.setEventId(snapshot.getKey());
                         eventsList.add(event);
                     }
@@ -128,8 +135,8 @@ public class FirebaseEventHelper {
         if (eventId != null && userID != null) {
             DatabaseReference peopleRef = eventsRef.child(eventId).child("people");
 
-            // Add the user ID to the "people" list (push creates a new entry with a unique key)
-            peopleRef.push().setValue(userID).addOnCompleteListener(task -> {
+            // Add the user ID to the "people" list (push creates a new entry userID as key, second value as true)
+            peopleRef.child(userID).setValue(true).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "User joined event successfully");
                     callback.onSuccess();
@@ -149,7 +156,7 @@ public class FirebaseEventHelper {
             DatabaseReference requestsRef = eventsRef.child(eventId).child("requests");
 
             // Add the user ID to the "requests" list
-            requestsRef.push().setValue(userID).addOnCompleteListener(task -> {
+            requestsRef.child(userID).setValue(true).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "User requested event successfully");
                     callback.onSuccess();
@@ -166,25 +173,15 @@ public class FirebaseEventHelper {
 
     public void removeUserFromPeople(String eventId, String userID, writeCallback callback) {
         if (eventId != null && userID != null) {
-            DatabaseReference peopleRef = eventsRef.child(eventId).child("people");
+            DatabaseReference peopleRef = eventsRef.child(eventId).child("people").child(userID);
 
-            // Query for the user in the "people" list and remove it
-            peopleRef.orderByValue().equalTo(userID).get().addOnCompleteListener(task -> {
+            // Remove the user ID key
+            peopleRef.removeValue().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    DataSnapshot snapshot = task.getResult();
-                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        userSnapshot.getRef().removeValue().addOnCompleteListener(removeTask -> {
-                            if (removeTask.isSuccessful()) {
-                                Log.d(TAG, "User removed from people list successfully");
-                                callback.onSuccess();
-                            } else {
-                                Log.e(TAG, "Failed to remove user", removeTask.getException());
-                                callback.onFailure(DatabaseError.fromException(removeTask.getException()));
-                            }
-                        });
-                    }
+                    Log.d(TAG, "User removed from people list successfully");
+                    callback.onSuccess();
                 } else {
-                    Log.e(TAG, "Failed to find user in people list", task.getException());
+                    Log.e(TAG, "Failed to remove user", task.getException());
                     callback.onFailure(DatabaseError.fromException(task.getException()));
                 }
             });
@@ -197,25 +194,15 @@ public class FirebaseEventHelper {
 
     public void removeUserFromRequests(String eventId, String userID, writeCallback callback) {
         if (eventId != null && userID != null) {
-            DatabaseReference requestsRef = eventsRef.child(eventId).child("requests");
+            DatabaseReference requestsRef = eventsRef.child(eventId).child("requests").child(userID);
 
-            // Query for the user in the "requests" list and remove it
-            requestsRef.orderByValue().equalTo(userID).get().addOnCompleteListener(task -> {
+            // Remove the user ID key directly
+            requestsRef.removeValue().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    DataSnapshot snapshot = task.getResult();
-                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                        userSnapshot.getRef().removeValue().addOnCompleteListener(removeTask -> {
-                            if (removeTask.isSuccessful()) {
-                                Log.d(TAG, "User removed from requests list successfully");
-                                callback.onSuccess();
-                            } else {
-                                Log.e(TAG, "Failed to remove user from requests list", removeTask.getException());
-                                callback.onFailure(DatabaseError.fromException(removeTask.getException()));
-                            }
-                        });
-                    }
+                    Log.d(TAG, "User removed from requests list successfully");
+                    callback.onSuccess();
                 } else {
-                    Log.e(TAG, "Failed to find user in requests list", task.getException());
+                    Log.e(TAG, "Failed to remove user from requests list", task.getException());
                     callback.onFailure(DatabaseError.fromException(task.getException()));
                 }
             });
@@ -224,5 +211,6 @@ public class FirebaseEventHelper {
             callback.onFailure(DatabaseError.fromException(new Exception("Event ID or User ID is null")));
         }
     }
+
 
 }

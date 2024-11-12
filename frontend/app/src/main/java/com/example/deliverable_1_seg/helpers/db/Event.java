@@ -1,7 +1,9 @@
 package com.example.deliverable_1_seg.helpers.db;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Event {
 
@@ -13,46 +15,9 @@ public class Event {
     private String description;
     private String organizerId;
     private String address;
-
-    public void setRequests(List<String> requests) {
-        this.requests = requests;
-    }
-
-    public void setPeople(List<String> people) {
-        this.people = people;
-    }
-
-    private List<String> people = new ArrayList<>();
-    private List<String> requests = new ArrayList<>();
-
-
-    public List<String> getPeople() {
-        return people;
-    }
-
-    public void addPeople(String userID) {
-        people.add(userID);
-    }
-
-    public boolean removePeople(String userID){
-        return people.remove(userID);
-    }
-
-    public List<String> getRequests() {
-        return requests;
-    }
-
-    public void addRequests(String userID) {
-        requests.add(userID);
-    }
-
-    public boolean removeRequests(String userID){
-        return requests.remove(userID);
-    }
-
-
-
     private boolean automaticApproval;
+    private Map<String, Boolean> people = new HashMap<>();
+    private Map<String, Boolean> requests = new HashMap<>();
 
     // Empty constructor for Firebase
     public Event() {}
@@ -143,5 +108,52 @@ public class Event {
     public void setAddress(String address) {
         this.address = address;
     }
+
+
+
+    public Map<String, Boolean> getPeople() {
+        return people;
+    }
+
+    public void setPeople(Map<String, Boolean> people) {
+        this.people = people;
+    }
+
+    public void addPerson(String userId) {
+        if (people == null) {
+            people = new HashMap<>();
+        }
+        people.put(userId, true);
+    }
+
+    public boolean removePerson(String userId) {
+        if (people != null) {
+            return people.remove(userId) != null;
+        }
+        return false;
+    }
+    public Map<String, Boolean> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(Map<String, Boolean> requests) {
+        this.requests = requests;
+    }
+
+    public void addRequest(String userId) {
+        if (requests == null) {
+            requests = new HashMap<>();
+        }
+        requests.put(userId, true);
+    }
+
+    public boolean removeRequest(String userId) {
+        if (requests != null) {
+            return requests.remove(userId) != null;
+        }
+        return false;
+    }
+
+
 }
 

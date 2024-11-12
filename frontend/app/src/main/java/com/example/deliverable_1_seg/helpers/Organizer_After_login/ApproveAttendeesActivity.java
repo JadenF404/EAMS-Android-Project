@@ -5,14 +5,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.deliverable_1_seg.FirebaseEventHelper;
 import com.example.deliverable_1_seg.FirebaseHelper;
 import com.example.deliverable_1_seg.R;
 import com.example.deliverable_1_seg.helpers.db.PendingAttendeeAdapter;
 import com.example.deliverable_1_seg.helpers.db.RegistrationRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +25,7 @@ import java.util.List;
 public class ApproveAttendeesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private PendingAttendeeAdapter adapter;
-    private FirebaseHelper firebaseHelper;
+    private FirebaseEventHelper firebaseEventHelper;
     private List<RegistrationRequest> pendingRequests;
 
 
@@ -33,7 +38,7 @@ public class ApproveAttendeesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         pendingRequests = new ArrayList<>();
-        firebaseHelper = new FirebaseHelper();
+        firebaseEventHelper = new FirebaseEventHelper();
 
         String eventId = getIntent().getStringExtra("eventId");
 
@@ -47,7 +52,7 @@ public class ApproveAttendeesActivity extends AppCompatActivity {
     }
 
     private void loadPendingRequests(String eventId){
-        //ToDo implement method
+
     }
 
     public void onBackButtonClick(View view) {
