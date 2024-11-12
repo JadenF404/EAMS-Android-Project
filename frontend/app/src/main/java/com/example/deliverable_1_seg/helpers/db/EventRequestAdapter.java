@@ -1,7 +1,4 @@
 package com.example.deliverable_1_seg.helpers.db;
-//import static android.content.Intent.getIntent;
-//import static android.content.Intent.parseUri;
-
 import static android.content.Intent.getIntent;
 
 import android.os.Bundle;
@@ -38,20 +35,8 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
     private String userID;
     private String eventID;
 
-<<<<<<< HEAD
-    public EventRequestAdapter(ArrayList<String> requestList, AppCompatActivity eventListActivity) {
-//        Bundle resultIntent = getIntent().getExtras();
-//        try {
-//            eventID = parseUri("eventId", 1).getStringExtra("eventiD");
-//        } catch (URISyntaxException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        String eventId = getIntent().getStringExtra("eventId");
-=======
     public EventRequestAdapter(List<RegistrationRequest> requestList, AppCompatActivity eventListActivity, String eventID) {
 
->>>>>>> 1f26a65c940a6d125cb81958124be9fd3a4e4513
 
         this.requestList = requestList;
         this.context = eventListActivity;
@@ -113,6 +98,28 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
                 //context.startActivity(intent);
             });
 
+            //reject button
+        holder.buttonRejectRequest.setOnClickListener(v ->{
+            String userID = request.getUserId();
+
+            // Remove the user from the requests list in Firebase (rejecting the request)
+            eventHelper.removeUserFromRequests(eventID, userID, new FirebaseEventHelper.writeCallback() {
+                @Override
+                public void onSuccess() {
+                    Toast.makeText(context, "User request rejected successfully!", Toast.LENGTH_SHORT).show();
+
+                    //remove the item from the list in the adapter and notify the adapter to refresh the view
+                    requestList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, requestList.size());
+                }
+
+                @Override
+                public void onFailure(DatabaseError error) {
+                    Toast.makeText(context, "Failed to reject user request: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
             //reject button
         holder.buttonRejectRequest.setOnClickListener(v ->{
             String userID = request.getUserId();
