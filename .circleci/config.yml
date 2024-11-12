@@ -17,11 +17,8 @@ jobs:
 
       - run:
           name: Install OpenJDK 17
-          command: |
-            sudo apt-get install openjdk-17-jdk
-            sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
-            sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
-            java -version
+          command: #|
+            sudo apt install -y openjdk-17-jdk
 
       # # Install Java 17
       # - run:
@@ -29,9 +26,9 @@ jobs:
       #     command: |
       #       sudo apt update
       #       sudo apt install -y openjdk-17-jdk
-      # - run:
-      #     name: Verify Java version
-      #     command: java -version
+      - run:
+          name: Verify Java version
+          command: java -version
 
       # Restore Gradle cache
       - restore_cache:
