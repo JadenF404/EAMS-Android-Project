@@ -1,6 +1,7 @@
 package com.example.deliverable_1_seg.helpers.db;
 import static android.content.Intent.getIntent;
-import static android.content.Intent.parseUri;
+
+import android.os.Bundle;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +98,28 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
                 //context.startActivity(intent);
             });
 
+            //reject button
+        holder.buttonRejectRequest.setOnClickListener(v ->{
+            String userID = request.getUserId();
+
+            // Remove the user from the requests list in Firebase (rejecting the request)
+            eventHelper.removeUserFromRequests(eventID, userID, new FirebaseEventHelper.writeCallback() {
+                @Override
+                public void onSuccess() {
+                    Toast.makeText(context, "User request rejected successfully!", Toast.LENGTH_SHORT).show();
+
+                    //remove the item from the list in the adapter and notify the adapter to refresh the view
+                    requestList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, requestList.size());
+                }
+
+                @Override
+                public void onFailure(DatabaseError error) {
+                    Toast.makeText(context, "Failed to reject user request: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
             //reject button
         holder.buttonRejectRequest.setOnClickListener(v ->{
             String userID = request.getUserId();
