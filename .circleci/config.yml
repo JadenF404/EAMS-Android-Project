@@ -4,6 +4,9 @@ executors:
   android-executor:
     docker:
       - image: circleci/android:api-30
+    environment:
+      JAVA_HOME: /usr/local/openjdk-17
+      PATH: /usr/local/openjdk-17/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     working_directory: ~/frontend
 
 jobs:
