@@ -32,6 +32,10 @@ public class FirebaseEventHelper {
         void DataLoaded(List<Event> events);
         void onError(DatabaseError error);
     }
+    public interface requestStatus {
+        void DataLoaded(List<String> events);
+        void onError(DatabaseError error);
+    }
 
     //method called when creating event
     public void addEvent(Event event, writeCallback callback){
@@ -103,6 +107,42 @@ public class FirebaseEventHelper {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "Failed to load events", databaseError.toException());
                 dataStatus.onError(databaseError);
+            }
+        });
+    }
+
+    // Loads the list of requests by eventId and returns a list of request strings
+    public void loadRequestsByEventId(String eventId, requestStatus requestStatus) {
+        eventsRef.child(eventId).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Check if the event exists
+//                if (dataSnapshot.exists()) {
+
+                    // Create a list to hold the request strings
+                    List<String> requestList = new ArrayList<>();
+
+                    // Check if the 'requests' node exists
+                    if (dataSnapshot.child("requests").exists()) {
+                        // Loop through the 'requests' map and collect all request values
+                        for (DataSnapshot requestSnapshot : dataSnapshot.child("requests").getChildren()) {
+                            String request = requestSnapshot.getValue(String.class);
+                            if (request != null) {
+                                requestList.add(request);
+                            }
+                        }
+                    }
+
+                    requestStatus.DataLoaded(requestList);
+//                } else {
+//                    dataStatus.onError(new DatabaseError(DatabaseError.DISCONNECTED, "Event not found"));
+//                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Failed to load requests", databaseError.toException());
+                requestStatus.onError(databaseError);
             }
         });
     }
