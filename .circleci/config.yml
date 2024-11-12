@@ -4,7 +4,7 @@ executors:
   android-executor:
     docker:
       - image: circleci/android:api-30
-            - image: openjdk:17
+      - image: openjdk:17
     # environment:
     #   JAVA_HOME: /usr/lib/jvm/java-17-openjdk
     #   PATH: /usr/lib/jvm/java-17-openjdk/bin:$PATH
