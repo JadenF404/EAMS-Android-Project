@@ -28,49 +28,53 @@ public class FirebaseEventHelper {
 
     public interface writeCallback {
         void onSuccess();
+
         void onFailure(DatabaseError error);
     }
 
     public interface DataStatus {
         void DataLoaded(List<Event> events);
+
         void onError(DatabaseError error);
     }
+
     public interface requestStatus {
         void DataLoaded(List<RegistrationRequest> events);
+
         void onError(DatabaseError error);
     }
 
     //method called when creating event
-    public void addEvent(Event event, writeCallback callback){
+    public void addEvent(Event event, writeCallback callback) {
         String eventID = eventsRef.push().getKey();
 
-       if (eventID != null){
-           event.setEventId(eventID);
-           eventsRef.child(eventID).setValue(event).addOnCompleteListener(task -> {
-               if (task.isSuccessful()){
-                   Log.d(TAG, "Event added successfully");
-                   callback.onSuccess();
-               } else {
-                   Log.e(TAG, "Failed to add event", task.getException());
-                   callback.onFailure(DatabaseError.fromException(task.getException()));
-               }
-           });
-       } else {
-           Log.e(TAG, "Failed to generate unique event ID.");
-           callback.onFailure(DatabaseError.fromException(new Exception("Failed to generate unique event ID.")));
-       }
+        if (eventID != null) {
+            event.setEventId(eventID);
+            eventsRef.child(eventID).setValue(event).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Event added successfully");
+                    callback.onSuccess();
+                } else {
+                    Log.e(TAG, "Failed to add event", task.getException());
+                    callback.onFailure(DatabaseError.fromException(task.getException()));
+                }
+            });
+        } else {
+            Log.e(TAG, "Failed to generate unique event ID.");
+            callback.onFailure(DatabaseError.fromException(new Exception("Failed to generate unique event ID.")));
+        }
     }
 
     //loads the organizers current events
-    public void loadEventsForCurrentUser (String organizerId, DataStatus dataStatus){
+    public void loadEventsForCurrentUser(String organizerId, DataStatus dataStatus) {
         long currentTime = Calendar.getInstance().getTimeInMillis();
 
         eventsRef.orderByChild("organizerId").equalTo(organizerId).addListenerForSingleValueEvent(new ValueEventListener() {
-            public void onDataChange(DataSnapshot dataSnapshot){
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Event> eventsList = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Event event = snapshot.getValue(Event.class);
-                    if (event != null && event.getLongDate() > currentTime){
+                    if (event != null && event.getLongDate() > currentTime) {
                         event.setEventId(snapshot.getKey());
 
                         // Ensure people and requests lists are not null
@@ -86,6 +90,7 @@ public class FirebaseEventHelper {
                 }
                 dataStatus.DataLoaded(eventsList);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "Failed to load events", databaseError.toException());
@@ -95,15 +100,15 @@ public class FirebaseEventHelper {
     }
 
     //loads the organizers past events
-    public void loadPastEventsForCurrentUser (String organizerId, DataStatus dataStatus){
+    public void loadPastEventsForCurrentUser(String organizerId, DataStatus dataStatus) {
         long currentTime = Calendar.getInstance().getTimeInMillis();
 
         eventsRef.orderByChild("organizerId").equalTo(organizerId).addListenerForSingleValueEvent(new ValueEventListener() {
-            public void onDataChange(DataSnapshot dataSnapshot){
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Event> eventsList = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Event event = snapshot.getValue(Event.class);
-                    if (event != null && event.getLongDate() < currentTime){
+                    if (event != null && event.getLongDate() < currentTime) {
                         event.setEventId(snapshot.getKey());
 
                         // Ensure people and requests lists are not null
@@ -119,6 +124,7 @@ public class FirebaseEventHelper {
                 }
                 dataStatus.DataLoaded(eventsList);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "Failed to load events", databaseError.toException());
@@ -128,13 +134,13 @@ public class FirebaseEventHelper {
     }
 
     //loads the all current events
-    public void loadAllEvents (DataStatus dataStatus){
+    public void loadAllEvents(DataStatus dataStatus) {
         eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            public void onDataChange(DataSnapshot dataSnapshot){
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 List<Event> eventsList = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Event event = snapshot.getValue(Event.class);
-                    if (event != null){
+                    if (event != null) {
                         if (event.getPeople() == null) {
                             event.setPeople(new HashMap<>());
                         }
@@ -147,6 +153,7 @@ public class FirebaseEventHelper {
                 }
                 dataStatus.DataLoaded(eventsList);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "Failed to load events", databaseError.toException());
@@ -206,6 +213,7 @@ public class FirebaseEventHelper {
                     requestStatus.DataLoaded(requestList);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "Failed to load requests", databaseError.toException());
@@ -214,8 +222,36 @@ public class FirebaseEventHelper {
         });
     }
 
-    public void deleteEvent(String eventId, writeCallback callback){
-        if (eventId != null){
+    //query database for events with certain name
+    public void searchEvents(String keyword, final DataStatus dataStatus) {
+        eventsRef.orderByChild("title")
+                .startAt(keyword)
+                .endAt(keyword + "\uf8ff") //keep this unicode character in otherwise firebase can't query !!!
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        List<Event> eventList = new ArrayList<>();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            Event event = snapshot.getValue(Event.class);
+                            if (event != null) {
+                                event.setEventId(snapshot.getKey());
+                                eventList.add(event);
+                            }
+                        }
+                        dataStatus.DataLoaded(eventList);
+                    }
+
+                    //reuse throw error logger
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Log.e(TAG, "Failed to search events", databaseError.toException());
+                        dataStatus.onError(databaseError);
+                    }
+                });
+    }
+
+    public void deleteEvent(String eventId, writeCallback callback) {
+        if (eventId != null) {
             eventsRef.child(eventId).removeValue().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "Event deleted successfully");
@@ -228,10 +264,10 @@ public class FirebaseEventHelper {
         } else {
             Log.e(TAG, "Event ID is null. Cannot delete event.");
         }
-            callback.onFailure(DatabaseError.fromException(new Exception("Event ID is null")));
+        callback.onFailure(DatabaseError.fromException(new Exception("Event ID is null")));
     }
 
-    public void joinEvent(String eventId, String userID, writeCallback callback){
+    public void joinEvent(String eventId, String userID, writeCallback callback) {
         if (eventId != null && userID != null) {
             DatabaseReference peopleRef = eventsRef.child(eventId).child("people");
 
@@ -251,7 +287,7 @@ public class FirebaseEventHelper {
         }
     }
 
-    public void requestEvent(String eventId, String userID, writeCallback callback){
+    public void requestEvent(String eventId, String userID, writeCallback callback) {
         if (eventId != null && userID != null) {
             DatabaseReference requestsRef = eventsRef.child(eventId).child("requests");
 
@@ -311,6 +347,4 @@ public class FirebaseEventHelper {
             callback.onFailure(DatabaseError.fromException(new Exception("Event ID or User ID is null")));
         }
     }
-
-
 }
