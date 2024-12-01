@@ -3,7 +3,7 @@ package com.example.deliverable_1_seg.helpers;
 public class DataValidator {
 
     public static boolean signUpPassword(String password){
-        if (password == null || password.length() < 8) {
+        if (password == null || password.length() < 6) {
             return false;
         }
 

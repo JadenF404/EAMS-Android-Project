@@ -113,7 +113,7 @@ public class OrganizerLoginActivity extends AppCompatActivity {
         if (signupFirstName.getText().toString().isEmpty()
                 || signupLastName.getText().toString().isEmpty()
                 || email.isEmpty()
-                || !DataValidator.signUpPassword(password)
+                || password.isEmpty()
                 || signupPhone.getText().toString().isEmpty()
                 || signupAddress.getText().toString().isEmpty()
                 || signupOrgName.getText().toString().isEmpty()) {
