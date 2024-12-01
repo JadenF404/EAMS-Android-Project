@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.example.deliverable_1_seg.FirebaseEventHelper;
 import com.example.deliverable_1_seg.MainActivity;
 import com.example.deliverable_1_seg.R;
+import com.example.deliverable_1_seg.helpers.Attendee_After_Login.RegisteredEventsActivity;
+import com.example.deliverable_1_seg.helpers.Attendee_After_Login.SearchEventsActivity;
 import com.example.deliverable_1_seg.helpers.Organizer_After_login.EventListActivity;
 import com.example.deliverable_1_seg.helpers.db.Event;
 import com.example.deliverable_1_seg.helpers.db.EventAdapter;
@@ -38,7 +40,6 @@ public class AttendeeWelcomePage extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.attendee_welcome_page);
 
-
         //log out button
         Button attendeeButton = findViewById(R.id.AttendeeLogOut_button);
         attendeeButton.setOnClickListener(new View.OnClickListener() {
@@ -49,34 +50,28 @@ public class AttendeeWelcomePage extends AppCompatActivity{
             }
         });
 
-        recyclerView = findViewById(R.id.recyclerViewEvents);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Initialize the event list and Firebase helper
-        eventList = new ArrayList<>();
-        firebaseEventHelper = new FirebaseEventHelper();
-
-        //then load events specific to that user
-        firebaseEventHelper.loadAllEvents(new FirebaseEventHelper.DataStatus() {
-
+        //view events button
+        Button eventsButton = findViewById(R.id.searchButton);
+        eventsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void DataLoaded(List<Event> events) {
-                eventList.clear();
-                eventList.addAll(events);
-                adapter = new EventAdapter(eventList, AttendeeWelcomePage.this);
-                recyclerView.setAdapter(adapter);
+            public void onClick(View v) {
+                Intent intent = new Intent(AttendeeWelcomePage.this, SearchEventsActivity.class);
+                startActivity(intent);
             }
+        });
 
+        //view registrations button
+        Button registrationButton = findViewById(R.id.viewRegistrationsButton);
+        registrationButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onError(DatabaseError error) {
-                Toast.makeText(AttendeeWelcomePage.this, "Failed to load events: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                Intent intent = new Intent(AttendeeWelcomePage.this, RegisteredEventsActivity.class);
+                startActivity(intent);
             }
         });
 
     }
-
-
-
+    
     public void logOut(View view){
         finish();
 

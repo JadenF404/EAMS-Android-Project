@@ -29,7 +29,9 @@
         <activity android:name=".helpers.welcomepages.AttendeeWelcomePage"/>
         <activity android:name=".helpers.welcomepages.AttendeePendingPage"/>
 
-
+        <!-- Attendee Specific, AFTER LOGIN classes-->
+        <activity android:name=".helpers.Attendee_After_Login.RegisteredEventsActivity"/>
+        <activity android:name=".helpers.Attendee_After_Login.SearchEventsActivity"/>
 
         <!-- Organizer Specific classes   -->
         <activity android:name=".user_actions.OrganizerLoginActivity"/>
