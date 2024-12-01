@@ -49,11 +49,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event event = eventList.get(position);
 
-        holder.textViewTitle.setText(event.getTitle());
-        holder.textViewDate.setText(event.getDate());
-        holder.textViewStartTime.setText(event.getStartTime());
-        holder.textViewEndTime.setText(event.getEndTime());
-        holder.textViewDescription.setText(event.getDescription());
+        holder.textViewTitle.setText("Title: " + event.getTitle());
+        holder.textViewDate.setText("Date: " + event.getDate());
+        holder.textViewStartTime.setText("Start Time: " + event.getStartTime());
+        holder.textViewEndTime.setText("End Time: " + event.getEndTime());
+        holder.textViewDescription.setText("Description: " + event.getDescription());
 
         if (manageEvents) {
             //manage requests button

@@ -224,30 +224,31 @@ public class FirebaseEventHelper {
 
     //query database for events with certain name
     public void searchEvents(String keyword, final DataStatus dataStatus) {
-        eventsRef.orderByChild("title")
-                .startAt(keyword)
-                .endAt(keyword + "\uf8ff") //keep this unicode character in otherwise firebase can't query !!!
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        List<Event> eventList = new ArrayList<>();
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            Event event = snapshot.getValue(Event.class);
-                            if (event != null) {
-                                event.setEventId(snapshot.getKey());
-                                eventList.add(event);
-                            }
+        eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Event> eventList = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Event event = snapshot.getValue(Event.class);
+                    if (event != null){
+                        if (event.getTitle() != null && event.getTitle().toLowerCase().contains(keyword.toLowerCase())){
+                            event.setEventId(snapshot.getKey());
+                            eventList.add(event);
+                        } else if (event.getDescription() != null && event.getDescription().toLowerCase().contains(keyword.toLowerCase())){
+                            event.setEventId(snapshot.getKey());
+                            eventList.add(event);
                         }
-                        dataStatus.DataLoaded(eventList);
                     }
+                }
+                dataStatus.DataLoaded(eventList);
+            }
 
-                    //reuse throw error logger
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.e(TAG, "Failed to search events", databaseError.toException());
-                        dataStatus.onError(databaseError);
-                    }
-                });
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Failed to load events", error.toException());
+                dataStatus.onError(error);
+            }
+        });
     }
 
     public void deleteEvent(String eventId, writeCallback callback) {
