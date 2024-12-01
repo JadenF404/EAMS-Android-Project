@@ -40,6 +40,22 @@ public class Event {
 
     }
 
+    // Full constructor with people and requests
+    public Event(String eventId, String title, String date, String startTime, String endTime, String description, String organizerId, String address, boolean automaticApproval, Map<String, Boolean> people, Map<String, Boolean> requests) {
+        this.eventId = eventId;
+        this.title = title;
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.description = description;
+        this.organizerId = organizerId;
+        this.address = address;
+        this.automaticApproval = automaticApproval;
+        this.people = people;
+        this.requests = requests;
+
+    }
+
     // Getters and setters
     public String getEventId() {
         return eventId;

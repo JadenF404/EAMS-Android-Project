@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
@@ -54,6 +55,45 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.textViewStartTime.setText("Start Time: " + event.getStartTime());
         holder.textViewEndTime.setText("End Time: " + event.getEndTime());
         holder.textViewDescription.setText("Description: " + event.getDescription());
+
+        FirebaseEventHelper myEventHelper = new FirebaseEventHelper();
+
+        // Check if the user is registered or has requested the event
+        myEventHelper.loadRegisteredEvents(userID, new FirebaseEventHelper.EventIDDataStatus() {
+            @Override
+            public void DataLoaded(List<String> eventIds) {
+                // Check if the event is in registeredEvents
+                if (eventIds.contains(event.getEventId())) {
+                    holder.textViewStatus.setText("Status: Joined");
+                    holder.buttonManageRequests.setText("Leave Event");
+                } else {
+                    // Check if the event is in requestedEvents
+                    myEventHelper.loadRequestedEvents(userID, new FirebaseEventHelper.EventIDDataStatus() {
+                        @Override
+                        public void DataLoaded(List<String> requestedEventIds) {
+                            if (requestedEventIds.contains(event.getEventId())) {
+                                holder.textViewStatus.setText("Status: Requested");
+                                holder.buttonManageRequests.setText("Cancel Request");
+                            } else {
+                                holder.textViewStatus.setText("Status: Not Joined");
+                                holder.buttonManageRequests.setText(event.isAutomaticApproval() ? "Join Event" : "Ask Permission");
+                            }
+                        }
+
+                        @Override
+                        public void onError(DatabaseError error) {
+                            holder.textViewStatus.setText("Status: Error loading");
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onError(DatabaseError error) {
+                holder.textViewStatus.setText("Status: Error loading");
+            }
+        });
+
 
         if (manageEvents) {
             //manage requests button
@@ -128,7 +168,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     }
 
     public static class EventViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewTitle, textViewDate, textViewStartTime, textViewEndTime, textViewDescription;
+        TextView textViewTitle, textViewDate, textViewStartTime, textViewEndTime, textViewDescription, textViewStatus;
         Button buttonManageRequests, buttonDeleteEvent;
 
         public EventViewHolder(@NonNull View itemView) {
@@ -138,6 +178,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             textViewStartTime = itemView.findViewById(R.id.textViewStartTime);
             textViewEndTime = itemView.findViewById(R.id.textViewEndTime);
             textViewDescription = itemView.findViewById(R.id.textViewDescription);
+            textViewStatus = itemView.findViewById(R.id.textViewStatus);
 
             buttonManageRequests = itemView.findViewById(R.id.buttonAcceptRequest);
             buttonDeleteEvent = itemView.findViewById(R.id.buttonDeleteEvent);

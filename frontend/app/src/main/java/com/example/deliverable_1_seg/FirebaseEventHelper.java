@@ -20,10 +20,13 @@ import java.util.List;
 public class FirebaseEventHelper {
     private static final String TAG = "FirebaseEventHelper";
     public final DatabaseReference eventsRef;
+    public final DatabaseReference attendeeRef;
+
 
     public FirebaseEventHelper() {
         // Initialize Firebase reference for events
         eventsRef = FirebaseDatabase.getInstance().getReference("events");
+        attendeeRef = FirebaseDatabase.getInstance().getReference("attendee/attendee_requests");
     }
 
     public interface writeCallback {
@@ -35,6 +38,11 @@ public class FirebaseEventHelper {
     public interface DataStatus {
         void DataLoaded(List<Event> events);
 
+        void onError(DatabaseError error);
+    }
+
+    public interface EventIDDataStatus {
+        void DataLoaded(List<String> eventIds);
         void onError(DatabaseError error);
     }
 
@@ -251,6 +259,44 @@ public class FirebaseEventHelper {
         });
     }
 
+    // Method to load registered events for the user
+    public void loadRegisteredEvents(String userId, final EventIDDataStatus callback) {
+        attendeeRef.child(userId).child("registeredEvents").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<String> eventIds = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    eventIds.add(snapshot.getKey()); // eventId
+                }
+                callback.DataLoaded(eventIds); // Return the list of eventIds the user is registered for
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                callback.onError(databaseError);
+            }
+        });
+    }
+
+    // Method to load requested events for the user
+    public void loadRequestedEvents(String userId, final EventIDDataStatus callback) {
+        attendeeRef.child(userId).child("requestedEvents").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<String> eventIds = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    eventIds.add(snapshot.getKey()); // eventId
+                }
+                callback.DataLoaded(eventIds); // Return the list of eventIds the user has requested
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                callback.onError(databaseError);
+            }
+        });
+    }
+
     public void deleteEvent(String eventId, writeCallback callback) {
         if (eventId != null) {
             eventsRef.child(eventId).removeValue().addOnCompleteListener(task -> {
@@ -268,15 +314,21 @@ public class FirebaseEventHelper {
         callback.onFailure(DatabaseError.fromException(new Exception("Event ID is null")));
     }
 
-    public void joinEvent(String eventId, String userID, writeCallback callback) {
-        if (eventId != null && userID != null) {
-            DatabaseReference peopleRef = eventsRef.child(eventId).child("people");
-
-            // Add the user ID to the "people" list (push creates a new entry userID as key, second value as true)
-            peopleRef.child(userID).setValue(true).addOnCompleteListener(task -> {
+    public void joinEvent(String eventId, String userId, writeCallback callback) {
+        if (eventId != null && userId != null) {
+            // Add user to the event's "people" list
+            eventsRef.child(eventId).child("people").child(userId).setValue(true).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    Log.d(TAG, "User joined event successfully");
-                    callback.onSuccess();
+                    // Add the event to the user's "registeredEvents"
+                    attendeeRef.child(userId).child("registeredEvents").child(eventId).setValue(true).addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            Log.d(TAG, "User joined event successfully");
+                            callback.onSuccess();
+                        } else {
+                            Log.e(TAG, "Failed to add event to user's registered events", task1.getException());
+                            callback.onFailure(DatabaseError.fromException(task1.getException()));
+                        }
+                    });
                 } else {
                     Log.e(TAG, "Failed to join event", task.getException());
                     callback.onFailure(DatabaseError.fromException(task.getException()));
@@ -288,15 +340,22 @@ public class FirebaseEventHelper {
         }
     }
 
-    public void requestEvent(String eventId, String userID, writeCallback callback) {
-        if (eventId != null && userID != null) {
-            DatabaseReference requestsRef = eventsRef.child(eventId).child("requests");
-
-            // Add the user ID to the "requests" list
-            requestsRef.child(userID).setValue(true).addOnCompleteListener(task -> {
+    // Request event method - Update both "events" and "users" nodes
+    public void requestEvent(String eventId, String userId, writeCallback callback) {
+        if (eventId != null && userId != null) {
+            // Add user to the event's "requests" list
+            eventsRef.child(eventId).child("requests").child(userId).setValue(true).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    Log.d(TAG, "User requested event successfully");
-                    callback.onSuccess();
+                    // Add the event to the user's "requestedEvents"
+                    attendeeRef.child(userId).child("requestedEvents").child(eventId).setValue(true).addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            Log.d(TAG, "User requested event successfully");
+                            callback.onSuccess();
+                        } else {
+                            Log.e(TAG, "Failed to add event to user's requested events", task1.getException());
+                            callback.onFailure(DatabaseError.fromException(task1.getException()));
+                        }
+                    });
                 } else {
                     Log.e(TAG, "Failed to request event", task.getException());
                     callback.onFailure(DatabaseError.fromException(task.getException()));
@@ -308,43 +367,56 @@ public class FirebaseEventHelper {
         }
     }
 
-    public void removeUserFromPeople(String eventId, String userID, writeCallback callback) {
-        if (eventId != null && userID != null) {
-            DatabaseReference peopleRef = eventsRef.child(eventId).child("people").child(userID);
-
-            // Remove the user ID key
-            peopleRef.removeValue().addOnCompleteListener(task -> {
+    // Remove user from the event's "people" list and user's "registeredEvents"
+    public void removeUserFromPeople(String eventId, String userId, writeCallback callback) {
+        if (eventId != null && userId != null) {
+            // Remove user from event's "people" list
+            eventsRef.child(eventId).child("people").child(userId).removeValue().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    Log.d(TAG, "User removed from people list successfully");
-                    callback.onSuccess();
+                    // Remove event from user's "registeredEvents"
+                    attendeeRef.child(userId).child("registeredEvents").child(eventId).removeValue().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            Log.d(TAG, "User removed from event successfully");
+                            callback.onSuccess();
+                        } else {
+                            Log.e(TAG, "Failed to remove event from user's registered events", task1.getException());
+                            callback.onFailure(DatabaseError.fromException(task1.getException()));
+                        }
+                    });
                 } else {
-                    Log.e(TAG, "Failed to remove user", task.getException());
+                    Log.e(TAG, "Failed to remove user from event", task.getException());
                     callback.onFailure(DatabaseError.fromException(task.getException()));
                 }
             });
         } else {
-            Log.e(TAG, "Event ID or User ID is null. Cannot remove user from people list.");
+            Log.e(TAG, "Event ID or User ID is null. Cannot remove user.");
             callback.onFailure(DatabaseError.fromException(new Exception("Event ID or User ID is null")));
         }
     }
 
-
-    public void removeUserFromRequests(String eventId, String userID, writeCallback callback) {
-        if (eventId != null && userID != null) {
-            DatabaseReference requestsRef = eventsRef.child(eventId).child("requests").child(userID);
-
-            // Remove the user ID key directly
-            requestsRef.removeValue().addOnCompleteListener(task -> {
+    // Remove user from the event's "requests" list and user's "requestedEvents"
+    public void removeUserFromRequests(String eventId, String userId, writeCallback callback) {
+        if (eventId != null && userId != null) {
+            // Remove user from event's "requests" list
+            eventsRef.child(eventId).child("requests").child(userId).removeValue().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    Log.d(TAG, "User removed from requests list successfully");
-                    callback.onSuccess();
+                    // Remove event from user's "requestedEvents"
+                    attendeeRef.child(userId).child("requestedEvents").child(eventId).removeValue().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            Log.d(TAG, "User removed from request list successfully");
+                            callback.onSuccess();
+                        } else {
+                            Log.e(TAG, "Failed to remove event from user's requested events", task1.getException());
+                            callback.onFailure(DatabaseError.fromException(task1.getException()));
+                        }
+                    });
                 } else {
-                    Log.e(TAG, "Failed to remove user from requests list", task.getException());
+                    Log.e(TAG, "Failed to remove user from request list", task.getException());
                     callback.onFailure(DatabaseError.fromException(task.getException()));
                 }
             });
         } else {
-            Log.e(TAG, "Event ID or User ID is null. Cannot remove user from requests list.");
+            Log.e(TAG, "Event ID or User ID is null. Cannot remove user.");
             callback.onFailure(DatabaseError.fromException(new Exception("Event ID or User ID is null")));
         }
     }
