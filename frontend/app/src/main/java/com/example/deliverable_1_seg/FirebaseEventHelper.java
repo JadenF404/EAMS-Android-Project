@@ -368,7 +368,7 @@ public class FirebaseEventHelper {
     }
 
     // Remove user from the event's "people" list and user's "registeredEvents"
-    public void removeUserFromPeople(String eventId, String userId, writeCallback callback) {
+    public void leaveEvent(String eventId, String userId, writeCallback callback) {
         if (eventId != null && userId != null) {
             // Remove user from event's "people" list
             eventsRef.child(eventId).child("people").child(userId).removeValue().addOnCompleteListener(task -> {
