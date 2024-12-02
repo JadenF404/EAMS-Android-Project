@@ -17,6 +17,8 @@ import com.example.deliverable_1_seg.R;
 import com.example.deliverable_1_seg.helpers.db.Event;
 import com.example.deliverable_1_seg.helpers.db.EventAdapter;
 import com.example.deliverable_1_seg.helpers.welcomepages.AttendeeWelcomePage;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class SearchEventsActivity extends AppCompatActivity {
     private ArrayList<Event> eventList;
     private EditText searchInput;
     private Button searchButton;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,10 @@ public class SearchEventsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewEvents);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //get current user
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        userID = user.getUid();
+
         //search button listener
         searchButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -72,7 +79,7 @@ public class SearchEventsActivity extends AppCompatActivity {
         firebaseEventHelper = new FirebaseEventHelper();
 
         //then load events
-        firebaseEventHelper.loadAllEvents(new FirebaseEventHelper.DataStatus() {
+        firebaseEventHelper.loadAllEvents(userID, new FirebaseEventHelper.DataStatus() {
 
             @Override
             public void DataLoaded(List<Event> events) {
@@ -91,7 +98,7 @@ public class SearchEventsActivity extends AppCompatActivity {
     }
 
     private void searchEvents(String keyword){
-        firebaseEventHelper.searchEvents(keyword, new FirebaseEventHelper.DataStatus() {
+        firebaseEventHelper.searchEvents(keyword, userID, new FirebaseEventHelper.DataStatus() {
             @Override
             public void DataLoaded(List<Event> events) {
                 eventList.clear();

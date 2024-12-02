@@ -52,6 +52,10 @@ public class FirebaseEventHelper {
         void onError(DatabaseError error);
     }
 
+    /*********************
+    EVENT CREATION METHODS
+     ********************/
+
     //method called when creating event
     public void addEvent(Event event, writeCallback callback) {
         String eventID = eventsRef.push().getKey();
@@ -73,6 +77,9 @@ public class FirebaseEventHelper {
         }
     }
 
+    /*********************
+     ORGANIZER EVENT METHODS
+     ********************/
     //loads the organizers current events
     public void loadEventsForCurrentUser(String organizerId, DataStatus dataStatus) {
         long currentTime = Calendar.getInstance().getTimeInMillis();
@@ -141,6 +148,10 @@ public class FirebaseEventHelper {
         });
     }
 
+    /*********************
+     ATTENDEE EVENT METHODS
+     ********************/
+
     //loads the all current events
     public void loadAllEvents(DataStatus dataStatus) {
         eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -168,6 +179,63 @@ public class FirebaseEventHelper {
                 dataStatus.onError(databaseError);
             }
         });
+    }
+
+    //loads all events a user has not yet registered for
+    public void loadAllEvents(String userID, DataStatus dataStatus) {
+        loadRegisteredEvents(userID, new EventIDDataStatus() {
+            @Override
+            public void DataLoaded(List<String> registeredEventIds) {
+                loadRequestedEvents(userID, new EventIDDataStatus() {
+                    @Override
+                    public void DataLoaded(List<String> requestedEventIds) {
+                        eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                List<Event> eventsList = new ArrayList<>();
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    Event event = snapshot.getValue(Event.class);
+                                    if (event != null) {
+                                        String eventId = snapshot.getKey();
+                                        if (!registeredEventIds.contains(eventId) && !requestedEventIds.contains((eventId))){
+                                            if (event.getPeople() == null) {
+                                                event.setPeople(new HashMap<>());
+                                            }
+                                            if (event.getRequests() == null) {
+                                                event.setRequests(new HashMap<>());
+                                            }
+                                            event.setEventId(eventId);
+                                            eventsList.add(event);
+                                        }
+
+                                    }
+                                }
+                                dataStatus.DataLoaded(eventsList);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Log.e(TAG, "Failed to load events", databaseError.toException());
+                                dataStatus.onError(databaseError);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(DatabaseError error) {
+                        Log.e(TAG, "Failed to load Requested events", error.toException());
+                        dataStatus.onError(error);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(DatabaseError error) {
+                Log.e(TAG, "Failed to load registered events", error.toException());
+                dataStatus.onError(error);
+            }
+        });
+
+
     }
 
     // Loads the list of requests by eventId and returns a list of request strings
@@ -230,33 +298,62 @@ public class FirebaseEventHelper {
         });
     }
 
-    //query database for events with certain name
-    public void searchEvents(String keyword, final DataStatus dataStatus) {
-        eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    //searches database for events with keyword in title or description
+    public void searchEvents(String keyword, String userID, final DataStatus dataStatus) {
+
+        loadRegisteredEvents(userID, new EventIDDataStatus() {
+
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Event> eventList = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Event event = snapshot.getValue(Event.class);
-                    if (event != null){
-                        if (event.getTitle() != null && event.getTitle().toLowerCase().contains(keyword.toLowerCase())){
-                            event.setEventId(snapshot.getKey());
-                            eventList.add(event);
-                        } else if (event.getDescription() != null && event.getDescription().toLowerCase().contains(keyword.toLowerCase())){
-                            event.setEventId(snapshot.getKey());
-                            eventList.add(event);
-                        }
+            public void DataLoaded(List<String> registeredEventIds) {
+                loadRequestedEvents(userID, new EventIDDataStatus() {
+
+                    @Override
+                    public void DataLoaded(List<String> requestedEventIds) {
+                        eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                List<Event> eventList = new ArrayList<>();
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    Event event = snapshot.getValue(Event.class);
+                                    String eventID = snapshot.getKey();
+                                    if (event != null){
+                                        if (event.getTitle() != null && event.getTitle().toLowerCase().contains(keyword.toLowerCase())){
+                                            if (!registeredEventIds.contains(eventID) && !requestedEventIds.contains(eventID)){
+                                                event.setEventId(snapshot.getKey());
+                                                eventList.add(event);
+                                            }
+                                        } else if (event.getDescription() != null && event.getDescription().toLowerCase().contains(keyword.toLowerCase())){
+                                            if (!registeredEventIds.contains(eventID) && !requestedEventIds.contains(eventID)){
+                                                event.setEventId(snapshot.getKey());
+                                                eventList.add(event);
+                                            }
+                                        }
+                                    }
+                                }
+                                dataStatus.DataLoaded(eventList);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Log.e(TAG, "Failed to load events", error.toException());
+                                dataStatus.onError(error);
+                            }
+                        });
                     }
-                }
-                dataStatus.DataLoaded(eventList);
+
+                    @Override
+                    public void onError(DatabaseError error) {
+
+                    }
+                });
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(TAG, "Failed to load events", error.toException());
-                dataStatus.onError(error);
+            public void onError(DatabaseError error) {
+
             }
         });
+
     }
 
     // Method to load registered events for the user
@@ -297,6 +394,9 @@ public class FirebaseEventHelper {
         });
     }
 
+    /*********************
+     EVENT DELETION/EDITING METHODS
+     ********************/
     public void deleteEvent(String eventId, writeCallback callback) {
         if (eventId != null) {
             eventsRef.child(eventId).removeValue().addOnCompleteListener(task -> {
