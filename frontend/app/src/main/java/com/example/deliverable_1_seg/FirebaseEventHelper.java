@@ -399,15 +399,32 @@ public class FirebaseEventHelper {
      ********************/
     public void deleteEvent(String eventId, writeCallback callback) {
         if (eventId != null) {
-            eventsRef.child(eventId).removeValue().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "Event deleted successfully");
-                    callback.onSuccess();
-                } else {
-                    Log.e(TAG, "Failed to delete event", task.getException());
-                    callback.onFailure(DatabaseError.fromException(task.getException()));
+            eventsRef.child(eventId).child("people").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists() && snapshot.hasChildren()){
+                        Log.e(TAG, "Event cannot be deleted because users have already joined.");
+                        callback.onFailure(DatabaseError.fromException(new Exception("Event cannot be deleted because users have already joined.")));
+                    } else {
+                        eventsRef.child(eventId).removeValue().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "Event deleted successfully");
+                                callback.onSuccess();
+                            } else {
+                                Log.e(TAG, "Failed to delete event", task.getException());
+                                callback.onFailure(DatabaseError.fromException(task.getException()));
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e(TAG, "Failed to check if users have joined the event", error.toException());
+                    callback.onFailure(error);
                 }
             });
+
         } else {
             Log.e(TAG, "Event ID is null. Cannot delete event.");
         }

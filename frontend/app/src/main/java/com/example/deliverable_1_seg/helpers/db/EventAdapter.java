@@ -58,78 +58,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
         FirebaseEventHelper myEventHelper = new FirebaseEventHelper();
 
-        // Check if the user is registered or has requested the event
-        myEventHelper.loadRegisteredEvents(userID, new FirebaseEventHelper.EventIDDataStatus() {
-            @Override
-            public void DataLoaded(List<String> eventIds) {
-                // Check if the event is in registeredEvents
-                if (eventIds.contains(event.getEventId())) {
-                    holder.textViewStatus.setText("Status: Joined");
-                    holder.buttonManageRequests.setText("Leave Event");
-
-                    //leave button
-                    holder.buttonManageRequests.setOnClickListener(v ->{
-                        myEventHelper.leaveEvent(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
-                            @Override
-                            public void onSuccess() {
-                                Toast.makeText(context, "Left Event Sucessfully!", Toast.LENGTH_SHORT).show();
-                                eventList.remove(position);
-                                notifyItemRemoved(position);
-                            }
-
-                            @Override
-                            public void onFailure(DatabaseError error) {
-                                Toast.makeText(context, "Failed to leave eveent" + error.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    });
-
-                } else {
-                    // Check if the event is in requestedEvents
-                    myEventHelper.loadRequestedEvents(userID, new FirebaseEventHelper.EventIDDataStatus() {
-                        @Override
-                        public void DataLoaded(List<String> requestedEventIds) {
-                            if (requestedEventIds.contains(event.getEventId())) {
-                                holder.textViewStatus.setText("Status: Requested");
-                                holder.buttonManageRequests.setText("Cancel Request");
-
-                                //Cancel Requests Button
-                                holder.buttonManageRequests.setOnClickListener(v -> {
-                                    myEventHelper.removeUserFromRequests(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
-                                        @Override
-                                        public void onSuccess() {
-                                            Toast.makeText(context, "Request Cancelled Sucessfully!", Toast.LENGTH_SHORT).show();
-                                            eventList.remove(position);
-                                            notifyItemRemoved(position);
-                                        }
-
-                                        @Override
-                                        public void onFailure(DatabaseError error) {
-                                            Toast.makeText(context, "Failed to cancel request" + error.getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                });
-                            } else {
-                                holder.textViewStatus.setText("Status: Not Joined");
-                                holder.buttonManageRequests.setText(event.isAutomaticApproval() ? "Join Event" : "Ask Permission");
-                            }
-                        }
-
-                        @Override
-                        public void onError(DatabaseError error) {
-                            holder.textViewStatus.setText("Status: Error loading");
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onError(DatabaseError error) {
-                holder.textViewStatus.setText("Status: Error loading");
-            }
-        });
-
-
         if (manageEvents) {
             //manage requests button
             holder.buttonManageRequests.setOnClickListener(v -> {
@@ -158,6 +86,78 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 });
             });
         } else{
+            // Check if the user is registered or has requested the event
+            myEventHelper.loadRegisteredEvents(userID, new FirebaseEventHelper.EventIDDataStatus() {
+                @Override
+                public void DataLoaded(List<String> eventIds) {
+                    // Check if the event is in registeredEvents
+                    if (eventIds.contains(event.getEventId())) {
+                        holder.textViewStatus.setText("Status: Joined");
+                        holder.buttonManageRequests.setText("Leave Event");
+
+                        //leave button
+                        holder.buttonManageRequests.setOnClickListener(v ->{
+                            myEventHelper.leaveEvent(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    Toast.makeText(context, "Left Event Sucessfully!", Toast.LENGTH_SHORT).show();
+                                    eventList.remove(position);
+                                    notifyItemRemoved(position);
+                                }
+
+                                @Override
+                                public void onFailure(DatabaseError error) {
+                                    Toast.makeText(context, "Failed to leave eveent" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        });
+
+                    } else {
+                        // Check if the event is in requestedEvents
+                        myEventHelper.loadRequestedEvents(userID, new FirebaseEventHelper.EventIDDataStatus() {
+                            @Override
+                            public void DataLoaded(List<String> requestedEventIds) {
+                                if (requestedEventIds.contains(event.getEventId())) {
+                                    holder.textViewStatus.setText("Status: Requested");
+                                    holder.buttonManageRequests.setText("Cancel Request");
+
+                                    //Cancel Requests Button
+                                    holder.buttonManageRequests.setOnClickListener(v -> {
+                                        myEventHelper.removeUserFromRequests(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
+                                            @Override
+                                            public void onSuccess() {
+                                                Toast.makeText(context, "Request Cancelled Sucessfully!", Toast.LENGTH_SHORT).show();
+                                                eventList.remove(position);
+                                                notifyItemRemoved(position);
+                                            }
+
+                                            @Override
+                                            public void onFailure(DatabaseError error) {
+                                                Toast.makeText(context, "Failed to cancel request" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    });
+                                } else {
+                                    holder.textViewStatus.setText("Status: Not Joined");
+                                    holder.buttonManageRequests.setText(event.isAutomaticApproval() ? "Join Event" : "Ask Permission");
+                                }
+                            }
+
+                            @Override
+                            public void onError(DatabaseError error) {
+                                holder.textViewStatus.setText("Status: Error loading");
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onError(DatabaseError error) {
+                    holder.textViewStatus.setText("Status: Error loading");
+                }
+            });
+
+
             //manage requests button
             FirebaseEventHelper eventHelper = new FirebaseEventHelper();
             holder.buttonManageRequests.setText(event.isAutomaticApproval() ? "Join Event": "Ask Permission");
