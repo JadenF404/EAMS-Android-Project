@@ -21,6 +21,8 @@ import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
+
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
@@ -57,6 +59,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.textViewDescription.setText("Description: " + event.getDescription());
 
         FirebaseEventHelper myEventHelper = new FirebaseEventHelper();
+
+        //validate time (cannot leave/remove request with 24hr of event)
+        Calendar currentTime = Calendar.getInstance();
+        long currentTimeStamp = currentTime.getTimeInMillis();
+
+        long eventStartTime = event.getLongDate();
+        long timeDiff = eventStartTime - currentTimeStamp;
+        long hoursRemaining = timeDiff / (1000 * 60 * 60);
 
         if (manageEvents) {
             //manage requests button
@@ -97,19 +107,25 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
                         //leave button
                         holder.buttonManageRequests.setOnClickListener(v ->{
-                            myEventHelper.leaveEvent(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
-                                @Override
-                                public void onSuccess() {
-                                    Toast.makeText(context, "Left Event Sucessfully!", Toast.LENGTH_SHORT).show();
-                                    eventList.remove(position);
-                                    notifyItemRemoved(position);
-                                }
 
-                                @Override
-                                public void onFailure(DatabaseError error) {
-                                    Toast.makeText(context, "Failed to leave eveent" + error.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                            if (!(hoursRemaining < 24)){
+                                myEventHelper.leaveEvent(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Toast.makeText(context, "Left Event Sucessfully!", Toast.LENGTH_SHORT).show();
+                                        eventList.remove(position);
+                                        notifyItemRemoved(position);
+                                    }
+
+                                    @Override
+                                    public void onFailure(DatabaseError error) {
+                                        Toast.makeText(context, "Failed to leave eveent" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else {
+                                Toast.makeText(context, "Cannot leave event: within 24 hours of Start Time", Toast.LENGTH_SHORT).show();
+                            }
+
                         });
 
                     } else {
@@ -139,19 +155,24 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
                                     //Cancel Requests Button
                                     holder.buttonManageRequests.setOnClickListener(v -> {
-                                        myEventHelper.removeUserFromRequests(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
-                                            @Override
-                                            public void onSuccess() {
-                                                Toast.makeText(context, "Request Cancelled Sucessfully!", Toast.LENGTH_SHORT).show();
-                                                eventList.remove(position);
-                                                notifyItemRemoved(position);
-                                            }
+                                        if (!(hoursRemaining < 24)){
+                                            myEventHelper.removeUserFromRequests(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
+                                                @Override
+                                                public void onSuccess() {
+                                                    Toast.makeText(context, "Request Cancelled Sucessfully!", Toast.LENGTH_SHORT).show();
+                                                    eventList.remove(position);
+                                                    notifyItemRemoved(position);
+                                                }
 
-                                            @Override
-                                            public void onFailure(DatabaseError error) {
-                                                Toast.makeText(context, "Failed to cancel request" + error.getMessage(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                                @Override
+                                                public void onFailure(DatabaseError error) {
+                                                    Toast.makeText(context, "Failed to cancel request" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        } else {
+                                            Toast.makeText(context, "Cannot remove request: within 24 hours of Start Time", Toast.LENGTH_SHORT).show();
+                                        }
+
                                     });
                                 } else {
                                     holder.textViewStatus.setText("Status: Not Joined");
