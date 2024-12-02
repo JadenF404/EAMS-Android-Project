@@ -57,6 +57,17 @@ public class FirebaseEventHelper {
         void onError(DatabaseError error);
     }
 
+    public interface EventConflictCallback {
+        void onConflictChecked(boolean hasConflict);  // Method called when event details are successfully loaded
+        void onError(DatabaseError error);  // Method called when an error occurs
+    }
+
+    public interface EventDetailsCallback {
+        void onEventLoaded(Event event);  // Method called when event details are successfully loaded
+        void onError(DatabaseError error);  // Method called when an error occurs
+    }
+
+
     /*********************
     EVENT CREATION METHODS
      ********************/
@@ -94,7 +105,7 @@ public class FirebaseEventHelper {
                 List<Event> eventsList = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Event event = snapshot.getValue(Event.class);
-                    if (event != null && event.getLongDate() > currentTime) {
+                    if (event != null && event.getLongEndDate() > currentTime) {
                         event.setEventId(snapshot.getKey());
 
                         // Ensure people and requests lists are not null
@@ -128,7 +139,7 @@ public class FirebaseEventHelper {
                 List<Event> eventsList = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Event event = snapshot.getValue(Event.class);
-                    if (event != null && event.getLongDate() < currentTime) {
+                    if (event != null && event.getLongEndDate() < currentTime) {
                         event.setEventId(snapshot.getKey());
 
                         // Ensure people and requests lists are not null
@@ -419,6 +430,97 @@ public class FirebaseEventHelper {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                callback.onError(error);
+            }
+        });
+    }
+
+    //method to get event details for a specific event
+    public void getEventDetails(String eventId, final EventDetailsCallback callback) {
+        DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference("events").child(eventId);
+
+        eventRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+
+                    Event event = dataSnapshot.getValue(Event.class);
+
+                    if (event != null) {
+                        // Return the event details through the callback
+                        callback.onEventLoaded(event);
+                    } else {
+                        callback.onError(DatabaseError.fromException(new Exception("Event Data Null")));
+                    }
+                } else {
+                    callback.onError(DatabaseError.fromException(new Exception("Event not found")));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                callback.onError(databaseError);
+            }
+        });
+    }
+
+    //method to check for event conflicts
+    public void checkEventConflict(String userId, Event newEvent, EventConflictCallback callback) {
+
+        loadRegisteredEvents(userId, new EventIDDataStatus() {
+            @Override
+            public void DataLoaded(List<String> registeredEventIds) {
+
+                loadRequestedEvents(userId, new EventIDDataStatus() {
+                    @Override
+                    public void DataLoaded(List<String> requestedEventIds) {
+                        List<String> allEventIds = new ArrayList<>();
+                        allEventIds.addAll(registeredEventIds);
+                        allEventIds.addAll(requestedEventIds);
+
+                        boolean[] hasConflict = {false};
+                        int[] remainingCalls = {allEventIds.size()};
+
+                        for (String eventId : allEventIds){
+                            getEventDetails(eventId, new EventDetailsCallback() {
+                                @Override
+                                public void onEventLoaded(Event conflictEvent) {
+                                    long conflictEventStartTime = conflictEvent.getLongStartDate();
+                                    long conflictEventEndTime = conflictEvent.getLongEndDate();
+                                    long newEventStartTime = newEvent.getLongStartDate();
+                                    long newEventEndTime = newEvent.getLongEndDate();
+
+                                    if (newEventStartTime < conflictEventEndTime && newEventEndTime > conflictEventStartTime) {
+                                        hasConflict[0] = true;
+                                    }
+
+                                    remainingCalls[0]--;
+                                    if (remainingCalls[0] == 0){
+                                        callback.onConflictChecked(hasConflict[0]);
+                                    }
+                                }
+
+
+                                @Override
+                                public void onError(DatabaseError error) {
+                                    remainingCalls[0]--;
+                                    if (remainingCalls[0] == 0) {
+                                        callback.onConflictChecked(hasConflict[0]);
+                                    }
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onError(DatabaseError error) {
+                        callback.onError(error);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(DatabaseError error) {
                 callback.onError(error);
             }
         });

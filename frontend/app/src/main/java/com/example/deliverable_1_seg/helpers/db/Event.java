@@ -174,7 +174,23 @@ public class Event {
         return false;
     }
 
-    public long getLongDate() {
+    public long getLongStartDate() {
+        // Define the format pattern for the date and time
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+
+        try {
+            String dateTimeString = date + " " + startTime;
+
+            Date startDate = dateFormat.parse(dateTimeString);
+
+            return startDate != null ? startDate.getTime() : 0;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return 0; // Return 0 if parsing fails
+        }
+    }
+
+    public long getLongEndDate() {
         // Define the format pattern for the date and time
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 
@@ -189,6 +205,7 @@ public class Event {
             return 0; // Return 0 if parsing fails
         }
     }
+
 
 }
 

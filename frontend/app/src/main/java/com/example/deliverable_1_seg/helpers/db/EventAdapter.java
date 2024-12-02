@@ -60,11 +60,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
         FirebaseEventHelper myEventHelper = new FirebaseEventHelper();
 
-        //validate time (cannot leave/remove request with 24hr of event)
+        //time variables (because cannot leave/remove request with 24hr of event and for managing time conflicts)
         Calendar currentTime = Calendar.getInstance();
         long currentTimeStamp = currentTime.getTimeInMillis();
 
-        long eventStartTime = event.getLongDate();
+        long eventStartTime = event.getLongStartDate();
+        long eventEndTime = event.getLongStartDate();
+
         long timeDiff = eventStartTime - currentTimeStamp;
         long hoursRemaining = timeDiff / (1000 * 60 * 60);
 
@@ -200,34 +202,48 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             holder.buttonManageRequests.setText(event.isAutomaticApproval() ? "Join Event": "Ask Permission");
 
             holder.buttonManageRequests.setOnClickListener(v -> {
+                myEventHelper.checkEventConflict(userID, event, new FirebaseEventHelper.EventConflictCallback() {
+                    @Override
+                    public void onConflictChecked(boolean hasConflict) {
+                        if (hasConflict){
+                            Toast.makeText(context, "Cannot join event: You have a conflicting event", Toast.LENGTH_SHORT).show();
+                        } else {
 
-                if (event.isAutomaticApproval()) {
-                    // If automatic approval is true, add the user to the 'people' list
-                    eventHelper.joinEvent(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
-                        @Override
-                        public void onSuccess() {
-                            Toast.makeText(context, "Joined event successfully!", Toast.LENGTH_SHORT).show();
-                        }
+                            FirebaseEventHelper eventHelper = new FirebaseEventHelper();
+                            if (event.isAutomaticApproval()) {
+                                eventHelper.joinEvent(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Toast.makeText(context, "Joined event successfully!", Toast.LENGTH_SHORT).show();
+                                    }
 
-                        @Override
-                        public void onFailure(DatabaseError error) {
-                            Toast.makeText(context, "Failed to join event: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
-                    // If automatic approval is false, add the user to the 'requests' list
-                    eventHelper.requestEvent(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
-                        @Override
-                        public void onSuccess() {
-                            Toast.makeText(context, "Request sent to join event!", Toast.LENGTH_SHORT).show();
-                        }
+                                    @Override
+                                    public void onFailure(DatabaseError error) {
+                                        Toast.makeText(context, "Failed to join event: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else {
+                                eventHelper.requestEvent(event.getEventId(), userID, new FirebaseEventHelper.writeCallback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Toast.makeText(context, "Request sent to join event!", Toast.LENGTH_SHORT).show();
+                                    }
 
-                        @Override
-                        public void onFailure(DatabaseError error) {
-                            Toast.makeText(context, "Failed to send request: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                    @Override
+                                    public void onFailure(DatabaseError error) {
+                                        Toast.makeText(context, "Failed to send request: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
                         }
-                    });
-                }
+                    }
+
+                    @Override
+                    public void onError(DatabaseError error) {
+                        Toast.makeText(context, "Error checking for conflicts: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             });
 
             holder.buttonDeleteEvent.setVisibility(View.INVISIBLE);
