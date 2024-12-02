@@ -106,10 +106,10 @@ public class EventRequestAdapter extends RecyclerView.Adapter<EventRequestAdapte
             String userID = request.getUserId();
 
             // Remove the user from the requests list in Firebase (rejecting the request)
-            eventHelper.removeUserFromRequests(eventID, userID, new FirebaseEventHelper.writeCallback() {
+            eventHelper.rejectUser(eventID, userID, new FirebaseEventHelper.writeCallback() {
                 @Override
                 public void onSuccess() {
-                    Toast.makeText(context, "User request rejected successfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Request Rejected Successfully!", Toast.LENGTH_SHORT).show();
 
                     //remove the item from the list in the adapter and notify the adapter to refresh the view
                     requestList.remove(position);

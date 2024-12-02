@@ -52,6 +52,11 @@ public class FirebaseEventHelper {
         void onError(DatabaseError error);
     }
 
+    public interface EventRequestStatusCallback {
+        void onStatusLoaded(boolean isRequested);
+        void onError(DatabaseError error);
+    }
+
     /*********************
     EVENT CREATION METHODS
      ********************/
@@ -394,6 +399,32 @@ public class FirebaseEventHelper {
         });
     }
 
+    //method to return the request status for a user in an event
+    public void getEventRequestStatus(String userId, String eventId, EventRequestStatusCallback callback) {
+        DatabaseReference requestRef = FirebaseDatabase.getInstance().getReference("attendee").child("attendee_requests").child(userId).child("requestedEvents").child(eventId);
+        requestRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Boolean isRequested = snapshot.getValue(Boolean.class);
+                    if (isRequested != null) {
+                        callback.onStatusLoaded(isRequested);
+                    } else {
+                        callback.onError(DatabaseError.fromException(new Exception("No status found")));
+                    }
+                } else {
+                    callback.onError(DatabaseError.fromException(new Exception("Event request does not exist")));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onError(error);
+            }
+        });
+    }
+
+
     /*********************
      EVENT DELETION/EDITING METHODS
      ********************/
@@ -519,6 +550,33 @@ public class FirebaseEventHelper {
                 if (task.isSuccessful()) {
                     // Remove event from user's "requestedEvents"
                     attendeeRef.child(userId).child("requestedEvents").child(eventId).removeValue().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            Log.d(TAG, "User removed from request list successfully");
+                            callback.onSuccess();
+                        } else {
+                            Log.e(TAG, "Failed to remove event from user's requested events", task1.getException());
+                            callback.onFailure(DatabaseError.fromException(task1.getException()));
+                        }
+                    });
+                } else {
+                    Log.e(TAG, "Failed to remove user from request list", task.getException());
+                    callback.onFailure(DatabaseError.fromException(task.getException()));
+                }
+            });
+        } else {
+            Log.e(TAG, "Event ID or User ID is null. Cannot remove user.");
+            callback.onFailure(DatabaseError.fromException(new Exception("Event ID or User ID is null")));
+        }
+    }
+
+    // Remove user from user's "requestedEvents" only
+    public void rejectUser(String eventId, String userId, writeCallback callback) {
+        if (eventId != null && userId != null) {
+            // Remove user from event's "requests" list
+            eventsRef.child(eventId).child("requests").child(userId).removeValue().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    // Remove event from user's "requestedEvents"
+                    attendeeRef.child(userId).child("requestedEvents").child(eventId).setValue(false).addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
                             Log.d(TAG, "User removed from request list successfully");
                             callback.onSuccess();

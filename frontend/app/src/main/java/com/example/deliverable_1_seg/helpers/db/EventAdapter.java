@@ -118,7 +118,23 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                             @Override
                             public void DataLoaded(List<String> requestedEventIds) {
                                 if (requestedEventIds.contains(event.getEventId())) {
-                                    holder.textViewStatus.setText("Status: Requested");
+
+                                    myEventHelper.getEventRequestStatus(userID, event.getEventId(), new FirebaseEventHelper.EventRequestStatusCallback() {
+                                        @Override
+                                        public void onStatusLoaded(boolean isRequested) {
+                                            if (isRequested) {
+                                                holder.textViewStatus.setText("Status: Requested");
+                                            } else {
+                                                holder.textViewStatus.setText("Status: Rejected");
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onError(DatabaseError error) {
+                                            holder.textViewStatus.setText("Status: Error");
+                                        }
+                                    });
+
                                     holder.buttonManageRequests.setText("Cancel Request");
 
                                     //Cancel Requests Button
