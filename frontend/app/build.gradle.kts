@@ -5,8 +5,7 @@ val configProperties = Properties()
 val configFile = rootProject.file("config.properties")
 if (configFile.exists()) {
     configProperties.load(FileInputStream(configFile))
-} 
-
+}
 
 plugins {
     alias(libs.plugins.android.application)
@@ -28,13 +27,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-
-
     }
 
     buildTypes {
-        debug{
+        debug {
             buildConfigField("String", "API_KEY", "\"${configProperties["API_KEY"]}\"")
             buildConfigField("String", "API_SECRET", "\"${configProperties["API_SECRET"]}\"")
             buildConfigField("String", "EMAIL", "\"${configProperties["EMAIL"]}\"")
@@ -49,6 +45,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -56,15 +53,18 @@ android {
 }
 
 dependencies {
-
-    androidTestImplementation("com.android.support.test.espresso:espresso-intents:3.0.1")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth)
+
     testImplementation(libs.junit)
+
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.androidx.espresso.intents)
+    androidTestImplementation(libs.androidx.rules)
+    androidTestImplementation(libs.androidx.junit.v115)
 }
