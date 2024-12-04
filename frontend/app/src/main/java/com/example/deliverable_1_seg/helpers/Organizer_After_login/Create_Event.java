@@ -134,6 +134,9 @@ public class Create_Event extends AppCompatActivity {
             }
         });
     }
+    public void onBackButtonClick(View view) {
+        finish();  // Closes the current activity and returns to the previous one
+    }
 
     // Show TimePickerDialog with 30-minute increments
     private void showTimePickerDialog(EditText timeEditText) {

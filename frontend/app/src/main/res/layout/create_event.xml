@@ -110,6 +110,16 @@
                 android:text="Create Event"
                 android:textColor="#FFFFFF" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSubmitOrg2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:backgroundTint="#141413"
+                android:onClick="onBackButtonClick"
+                android:text="Back"
+                android:textColor="#FFFFFF" />
+
         </LinearLayout>
     </ScrollView>
 
