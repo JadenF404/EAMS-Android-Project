@@ -6,6 +6,8 @@ Event Attendance Management System (EAMS) Android app, built with Android Studio
 
 *Deliverable 2 Note: For the UML diagram there are two image files. umlImplementation.jpg has the UML with how we implemented all the functionality and umlTheory.png has our plan for how we wanted to implement without the activity files.
 
+*Deliverable 4 Note: For the UML diagram, it is under the name umlDiagramFinalSimplified, it differs from the other other UML diagrams posted because it is simplified compared to for the other deliverables. It is done this way to improve readability. 
+
 ---
 
 # Important Links 
