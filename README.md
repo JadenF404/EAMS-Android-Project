@@ -70,4 +70,4 @@ The app was developed using:
    git clone https://github.com/<your-username>/EAMS.git
 2. Open the project in Android Studio.
 3. Add the Firebase configuration file (google-services.json).
-4 Build and run the application on an emulator or Android device.
+4. Build and run the application on an emulator or Android device.
