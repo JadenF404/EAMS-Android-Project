@@ -1,6 +1,8 @@
 # Event Attendance Management System (EAMS)
 
-EAMS is a mobile application designed to handle event registration and attendance tracking for university events. Built for Android devices, it provides tailored features for **Attendees**, **Organizers**, and **Administrators**
+EAMS is a mobile application designed to handle event registration and attendance tracking for university events. Built for Android devices, it provides tailored features for **Attendees**, **Organizers**, and **Administrators**. 
+
+Created as term project for SEG2105 at the University of Ottawa. 
 
 ---
 
@@ -71,3 +73,15 @@ The app was developed using:
 2. Open the project in Android Studio.
 3. Add the Firebase configuration file (google-services.json).
 4. Build and run the application on an emulator or Android device.
+
+---
+
+## Authors
+This project was created as group effort for SEG2105 at the University of Ottawa. The authors of the project are:
+- [@Aditya Baindur](https://www.github.com/Aditya-Baindur)
+- [@Jaden Fielding](https://www.github.com/JadenF404)
+- [@Malik Buser](https://www.github.com/mbuse045)
+- [@Mark Chen](https://www.github.com/marks-code)
+- [@Miller Ding](https://www.github.com/mding022)
+- [@Matias Nicholas Suxo](https://www.github.com/matias-io)
+
