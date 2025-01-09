@@ -1,6 +1,6 @@
 # Event Attendance Management System (EAMS)
 
-EAMS is a mobile application designed to streamline event registration and attendance tracking for university events. Built for Android devices, it provides tailored features for **Attendees**, **Organizers**, and **Administrators**, ensuring a seamless experience for all users.
+EAMS is a mobile application designed to handle event registration and attendance tracking for university events. Built for Android devices, it provides tailored features for **Attendees**, **Organizers**, and **Administrators**
 
 ---
 
@@ -14,7 +14,7 @@ The Event Attendance Management System (EAMS) allows:
 The app was developed using:
 - **Java** for core application logic.
 - **Android Studio** as the primary development environment.
-- **Firebase Realtime Database** for secure, cloud-based data storage.
+- **Firebase Realtime Database** for cloud-based data storage.
 
 ---
 
@@ -44,35 +44,22 @@ The app was developed using:
   - Approve or reject registration requests for both attendees and organizers.
   - Manage rejected requests with the option to reprocess.
 - **System Oversight**:
-  - Prevent unauthorized access through robust role-based permissions.
+  - Prevent unauthorized access through role-based permissions.
 
 ---
 
 ## Technical Implementation
 
 - **Database Integration**:
-  - Firebase Realtime Database handles user data, events, and registration statuses.
+  - Firebase Realtime Database handles user login, user data, events, and registration statuses.
 - **Real-Time Updates**:
   - Immediate feedback and updates for registrations and event changes.
 - **Notifications**:
   - Event reminders and registration status updates sent via Firebase.
 - **Validation**:
-  - Comprehensive input validation ensures user-friendly error handling.
+  - Input validation ensures user-friendly error handling.
 - **Scalability**:
   - Designed to support additional features and user roles in the future.
-
----
-
-## Screenshots
-
-1. **Login Screen**  
-   ![Login](screenshots/login.png)
-
-2. **Event Management (Organizer)**  
-   ![Event Management](screenshots/event_management.png)
-
-3. **Attendee Dashboard**  
-   ![Attendee Dashboard](screenshots/attendee_dashboard.png)
 
 ---
 
